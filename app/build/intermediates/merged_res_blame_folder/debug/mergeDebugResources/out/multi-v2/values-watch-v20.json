@@ -1,0 +1,20 @@
+{
+    "logs": [
+        {
+            "outputFile": "app.railone.android.app-mergeDebugResources-64:/values-watch-v20/values-watch-v20.xml",
+            "map": [
+                {
+                    "source": "C:\\Users\\aadhi\\.gradle\\caches\\8.13\\transforms\\ae80798fb5462a10d5ae5115297d161d\\transformed\\appcompat-1.7.0\\res\\values-watch-v20\\values-watch-v20.xml",
+                    "from": {
+                        "startLines": "2,5,8",
+                        "startColumns": "4,4,4",
+                        "startOffsets": "55,214,385",
+                        "endLines": "4,7,10",
+                        "endColumns": "12,12,12",
+                        "endOffsets": "209,380,553"
+                    }
+                }
+            ]
+        }
+    ]
+}
