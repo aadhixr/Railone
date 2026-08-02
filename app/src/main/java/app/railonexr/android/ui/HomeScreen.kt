@@ -71,6 +71,9 @@ fun HomeScreen(
             ) {
                 // Update Banner
                 updateRelease?.let { release ->
+                    val cleanTag = release.tagName.startsWith("v", ignoreCase = true).let {
+                        if (it) release.tagName else "v${release.tagName}"
+                    }
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -80,7 +83,7 @@ fun HomeScreen(
                         contentAlignment = Alignment.Center
                     ) {
                         Text(
-                            text = "New Update Available (${release.tagName})! Tap to download.",
+                            text = "New Update Available ($cleanTag)! Tap to download.",
                             color = Color.White,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold
@@ -128,8 +131,11 @@ fun HomeScreen(
                                 fontWeight = FontWeight.ExtraBold,
                                 color = Color(0xFF1A237E)
                             )
+                            val currentVer = BuildConfig.VERSION_NAME.let {
+                                if (it.startsWith("v", ignoreCase = true)) it else "v$it"
+                            }
                             Text(
-                                text = "Current Version: v${BuildConfig.VERSION_NAME}",
+                                text = "Current Version: $currentVer",
                                 fontSize = 12.sp,
                                 color = Color.Gray
                             )

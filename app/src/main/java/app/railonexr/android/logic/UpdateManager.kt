@@ -62,10 +62,11 @@ object UpdateManager {
             val latest = releases.firstOrNull() 
             
             if (latest != null) {
-                val latestVer = latest.tagName.replace("v", "").trim()
-                val currentVer = BuildConfig.VERSION_NAME.replace("v", "").trim()
+                val latestVer = latest.tagName.replace(Regex("[^0-9.]"), "").trim()
+                val currentVer = BuildConfig.VERSION_NAME.replace(Regex("[^0-9.]"), "").trim()
 
-                if (latestVer != currentVer) {
+                // Only show update if the version on GitHub is actually higher
+                if (isNewerVersion(latestVer, currentVer)) {
                     updateAvailable = latest
                 } else {
                     updateAvailable = null
@@ -80,5 +81,20 @@ object UpdateManager {
         } finally {
             isChecking = false
         }
+    }
+
+    private fun isNewerVersion(latest: String, current: String): Boolean {
+        if (latest == current) return false
+        val latestParts = latest.split(".").mapNotNull { it.toIntOrNull() }
+        val currentParts = current.split(".").mapNotNull { it.toIntOrNull() }
+        
+        val length = maxOf(latestParts.size, currentParts.size)
+        for (i in 0 until length) {
+            val latestPart = latestParts.getOrElse(i) { 0 }
+            val currentPart = currentParts.getOrElse(i) { 0 }
+            if (latestPart > currentPart) return true
+            if (latestPart < currentPart) return false
+        }
+        return false
     }
 }
