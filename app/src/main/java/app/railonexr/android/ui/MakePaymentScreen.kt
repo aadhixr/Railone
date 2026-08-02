@@ -9,7 +9,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,6 +19,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import app.railonexr.android.R
 
 @Composable
@@ -26,8 +28,14 @@ fun MakePaymentScreen(
     source: String,
     dest: String,
     totalFare: String,
+    adultCount: Int,
+    childCount: Int,
+    trainType: String,
+    classType: String,
     onBack: () -> Unit
 ) {
+    var showReview by remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             Box(
@@ -107,7 +115,8 @@ fun MakePaymentScreen(
                         text = "Review ⌄",
                         color = Color(0xFF1A237E),
                         fontSize = 11.sp,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
+                        modifier = Modifier.clickable { showReview = true }
                     )
                 }
             }
@@ -185,6 +194,149 @@ fun MakePaymentScreen(
             }
         }
     }
+
+    if (showReview) {
+        ReviewPopup(
+            source = source,
+            dest = dest,
+            totalFare = totalFare,
+            adultCount = adultCount,
+            childCount = childCount,
+            trainType = trainType,
+            classType = classType,
+            onDismiss = { showReview = false }
+        )
+    }
+}
+
+@Composable
+fun ReviewPopup(
+    source: String,
+    dest: String,
+    totalFare: String,
+    adultCount: Int,
+    childCount: Int,
+    trainType: String,
+    classType: String,
+    onDismiss: () -> Unit
+) {
+    val srcCode = source.split("-").lastOrNull()?.trim() ?: "SMVB"
+    val destCode = dest.split("-").lastOrNull()?.trim() ?: "ERS"
+    val srcName = source.substringBefore("-").trim().ifEmpty { "SMVT BENGALURU" }
+    val destName = dest.substringBefore("-").trim().ifEmpty { "ERNAKULAM JN." }
+
+    Dialog(
+        onDismissRequest = onDismiss,
+        properties = DialogProperties(usePlatformDefaultWidth = false)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Color.Black.copy(alpha = 0.6f))
+                .clickable { onDismiss() },
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(24.dp)
+                    .clickable(enabled = false) {}
+            ) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(containerColor = Color.White)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(20.dp)
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(srcCode, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Black)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                HorizontalDivider(modifier = Modifier.width(30.dp), thickness = 1.dp, color = Color.LightGray)
+                                Text("  628 km  ", fontSize = 11.sp, color = Color.Gray)
+                                HorizontalDivider(modifier = Modifier.width(30.dp), thickness = 1.dp, color = Color.LightGray)
+                            }
+                            Text(destCode, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Black)
+                        }
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(srcName, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                            Text(destName, fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                        }
+
+                        Spacer(modifier = Modifier.height(12.dp))
+                        Text("Via: BWT-SA-CBE", fontSize = 11.sp, color = Color.Gray)
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = "$adultCount Adult, $childCount Child | $classType | $trainType",
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                        Text("JOURNEY", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Canvas(modifier = Modifier.fillMaxWidth().height(1.dp)) {
+                            val strokeWidth = 1.dp.toPx()
+                            val dashWidth = 10f
+                            val gapWidth = 10f
+                            var x = 0f
+                            while (x < size.width) {
+                                drawLine(
+                                    color = Color.LightGray,
+                                    start = androidx.compose.ui.geometry.Offset(x, 0f),
+                                    end = androidx.compose.ui.geometry.Offset(x + dashWidth, 0f),
+                                    strokeWidth = strokeWidth
+                                )
+                                x += dashWidth + gapWidth
+                            }
+                        }
+                        Spacer(modifier = Modifier.height(16.dp))
+
+                        Text("Fare Breakup:", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color.Black)
+                        Spacer(modifier = Modifier.height(12.dp))
+                        
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text("Ticket Fare", fontSize = 13.sp, color = Color.Black)
+                            Text("₹ $totalFare.0", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = Color.Black)
+                        }
+                        Spacer(modifier = Modifier.height(6.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text("GST", fontSize = 13.sp, color = Color.Black)
+                            Text("₹ 0.0", fontSize = 13.sp, fontWeight = FontWeight.Medium, color = Color.Black)
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(24.dp))
+
+                IconButton(
+                    onClick = onDismiss,
+                    modifier = Modifier
+                        .size(44.dp)
+                        .clip(CircleShape)
+                        .background(Color.White)
+                ) {
+                    Icon(Icons.Default.Close, contentDescription = "Close", tint = Color.Black)
+                }
+            }
+        }
+    }
 }
 
 @Composable
@@ -231,7 +383,6 @@ fun PaymentOptionRow(
                 }
             }
         } else {
-            // Special case for UPI row where the logo replaces the title area
             Box(modifier = Modifier.weight(1f)) {
                 icon()
             }

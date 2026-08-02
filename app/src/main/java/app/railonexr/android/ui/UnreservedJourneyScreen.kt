@@ -24,7 +24,7 @@ fun UnreservedJourneyScreen(
     sourceStation: String,
     destinationStation: String,
     onBack: () -> Unit,
-    onBookNow: (String) -> Unit
+    onBookNow: (String, Int, Int, String, String) -> Unit
 ) {
     var adultCount by remember { mutableIntStateOf(1) }
     var childCount by remember { mutableIntStateOf(0) }
@@ -267,7 +267,15 @@ fun UnreservedJourneyScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { onBookNow(totalFare) },
+                onClick = { 
+                    onBookNow(
+                        totalFare, 
+                        adultCount, 
+                        childCount, 
+                        if (selectedTrainType == 0) "MAIL/EXPRESS" else "SUPERFAST",
+                        "SECOND"
+                    ) 
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)

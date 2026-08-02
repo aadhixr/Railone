@@ -23,7 +23,15 @@ sealed class Screen {
     object UnreservedTicket : Screen()
     data class SearchStation(val isSource: Boolean) : Screen()
     object UnreservedJourney : Screen()
-    data class MakePayment(val source: String, val dest: String, val totalFare: String) : Screen()
+    data class MakePayment(
+        val source: String, 
+        val dest: String, 
+        val totalFare: String,
+        val adultCount: Int,
+        val childCount: Int,
+        val trainType: String,
+        val classType: String
+    ) : Screen()
 }
 
 class MainActivity : ComponentActivity() {
@@ -64,11 +72,15 @@ class MainActivity : ComponentActivity() {
                             sourceStation = sourceStation,
                             destinationStation = destinationStation,
                             onBack = { currentScreen = Screen.UnreservedTicket },
-                            onBookNow = { fare ->
+                            onBookNow = { fare, adults, children, train, cls ->
                                 currentScreen = Screen.MakePayment(
                                     source = sourceStation,
                                     dest = destinationStation,
-                                    totalFare = fare
+                                    totalFare = fare,
+                                    adultCount = adults,
+                                    childCount = children,
+                                    trainType = train,
+                                    classType = cls
                                 )
                             }
                         )
@@ -78,6 +90,10 @@ class MainActivity : ComponentActivity() {
                             source = screen.source,
                             dest = screen.dest,
                             totalFare = screen.totalFare,
+                            adultCount = screen.adultCount,
+                            childCount = screen.childCount,
+                            trainType = screen.trainType,
+                            classType = screen.classType,
                             onBack = { currentScreen = Screen.UnreservedJourney }
                         )
                     }
