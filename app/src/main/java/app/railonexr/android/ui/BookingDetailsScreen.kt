@@ -273,7 +273,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 )
             }
 
-            // Bottom Section (Journey Details)
+            // Bottom Section (Journey Details) - Strictly aligned with Image 1
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -330,11 +330,11 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        Text("Via", fontSize = 11.sp, color = Color.Gray, fontFamily = FontFamily.SansSerif)
+                        Text("Via", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = FontFamily.SansSerif)
                         Text("RHA", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = FontFamily.SansSerif)
                     }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("Passenger", fontSize = 11.sp, color = Color.Gray, fontFamily = FontFamily.SansSerif)
+                        Text("Passenger", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = FontFamily.SansSerif)
                         Text("${ticket.adults} Adult, ${ticket.children} Child", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = FontFamily.SansSerif)
                     }
                 }
@@ -343,11 +343,11 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        Text("Booked on", fontSize = 11.sp, color = Color.Gray, fontFamily = FontFamily.SansSerif)
+                        Text("Booked on", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = FontFamily.SansSerif)
                         Text(bookingDateNumeric, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = FontFamily.SansSerif)
                     }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("*Valid Till", fontSize = 11.sp, color = Color.Gray, fontFamily = FontFamily.SansSerif)
+                        Text("*Valid Till", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = FontFamily.SansSerif)
                         Text("$validTillDate $validTillTime", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = FontFamily.SansSerif)
                     }
                 }

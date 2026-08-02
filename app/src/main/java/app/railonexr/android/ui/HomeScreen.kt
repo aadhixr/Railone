@@ -344,22 +344,23 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 28.dp, vertical = 22.dp)
+                    .padding(horizontal = 24.dp, vertical = 22.dp)
             ) {
                 // Date - Positioned top-left
                 Text(
                     text = df.format(Date(ticket.bookedAt)),
                     color = Color.White,
-                    fontSize = 12.sp,
+                    fontSize = 11.5.sp,
                     fontWeight = FontWeight.Medium,
-                    fontFamily = FontFamily.SansSerif
+                    fontFamily = FontFamily.SansSerif,
+                    modifier = Modifier.padding(start = 2.dp)
                 )
                 
                 Spacer(modifier = Modifier.height(28.dp)) // Aligns stations with the lines
                 
-                // Stations
+                // Stations - Precise alignment on template lines
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -385,7 +386,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 2.dp),
+                        .padding(bottom = 6.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -393,17 +394,18 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         text = "Unreserved",
                         color = Color(0xFFD4FF00),
                         fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
+                        modifier = Modifier.padding(start = 2.dp)
                     )
                     
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(10.dp),
-                        modifier = Modifier.padding(end = 4.dp)
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        modifier = Modifier.padding(end = 10.dp)
                     ) {
                         // Invisible areas for clicking, text is centered in the template's boxes
                         Box(
                             modifier = Modifier
-                                .width(94.dp)
+                                .width(90.dp)
                                 .height(30.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -412,7 +414,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         
                         Box(
                             modifier = Modifier
-                                .width(94.dp)
+                                .width(90.dp)
                                 .height(30.dp),
                             contentAlignment = Alignment.Center
                         ) {
