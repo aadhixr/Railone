@@ -327,13 +327,13 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(150.dp) // Perfect height for the template aspect ratio
+                .height(154.dp) // Fine-tuned height for the template aspect ratio
                 .clickable(
                     indication = null,
                     interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
                 ) { onViewDetails() }
         ) {
-            // Template Background - Scaled for perfect fit without any leakage
+            // Template Background - FillBounds ensures it occupies the exact box area
             Image(
                 painter = painterResource(id = R.drawable.upcoming_template),
                 contentDescription = null,
@@ -344,9 +344,9 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 20.dp)
+                    .padding(horizontal = 28.dp, vertical = 22.dp)
             ) {
-                // Date
+                // Date - Positioned top-left
                 Text(
                     text = df.format(Date(ticket.bookedAt)),
                     color = Color.White,
@@ -355,9 +355,9 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     fontFamily = FontFamily.SansSerif
                 )
                 
-                Spacer(modifier = Modifier.height(18.dp))
+                Spacer(modifier = Modifier.height(28.dp)) // Aligns stations with the lines
                 
-                // Stations - Precise alignment on template lines
+                // Stations
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -381,9 +381,11 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                 
                 Spacer(modifier = Modifier.weight(1f))
                 
-                // Bottom Row
+                // Bottom Row - Aligns with the boxes
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 2.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -394,13 +396,15 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         fontSize = 14.sp
                     )
                     
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
+                        modifier = Modifier.padding(end = 4.dp)
+                    ) {
+                        // Invisible areas for clicking, text is centered in the template's boxes
                         Box(
                             modifier = Modifier
-                                .height(30.dp)
-                                .clip(RoundedCornerShape(15.dp))
-                                .border(1.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(15.dp))
-                                .padding(horizontal = 12.dp),
+                                .width(94.dp)
+                                .height(30.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text("Book Again", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
@@ -408,10 +412,8 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         
                         Box(
                             modifier = Modifier
-                                .height(30.dp)
-                                .clip(RoundedCornerShape(15.dp))
-                                .border(1.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(15.dp))
-                                .padding(horizontal = 12.dp),
+                                .width(94.dp)
+                                .height(30.dp),
                             contentAlignment = Alignment.Center
                         ) {
                             Text("View Details", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
