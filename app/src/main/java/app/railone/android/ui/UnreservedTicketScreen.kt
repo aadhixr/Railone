@@ -175,9 +175,12 @@ fun UnreservedTicketScreen(
                         .fillMaxWidth()
                         .height(54.dp),
                     shape = RoundedCornerShape(27.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF005AC1))
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF005AC1),
+                        contentColor = Color.White
+                    )
                 ) {
-                    Text("Proceed To Book", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text("Proceed To Book", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.White)
                 }
             }
 

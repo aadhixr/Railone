@@ -273,9 +273,12 @@ fun UnreservedJourneyScreen(
                     .padding(horizontal = 16.dp)
                     .height(54.dp),
                 shape = RoundedCornerShape(27.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF005AC1))
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF005AC1),
+                    contentColor = Color.White
+                )
             ) {
-                Text("Book Now", fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                Text("Book Now", fontWeight = FontWeight.Bold, fontSize = 16.sp, color = Color.White)
             }
             
             Spacer(modifier = Modifier.height(32.dp))

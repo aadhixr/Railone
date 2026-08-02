@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.railone.android.ui.theme.RailOneTheme
 import app.railone.android.R
+import app.railone.android.BuildConfig
 import app.railone.android.logic.UpdateManager
 import kotlinx.coroutines.launch
 
@@ -44,6 +45,7 @@ fun HomeScreen(
     val uriHandler = LocalUriHandler.current
     val scope = rememberCoroutineScope()
     var showMenu by remember { mutableStateOf(false) }
+    val updateRelease = UpdateManager.updateAvailable
 
     LaunchedEffect(Unit) {
         UpdateManager.checkForUpdates()
@@ -68,7 +70,7 @@ fun HomeScreen(
                     .padding(bottom = 16.dp)
             ) {
                 // Update Banner
-                UpdateManager.updateAvailable?.let { release ->
+                updateRelease?.let { release ->
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -99,40 +101,94 @@ fun HomeScreen(
                 }
             }
 
-            // Simple Dropdown Menu for Refresh
+            // Enhanced Menu Dialog
             if (showMenu) {
                 androidx.compose.ui.window.Dialog(onDismissRequest = { showMenu = false }) {
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp),
-                        shape = RoundedCornerShape(16.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                        shape = RoundedCornerShape(24.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White),
+                        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                     ) {
                         Column(
-                            modifier = Modifier.padding(16.dp),
+                            modifier = Modifier.padding(24.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(
-                                text = "Menu",
-                                style = MaterialTheme.typography.titleMedium,
-                                fontWeight = FontWeight.Bold,
-                                color = Color(0xFF1A237E)
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_logo),
+                                contentDescription = null,
+                                modifier = Modifier.size(64.dp)
                             )
                             Spacer(modifier = Modifier.height(16.dp))
+                            Text(
+                                text = "RailOne",
+                                style = MaterialTheme.typography.titleLarge,
+                                fontWeight = FontWeight.ExtraBold,
+                                color = Color(0xFF1A237E)
+                            )
+                            Text(
+                                text = "Current Version: v${BuildConfig.VERSION_NAME}",
+                                fontSize = 12.sp,
+                                color = Color.Gray
+                            )
+                            
+                            Spacer(modifier = Modifier.height(24.dp))
+                            
+                            // Status indicator
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(12.dp))
+                                    .background(if (updateRelease != null) Color(0xFFFFF1F0) else Color(0xFFF6FFED))
+                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(8.dp)
+                                        .clip(CircleShape)
+                                        .background(if (updateRelease != null) Color.Red else Color(0xFF52C41A))
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = if (updateRelease != null) "Update Available" else "Up to date",
+                                    fontSize = 13.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (updateRelease != null) Color.Red else Color(0xFF52C41A)
+                                )
+                            }
+
+                            Spacer(modifier = Modifier.height(24.dp))
+
                             Button(
                                 onClick = {
-                                    showMenu = false
-                                    scope.launch {
-                                        UpdateManager.checkForUpdates()
+                                    if (updateRelease != null) {
+                                        uriHandler.openUri(updateRelease.htmlUrl)
+                                        showMenu = false
+                                    } else {
+                                        scope.launch {
+                                            UpdateManager.checkForUpdates()
+                                        }
                                     }
                                 },
-                                modifier = Modifier.fillMaxWidth(),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF005AC1))
+                                modifier = Modifier.fillMaxWidth().height(48.dp),
+                                shape = RoundedCornerShape(24.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color(0xFF005AC1),
+                                    contentColor = Color.White
+                                )
                             ) {
-                                Icon(Icons.Default.Refresh, contentDescription = null)
+                                Icon(
+                                    imageVector = if (updateRelease != null) Icons.Default.Download else Icons.Default.Refresh,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
                                 Spacer(modifier = Modifier.width(8.dp))
-                                Text("Check for Updates")
+                                Text(
+                                    text = if (updateRelease != null) "Download Now" else "Check for Updates",
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
                         }
                     }
