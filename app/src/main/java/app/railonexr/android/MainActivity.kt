@@ -15,6 +15,8 @@ import app.railonexr.android.ui.SplashScreen
 import app.railonexr.android.ui.UnreservedJourneyScreen
 import app.railonexr.android.ui.UnreservedTicketScreen
 import app.railonexr.android.ui.MakePaymentScreen
+import app.railonexr.android.ui.BookingDetailsScreen
+import app.railonexr.android.ui.MyBookingsScreen
 import app.railonexr.android.ui.theme.RailOneTheme
 
 sealed class Screen {
@@ -32,6 +34,8 @@ sealed class Screen {
         val trainType: String,
         val classType: String
     ) : Screen()
+    data class BookingDetails(val ticketId: String) : Screen()
+    data class MyBookings(val initialTab: Int = 3) : Screen() // 3 is "All"
 }
 
 class MainActivity : ComponentActivity() {
@@ -51,7 +55,9 @@ class MainActivity : ComponentActivity() {
                     }
                     is Screen.Home -> {
                         HomeScreen(
-                            onUnreservedClick = { currentScreen = Screen.UnreservedTicket }
+                            onUnreservedClick = { currentScreen = Screen.UnreservedTicket },
+                            onBookingClick = { ticketId -> currentScreen = Screen.BookingDetails(ticketId) },
+                            onBottomNavClick = { navScreen -> currentScreen = navScreen }
                         )
                     }
                     is Screen.UnreservedTicket -> {
@@ -94,7 +100,26 @@ class MainActivity : ComponentActivity() {
                             childCount = screen.childCount,
                             trainType = screen.trainType,
                             classType = screen.classType,
-                            onBack = { currentScreen = Screen.UnreservedJourney }
+                            onBack = { currentScreen = Screen.UnreservedJourney },
+                            onSuccess = { ticketId ->
+                                currentScreen = Screen.BookingDetails(ticketId)
+                            }
+                        )
+                    }
+                    is Screen.BookingDetails -> {
+                        BookingDetailsScreen(
+                            ticketId = screen.ticketId,
+                            onBack = { currentScreen = Screen.Home }
+                        )
+                    }
+                    is Screen.MyBookings -> {
+                        MyBookingsScreen(
+                            initialTab = screen.initialTab,
+                            onBack = { currentScreen = Screen.Home },
+                            onTicketClick = { ticketId ->
+                                currentScreen = Screen.BookingDetails(ticketId)
+                            },
+                            onBottomNavClick = { navScreen -> currentScreen = navScreen }
                         )
                     }
                     is Screen.SearchStation -> {

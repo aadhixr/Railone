@@ -23,6 +23,8 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import app.railonexr.android.R
 
+import app.railonexr.android.logic.BookingManager
+
 @Composable
 fun MakePaymentScreen(
     source: String,
@@ -32,7 +34,8 @@ fun MakePaymentScreen(
     childCount: Int,
     trainType: String,
     classType: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onSuccess: (String) -> Unit
 ) {
     var showReview by remember { mutableStateOf(false) }
 
@@ -169,6 +172,18 @@ fun MakePaymentScreen(
                         // UPI
                         PaymentOptionRow(
                             title = "",
+                            onClick = {
+                                val newTicket = BookingManager.bookTicket(
+                                    source = source,
+                                    dest = dest,
+                                    fare = totalFare,
+                                    adults = adultCount,
+                                    children = childCount,
+                                    trainType = trainType,
+                                    classType = classType
+                                )
+                                onSuccess(newTicket.ticketId)
+                            },
                             icon = {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Image(
@@ -381,12 +396,13 @@ fun PaymentOptionRow(
     subtitle: String? = null,
     icon: @Composable () -> Unit,
     trailingContent: (@Composable () -> Unit)? = null,
-    showChevron: Boolean = false
+    showChevron: Boolean = false,
+    onClick: () -> Unit = {}
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { }
+            .clickable { onClick() }
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {

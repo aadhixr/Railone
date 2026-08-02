@@ -28,6 +28,11 @@ import app.railonexr.android.R
 import app.railonexr.android.BuildConfig
 import app.railonexr.android.logic.UpdateManager
 import kotlinx.coroutines.launch
+import app.railonexr.android.logic.BookingManager
+import app.railonexr.android.Screen
+import app.railonexr.android.logic.Ticket
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Preview(showBackground = true)
 @Composable
@@ -40,12 +45,17 @@ fun HomePreview() {
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onUnreservedClick: () -> Unit = {}
+    onUnreservedClick: () -> Unit = {},
+    onBookingClick: (String) -> Unit = {},
+    onBottomNavClick: (Screen) -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
     val scope = rememberCoroutineScope()
     var showMenu by remember { mutableStateOf(false) }
     val updateRelease = UpdateManager.updateAvailable
+    
+    val activeTickets = remember { BookingManager.getUpcomingTickets() }
+    val latestTicket = activeTickets.firstOrNull()
 
     LaunchedEffect(Unit) {
         UpdateManager.checkForUpdates()
@@ -57,6 +67,8 @@ fun HomeScreen(
         },
         bottomBar = { 
             RailOneBottomNavigation(
+                selectedLabel = "Home",
+                onNavClick = onBottomNavClick,
                 onMenuClick = { showMenu = true }
             ) 
         },
@@ -93,6 +105,15 @@ fun HomeScreen(
 
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     GreetingSection("Aadil Muhammed")
+                    
+                    if (latestTicket != null) {
+                        Spacer(modifier = Modifier.height(16.dp))
+                        UpcomingJourneySection(
+                            ticket = latestTicket,
+                            onViewDetails = { onBookingClick(latestTicket.ticketId) }
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(24.dp))
                     JourneyPlannerSection(onUnreservedClick = onUnreservedClick)
                     Spacer(modifier = Modifier.height(24.dp))
@@ -182,16 +203,9 @@ fun HomeScreen(
 
                             Button(
                                 onClick = {
-                                    if (updateRelease != null) {
-                                        // Try to find direct APK link, fallback to release page
-                                        val apkLink = updateRelease.assets.find { it.name.endsWith(".apk") }?.downloadUrl
-                                            ?: updateRelease.htmlUrl
-                                        uriHandler.openUri(apkLink)
-                                        showMenu = false
-                                    } else {
-                                        scope.launch {
-                                            UpdateManager.checkForUpdates()
-                                        }
+                                    showMenu = false
+                                    scope.launch {
+                                        UpdateManager.checkForUpdates()
                                     }
                                 },
                                 enabled = !UpdateManager.isChecking,
@@ -212,7 +226,8 @@ fun HomeScreen(
                                     Icon(
                                         imageVector = if (updateRelease != null) Icons.Default.Download else Icons.Default.Refresh,
                                         contentDescription = null,
-                                        modifier = Modifier.size(20.dp)
+                                        modifier = Modifier.size(20.dp),
+                                        tint = Color.White
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
@@ -284,6 +299,74 @@ fun RailOneTopBar() {
                 contentAlignment = Alignment.Center
             ) {
                 Text("15", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+            }
+        }
+    }
+}
+
+@Composable
+fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
+    val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
+    
+    Column {
+        Text(
+            text = "Upcoming Journey",
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold,
+            color = Color(0xFF1A237E)
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onViewDetails() },
+            shape = RoundedCornerShape(24.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = androidx.compose.ui.graphics.Brush.verticalGradient(
+                            colors = listOf(Color(0xFF9575CD), Color(0xFF7E57C2))
+                        )
+                    )
+                    .padding(20.dp)
+            ) {
+                Column {
+                    Text(df.format(Date(ticket.bookedAt)), color = Color.White.copy(alpha = 0.8f), fontSize = 13.sp)
+                    Spacer(modifier = Modifier.height(12.dp))
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(ticket.source.substringBefore(" -").trim(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                        Text(ticket.destination.substringBefore(" -").trim(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("Unreserved", color = Color(0xFFC6FF00), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                        Spacer(modifier = Modifier.weight(1f))
+                        Row {
+                            Button(
+                                onClick = { },
+                                modifier = Modifier.height(32.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
+                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+                            ) {
+                                Text("Book Again", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            }
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Button(
+                                onClick = onViewDetails,
+                                modifier = Modifier.height(32.dp),
+                                shape = RoundedCornerShape(16.dp),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
+                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+                            ) {
+                                Text("View Details", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
@@ -557,36 +640,43 @@ fun SocialIcon(icon: ImageVector, color: Color) {
 }
 
 @Composable
-fun RailOneBottomNavigation(onMenuClick: () -> Unit = {}) {
+fun RailOneBottomNavigation(
+    selectedLabel: String, 
+    onNavClick: (Screen) -> Unit,
+    onMenuClick: () -> Unit = {}
+) {
     NavigationBar(
         containerColor = Color(0xFF005AC1),
     ) {
         val navItems = listOf(
-            Triple("Home", Icons.Default.Home, true),
-            Triple("My Bookings", Icons.Default.Book, false),
-            Triple("You", Icons.Default.Person, false),
-            Triple("Menu", Icons.Default.Menu, false)
+            Triple("Home", Icons.Default.Home, Screen.Home),
+            Triple("My Bookings", Icons.Default.Book, Screen.MyBookings(3)),
+            Triple("You", Icons.Default.Person, Screen.Home),
+            Triple("Menu", Icons.Default.Menu, Screen.Home)
         )
 
-        navItems.forEach { (label, icon, selected) ->
+        navItems.forEach { (label, icon, screen) ->
+            val isSelected = label == selectedLabel
             NavigationBarItem(
-                selected = selected,
+                selected = isSelected,
                 onClick = {
                     if (label == "Menu") {
                         onMenuClick()
+                    } else {
+                        onNavClick(screen)
                     }
                 },
                 icon = { 
                     Icon(
                         imageVector = icon, 
                         contentDescription = label,
-                        tint = if (selected) Color.White else Color.White.copy(alpha = 0.7f)
+                        tint = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f)
                     ) 
                 },
                 label = { 
                     Text(
                         text = label, 
-                        color = if (selected) Color.White else Color.White.copy(alpha = 0.7f),
+                        color = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f),
                         fontSize = 10.sp
                     ) 
                 },
