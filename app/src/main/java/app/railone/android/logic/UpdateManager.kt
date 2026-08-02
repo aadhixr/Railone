@@ -43,10 +43,17 @@ object UpdateManager {
     suspend fun checkForUpdates() {
         try {
             val latest = service.getLatestRelease()
-            // currentVersion should be like v1.0
-            val currentVersion = "v${BuildConfig.VERSION_NAME}"
-            if (latest.tagName != currentVersion) {
+            
+            // Clean up version strings (remove 'v', spaces, etc.)
+            val latestVer = latest.tagName.replace("v", "").trim()
+            val currentVer = BuildConfig.VERSION_NAME.replace("v", "").trim()
+
+            // Only show if the versions are different
+            // In a better system, you'd check if latestVer > currentVer
+            if (latestVer != currentVer) {
                 updateAvailable = latest
+            } else {
+                updateAvailable = null
             }
         } catch (e: Exception) {
             e.printStackTrace()
