@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -136,9 +136,10 @@ fun MakePaymentScreen(
                         },
                         icon = {
                             Image(
-                                painter = painterResource(id = R.drawable.ic_logo),
+                                painter = painterResource(id = R.drawable.ic_indian_railway),
                                 contentDescription = null,
-                                modifier = Modifier.size(24.dp).clip(CircleShape)
+                                modifier = Modifier.size(28.dp).clip(CircleShape),
+                                contentScale = ContentScale.Crop
                             )
                         }
                     )
@@ -147,9 +148,21 @@ fun MakePaymentScreen(
 
                     // UPI
                     PaymentOptionRow(
-                        title = "UPI",
+                        title = "",
                         icon = {
-                            Icon(Icons.Default.DoubleArrow, contentDescription = null, tint = Color.Green)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_upi_symbol),
+                                    contentDescription = null,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                                Spacer(modifier = Modifier.width(12.dp))
+                                Image(
+                                    painter = painterResource(id = R.drawable.ic_upi_name),
+                                    contentDescription = null,
+                                    modifier = Modifier.height(16.dp)
+                                )
+                            }
                         },
                         showChevron = true
                     )
@@ -160,7 +173,11 @@ fun MakePaymentScreen(
                     PaymentOptionRow(
                         title = "Other Payment Methods",
                         icon = {
-                            Icon(Icons.Default.Payment, contentDescription = null, tint = Color.Gray)
+                            Image(
+                                painter = painterResource(id = R.drawable.ic_card_payment),
+                                contentDescription = null,
+                                modifier = Modifier.size(24.dp)
+                            )
                         },
                         showChevron = true
                     )
@@ -185,31 +202,38 @@ fun PaymentOptionRow(
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .background(Color(0xFFF8F9FF), CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            icon()
-        }
-        
-        Spacer(modifier = Modifier.width(16.dp))
-        
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = title,
-                fontWeight = FontWeight.SemiBold,
-                color = Color.DarkGray,
-                fontSize = 14.sp
-            )
-            if (subtitle != null) {
+        if (title.isNotEmpty()) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .background(Color(0xFFF8F9FF), CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                icon()
+            }
+            
+            Spacer(modifier = Modifier.width(16.dp))
+            
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = subtitle,
-                    color = Color(0xFF00695C),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 15.sp
+                    text = title,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color.DarkGray,
+                    fontSize = 14.sp
                 )
+                if (subtitle != null) {
+                    Text(
+                        text = subtitle,
+                        color = Color(0xFF00695C),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                }
+            }
+        } else {
+            // Special case for UPI row where the logo replaces the title area
+            Box(modifier = Modifier.weight(1f)) {
+                icon()
             }
         }
 
