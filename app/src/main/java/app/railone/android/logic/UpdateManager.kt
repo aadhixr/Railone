@@ -21,12 +21,15 @@ data class GitHubRelease(
 )
 
 interface GitHubService {
-    @GET("repos/aadhixr/Railone/releases/latest")
-    suspend fun getLatestRelease(): GitHubRelease
+    @GET("repos/aadhixr/Railone/releases")
+    suspend fun getAllReleases(): List<GitHubRelease>
 }
 
 object UpdateManager {
     var updateAvailable by mutableStateOf<GitHubRelease?>(null)
+        private set
+    
+    var isChecking by mutableStateOf(false)
         private set
 
     private val json = Json { ignoreUnknownKeys = true }
@@ -41,22 +44,28 @@ object UpdateManager {
     private val service = retrofit.create(GitHubService::class.java)
 
     suspend fun checkForUpdates() {
+        if (isChecking) return
+        isChecking = true
         try {
-            val latest = service.getLatestRelease()
+            val releases = service.getAllReleases()
+            val latest = releases.firstOrNull() // GitHub returns latest first
             
-            // Clean up version strings (remove 'v', spaces, etc.)
-            val latestVer = latest.tagName.replace("v", "").trim()
-            val currentVer = BuildConfig.VERSION_NAME.replace("v", "").trim()
+            if (latest != null) {
+                val latestVer = latest.tagName.replace("v", "").trim()
+                val currentVer = BuildConfig.VERSION_NAME.replace("v", "").trim()
 
-            // Only show if the versions are different
-            // In a better system, you'd check if latestVer > currentVer
-            if (latestVer != currentVer) {
-                updateAvailable = latest
-            } else {
-                updateAvailable = null
+                if (latestVer != currentVer) {
+                    updateAvailable = latest
+                } else {
+                    updateAvailable = null
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
+            // Reset state on error so user can try again
+            updateAvailable = null
+        } finally {
+            isChecking = false
         }
     }
 }
