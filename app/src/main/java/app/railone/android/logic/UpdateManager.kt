@@ -14,10 +14,17 @@ import app.railone.android.BuildConfig
 import kotlinx.serialization.json.Json
 
 @Serializable
+data class GitHubAsset(
+    @SerialName("browser_download_url") val downloadUrl: String,
+    val name: String
+)
+
+@Serializable
 data class GitHubRelease(
     @SerialName("tag_name") val tagName: String,
     @SerialName("html_url") val htmlUrl: String,
-    val body: String? = null
+    val body: String? = null,
+    val assets: List<GitHubAsset> = emptyList()
 )
 
 interface GitHubService {
@@ -30,6 +37,9 @@ object UpdateManager {
         private set
     
     var isChecking by mutableStateOf(false)
+        private set
+
+    var errorMessage by mutableStateOf<String?>(null)
         private set
 
     private val json = Json { ignoreUnknownKeys = true }
@@ -46,9 +56,10 @@ object UpdateManager {
     suspend fun checkForUpdates() {
         if (isChecking) return
         isChecking = true
+        errorMessage = null
         try {
             val releases = service.getAllReleases()
-            val latest = releases.firstOrNull() // GitHub returns latest first
+            val latest = releases.firstOrNull() 
             
             if (latest != null) {
                 val latestVer = latest.tagName.replace("v", "").trim()
@@ -59,10 +70,12 @@ object UpdateManager {
                 } else {
                     updateAvailable = null
                 }
+            } else {
+                errorMessage = "No releases found on GitHub"
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            // Reset state on error so user can try again
+            errorMessage = "Check failed: ${e.localizedMessage ?: "Unknown error"}"
             updateAvailable = null
         } finally {
             isChecking = false

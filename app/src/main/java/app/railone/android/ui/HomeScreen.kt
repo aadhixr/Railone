@@ -136,27 +136,38 @@ fun HomeScreen(
                             
                             Spacer(modifier = Modifier.height(24.dp))
                             
-                            // Status indicator
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(12.dp))
-                                    .background(if (updateRelease != null) Color(0xFFFFF1F0) else Color(0xFFF6FFED))
-                                    .padding(horizontal = 12.dp, vertical = 6.dp)
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(8.dp)
-                                        .clip(CircleShape)
-                                        .background(if (updateRelease != null) Color.Red else Color(0xFF52C41A))
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
+                            // Status indicator or Error
+                            val error = UpdateManager.errorMessage
+                            if (error != null) {
                                 Text(
-                                    text = if (updateRelease != null) "Update Available" else "Up to date",
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (updateRelease != null) Color.Red else Color(0xFF52C41A)
+                                    text = error,
+                                    color = Color.Red,
+                                    fontSize = 11.sp,
+                                    textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                                    modifier = Modifier.padding(horizontal = 16.dp)
                                 )
+                            } else {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier
+                                        .clip(RoundedCornerShape(12.dp))
+                                        .background(if (updateRelease != null) Color(0xFFFFF1F0) else Color(0xFFF6FFED))
+                                        .padding(horizontal = 12.dp, vertical = 6.dp)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(8.dp)
+                                            .clip(CircleShape)
+                                            .background(if (updateRelease != null) Color.Red else Color(0xFF52C41A))
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = if (updateRelease != null) "Update Available" else "Up to date",
+                                        fontSize = 13.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (updateRelease != null) Color.Red else Color(0xFF52C41A)
+                                    )
+                                }
                             }
 
                             Spacer(modifier = Modifier.height(24.dp))
@@ -164,7 +175,10 @@ fun HomeScreen(
                             Button(
                                 onClick = {
                                     if (updateRelease != null) {
-                                        uriHandler.openUri(updateRelease.htmlUrl)
+                                        // Try to find direct APK link, fallback to release page
+                                        val apkLink = updateRelease.assets.find { it.name.endsWith(".apk") }?.downloadUrl
+                                            ?: updateRelease.htmlUrl
+                                        uriHandler.openUri(apkLink)
                                         showMenu = false
                                     } else {
                                         scope.launch {
@@ -172,6 +186,7 @@ fun HomeScreen(
                                         }
                                     }
                                 },
+                                enabled = !UpdateManager.isChecking,
                                 modifier = Modifier.fillMaxWidth().height(48.dp),
                                 shape = RoundedCornerShape(24.dp),
                                 colors = ButtonDefaults.buttonColors(
@@ -179,16 +194,24 @@ fun HomeScreen(
                                     contentColor = Color.White
                                 )
                             ) {
-                                Icon(
-                                    imageVector = if (updateRelease != null) Icons.Default.Download else Icons.Default.Refresh,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = if (updateRelease != null) "Download Now" else "Check for Updates",
-                                    fontWeight = FontWeight.Bold
-                                )
+                                if (UpdateManager.isChecking) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(20.dp),
+                                        color = Color.White,
+                                        strokeWidth = 2.dp
+                                    )
+                                } else {
+                                    Icon(
+                                        imageVector = if (updateRelease != null) Icons.Default.Download else Icons.Default.Refresh,
+                                        contentDescription = null,
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                    Spacer(modifier = Modifier.width(8.dp))
+                                    Text(
+                                        text = if (updateRelease != null) "Download Now" else "Check for Updates",
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
                             }
                         }
                     }
