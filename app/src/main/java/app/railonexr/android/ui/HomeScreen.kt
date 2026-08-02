@@ -131,16 +131,13 @@ fun HomeScreen(
                                 fontWeight = FontWeight.ExtraBold,
                                 color = Color(0xFF1A237E)
                             )
-                            val currentVer = BuildConfig.VERSION_NAME.let {
-                                if (it.startsWith("v", ignoreCase = true)) it else "v$it"
-                            }
                             Text(
-                                text = "Current Version: $currentVer",
+                                text = "Current Version: v${BuildConfig.VERSION_NAME}",
                                 fontSize = 12.sp,
                                 color = Color.Gray
                             )
                             Text(
-                                text = "Local Developer Build",
+                                text = "GitHub Official Build",
                                 fontSize = 10.sp,
                                 color = Color.LightGray
                             )

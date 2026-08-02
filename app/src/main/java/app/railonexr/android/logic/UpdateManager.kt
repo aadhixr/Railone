@@ -59,20 +59,21 @@ object UpdateManager {
         errorMessage = null
         try {
             val releases = service.getAllReleases()
-            val latest = releases.firstOrNull() 
+            // Filter out releases that might have weird tags or no APKs
+            val latest = releases.firstOrNull { it.tagName.any { char -> char.isDigit() } }
             
             if (latest != null) {
-                val latestVer = latest.tagName.replace(Regex("[^0-9.]"), "").trim()
-                val currentVer = BuildConfig.VERSION_NAME.replace(Regex("[^0-9.]"), "").trim()
+                // Extract only numbers and dots (e.g., "v1.2.5" -> "1.2.5", "1.6v" -> "1.6")
+                val latestVer = latest.tagName.filter { it.isDigit() || it == '.' }.trim('.')
+                val currentVer = BuildConfig.VERSION_NAME.filter { it.isDigit() || it == '.' }.trim('.')
 
-                // Only show update if the version on GitHub is actually higher
                 if (isNewerVersion(latestVer, currentVer)) {
                     updateAvailable = latest
                 } else {
                     updateAvailable = null
                 }
             } else {
-                errorMessage = "No releases found on GitHub"
+                errorMessage = "No valid releases found"
             }
         } catch (e: Exception) {
             e.printStackTrace()
