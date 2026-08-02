@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalFocusManager
 import app.railone.android.ui.HomeScreen
+import app.railone.android.ui.MakePaymentScreen
 import app.railone.android.ui.SearchStationScreen
 import app.railone.android.ui.SplashScreen
 import app.railone.android.ui.UnreservedJourneyScreen
@@ -22,6 +23,7 @@ sealed class Screen {
     object UnreservedTicket : Screen()
     data class SearchStation(val isSource: Boolean) : Screen()
     object UnreservedJourney : Screen()
+    data class MakePayment(val source: String, val dest: String, val totalFare: String) : Screen()
 }
 
 class MainActivity : ComponentActivity() {
@@ -61,7 +63,22 @@ class MainActivity : ComponentActivity() {
                         UnreservedJourneyScreen(
                             sourceStation = sourceStation,
                             destinationStation = destinationStation,
-                            onBack = { currentScreen = Screen.UnreservedTicket }
+                            onBack = { currentScreen = Screen.UnreservedTicket },
+                            onBookNow = { fare ->
+                                currentScreen = Screen.MakePayment(
+                                    source = sourceStation,
+                                    dest = destinationStation,
+                                    totalFare = fare
+                                )
+                            }
+                        )
+                    }
+                    is Screen.MakePayment -> {
+                        MakePaymentScreen(
+                            source = screen.source,
+                            dest = screen.dest,
+                            totalFare = screen.totalFare,
+                            onBack = { currentScreen = Screen.UnreservedJourney }
                         )
                     }
                     is Screen.SearchStation -> {

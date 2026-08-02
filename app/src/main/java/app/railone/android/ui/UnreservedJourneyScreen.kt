@@ -23,23 +23,28 @@ import app.railone.android.R
 fun UnreservedJourneyScreen(
     sourceStation: String,
     destinationStation: String,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onBookNow: (String) -> Unit
 ) {
     var adultCount by remember { mutableIntStateOf(1) }
     var childCount by remember { mutableIntStateOf(0) }
     var selectedTrainType by remember { mutableIntStateOf(0) }
 
-    val fareAmount by remember(sourceStation, destinationStation) {
+    val baseFare = remember(sourceStation, destinationStation) {
+        when {
+            (sourceStation.contains("SMVB") || sourceStation.contains("SMVT")) &&
+            (destinationStation.contains("ERS") || destinationStation.contains("ERNAKULAM")) -> 215
+
+            (sourceStation.contains("ERS") || sourceStation.contains("ERNAKULAM")) &&
+            (destinationStation.contains("SMVB") || destinationStation.contains("SMVT")) -> 210
+
+            else -> 210 // Default
+        }
+    }
+
+    val totalFare by remember(baseFare, adultCount, childCount) {
         derivedStateOf {
-            when {
-                (sourceStation.contains("SMVB") || sourceStation.contains("SMVT")) &&
-                (destinationStation.contains("ERS") || destinationStation.contains("ERNAKULAM")) -> "215"
-
-                (sourceStation.contains("ERS") || sourceStation.contains("ERNAKULAM")) &&
-                (destinationStation.contains("SMVB") || destinationStation.contains("SMVT")) -> "210"
-
-                else -> "210" // Default
-            }
+            (baseFare * (adultCount + childCount)).toString()
         }
     }
 
@@ -243,7 +248,7 @@ fun UnreservedJourneyScreen(
                     }
                     Column(horizontalAlignment = Alignment.End) {
                         Text(
-                            text = "₹ $fareAmount",
+                            text = "₹ $totalFare",
                             fontWeight = FontWeight.Bold,
                             color = Color.Black,
                             fontSize = 18.sp
@@ -262,7 +267,7 @@ fun UnreservedJourneyScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                onClick = { },
+                onClick = { onBookNow(totalFare) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp)
