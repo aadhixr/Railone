@@ -10,9 +10,7 @@ import androidx.compose.material.icons.automirrored.outlined.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,6 +43,7 @@ fun HomeScreen(
 ) {
     val uriHandler = LocalUriHandler.current
     val scope = rememberCoroutineScope()
+    var showMenu by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         UpdateManager.checkForUpdates()
@@ -52,60 +51,99 @@ fun HomeScreen(
 
     Scaffold(
         topBar = { 
-            RailOneTopBar(
-                onRefreshClick = {
-                    scope.launch {
-                        UpdateManager.checkForUpdates()
-                    }
-                }
+            RailOneTopBar() 
+        },
+        bottomBar = { 
+            RailOneBottomNavigation(
+                onMenuClick = { showMenu = true }
             ) 
         },
-        bottomBar = { RailOneBottomNavigation() },
         containerColor = Color.White
     ) { padding ->
-        Column(
-            modifier = modifier
-                .padding(padding)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 16.dp)
-        ) {
-            // Update Banner
-            UpdateManager.updateAvailable?.let { release ->
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFFE91E63))
-                        .clickable { uriHandler.openUri(release.htmlUrl) }
-                        .padding(12.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "New Update Available (${release.tagName})! Tap to download.",
-                        color = Color.White,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+        Box(modifier = Modifier.padding(padding)) {
+            Column(
+                modifier = modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(bottom = 16.dp)
+            ) {
+                // Update Banner
+                UpdateManager.updateAvailable?.let { release ->
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color(0xFFE91E63))
+                            .clickable { uriHandler.openUri(release.htmlUrl) }
+                            .padding(12.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "New Update Available (${release.tagName})! Tap to download.",
+                            color = Color.White,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+
+                Column(modifier = Modifier.padding(horizontal = 16.dp)) {
+                    GreetingSection("Aadil Muhammed")
+                    Spacer(modifier = Modifier.height(24.dp))
+                    JourneyPlannerSection(onUnreservedClick = onUnreservedClick)
+                    Spacer(modifier = Modifier.height(24.dp))
+                    OfferingsSection()
+                    Spacer(modifier = Modifier.height(24.dp))
+                    TriviaSection()
+                    Spacer(modifier = Modifier.height(24.dp))
+                    SocialMediaSection()
                 }
             }
 
-            Column(modifier = Modifier.padding(horizontal = 16.dp)) {
-                GreetingSection("Aadil Muhammed")
-                Spacer(modifier = Modifier.height(24.dp))
-                JourneyPlannerSection(onUnreservedClick = onUnreservedClick)
-                Spacer(modifier = Modifier.height(24.dp))
-                OfferingsSection()
-                Spacer(modifier = Modifier.height(24.dp))
-                TriviaSection()
-                Spacer(modifier = Modifier.height(24.dp))
-                SocialMediaSection()
+            // Simple Dropdown Menu for Refresh
+            if (showMenu) {
+                androidx.compose.ui.window.Dialog(onDismissRequest = { showMenu = false }) {
+                    Card(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        shape = RoundedCornerShape(16.dp),
+                        colors = CardDefaults.cardColors(containerColor = Color.White)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Menu",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF1A237E)
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            Button(
+                                onClick = {
+                                    showMenu = false
+                                    scope.launch {
+                                        UpdateManager.checkForUpdates()
+                                    }
+                                },
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF005AC1))
+                            ) {
+                                Icon(Icons.Default.Refresh, contentDescription = null)
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text("Check for Updates")
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
 
 @Composable
-fun RailOneTopBar(onRefreshClick: () -> Unit = {}) {
+fun RailOneTopBar() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -132,55 +170,32 @@ fun RailOneTopBar(onRefreshClick: () -> Unit = {}) {
             contentScale = ContentScale.Fit
         )
 
-        // Icons Area (Right)
-        Row(
-            modifier = Modifier.align(Alignment.CenterEnd),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        // Notification Icon (Right)
+        Box(
+            modifier = Modifier
+                .size(44.dp)
+                .clip(CircleShape)
+                .background(Color(0xFFF5F5F5))
+                .align(Alignment.CenterEnd)
+                .border(1.dp, Color(0xFFE0E0E0), CircleShape),
+            contentAlignment = Alignment.Center
         ) {
-            // Refresh Icon for Updates
-            IconButton(
-                onClick = onRefreshClick,
-                modifier = Modifier
-                    .size(44.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFF5F5F5))
-                    .border(1.dp, Color(0xFFE0E0E0), CircleShape)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Check for Updates",
-                    modifier = Modifier.size(22.dp),
-                    tint = Color(0xFF005AC1)
-                )
-            }
-
-            // Notification Icon
+            Icon(
+                imageVector = Icons.Outlined.Notifications,
+                contentDescription = "Notifications",
+                modifier = Modifier.size(24.dp),
+                tint = Color.Black
+            )
             Box(
                 modifier = Modifier
-                    .size(44.dp)
+                    .size(18.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF5F5F5))
-                    .border(1.dp, Color(0xFFE0E0E0), CircleShape),
+                    .background(Color.Red)
+                    .align(Alignment.TopEnd)
+                    .offset(x = 2.dp, y = (-2).dp),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(
-                    imageVector = Icons.Outlined.Notifications,
-                    contentDescription = "Notifications",
-                    modifier = Modifier.size(24.dp),
-                    tint = Color.Black
-                )
-                Box(
-                    modifier = Modifier
-                        .size(18.dp)
-                        .clip(CircleShape)
-                        .background(Color.Red)
-                        .align(Alignment.TopEnd)
-                        .offset(x = 2.dp, y = (-2).dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text("15", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
-                }
+                Text("15", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -454,7 +469,7 @@ fun SocialIcon(icon: ImageVector, color: Color) {
 }
 
 @Composable
-fun RailOneBottomNavigation() {
+fun RailOneBottomNavigation(onMenuClick: () -> Unit = {}) {
     NavigationBar(
         containerColor = Color(0xFF005AC1),
     ) {
@@ -468,7 +483,11 @@ fun RailOneBottomNavigation() {
         navItems.forEach { (label, icon, selected) ->
             NavigationBarItem(
                 selected = selected,
-                onClick = {},
+                onClick = {
+                    if (label == "Menu") {
+                        onMenuClick()
+                    }
+                },
                 icon = { 
                     Icon(
                         imageVector = icon, 
