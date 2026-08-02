@@ -1,42 +1,50 @@
 [
     {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_reserved.png.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/reserved.png"
-    },
-    {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_ic_indian_railway.jpg.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/ic_indian_railway.jpg"
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_ic_upi_symbol.jpg.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\ic_upi_symbol.jpg"
     },
     {
         "merged": "app.railonexr.android.app-debug-66:/drawable_active_ticket_timer_template.png.flat",
         "source": "app.railonexr.android.app-main-68:/drawable/active_ticket_timer_template.png"
     },
     {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_ic_card_payment.jpg.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\ic_card_payment.jpg"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_active_ticket_timer_template.png.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\active_ticket_timer_template.png"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_reserved.png.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\reserved.png"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_ic_logo.png.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\ic_logo.png"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_platform.png.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\platform.png"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_upcoming_template.png.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\upcoming_template.png"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_ic_indian_railway.jpg.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\ic_indian_railway.jpg"
+    },
+    {
         "merged": "app.railonexr.android.app-debug-66:/drawable_upcoming_template.png.flat",
         "source": "app.railonexr.android.app-main-68:/drawable/upcoming_template.png"
     },
     {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_platform.png.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/platform.png"
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_unreserved.png.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\unreserved.png"
     },
     {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_ic_upi_name.jpg.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/ic_upi_name.jpg"
-    },
-    {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_ic_card_payment.jpg.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/ic_card_payment.jpg"
-    },
-    {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_ic_upi_symbol.jpg.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/ic_upi_symbol.jpg"
-    },
-    {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_ic_logo.png.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/ic_logo.png"
-    },
-    {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_unreserved.png.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/unreserved.png"
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-debug-66:\\drawable_ic_upi_name.jpg.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\8.13\\app.railonexr.android.app-main-68:\\drawable\\ic_upi_name.jpg"
     }
 ]

@@ -204,8 +204,8 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp)
-            .height(580.dp) 
+            .padding(horizontal = 12.dp)
+            .height(550.dp) 
     ) {
         // Full Ticket Template Background (Labels are built-in)
         Image(
@@ -216,88 +216,88 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
         )
         
         Column(modifier = Modifier.fillMaxSize()) {
-            // Top Section (Timer area)
+            // Top Section (Timer area) - Precisely positioned to fit the design
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(230.dp)
-                    .padding(top = 28.dp),
+                    .height(210.dp)
+                    .padding(top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "Dynamic preview will close in", 
                     color = Color.White, 
-                    fontSize = 14.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif
                 )
                 Text(
                     text = timerText, 
                     color = redOrange,
-                    fontSize = 62.sp, 
+                    fontSize = 52.sp, 
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = FontFamily.SansSerif
                 )
                 Text(
                     text = "Ticket Booking Date & Time", 
                     color = lightGray, 
-                    fontSize = 12.sp,
+                    fontSize = 11.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = FontFamily.SansSerif
                 )
                 Text(
                     text = bookingDateDisplay, 
                     color = warmGold, 
-                    fontSize = 21.sp, 
+                    fontSize = 18.sp, 
                     fontWeight = FontWeight.Bold,
                     fontFamily = FontFamily.SansSerif
                 )
                 Text(
                     text = "R26728", 
                     color = lightGray, 
-                    fontSize = 13.sp,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.Monospace
                 )
                 Text(
                     text = "Ticket is Non-Transferable", 
                     color = Color.White, 
-                    fontSize = 12.sp,
+                    fontSize = 11.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = FontFamily.SansSerif
                 )
             }
 
-            // Bottom Section (Journey Details) - Strictly aligned with Image 1
+            // Bottom Section (Journey Details) - Compacted and aligned with the high-res original
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 20.dp)
+                    .padding(horizontal = 24.dp, vertical = 10.dp)
             ) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Text(
                         text = "Journey Ticket", 
                         fontWeight = FontWeight.Bold, 
-                        fontSize = 15.sp, 
+                        fontSize = 14.sp, 
                         color = charcoal,
                         fontFamily = FontFamily.SansSerif
                     )
                     Text(
                         text = ticket.ticketId, 
                         fontWeight = FontWeight.SemiBold, 
-                        fontSize = 15.sp, 
+                        fontSize = 14.sp, 
                         color = charcoal,
                         fontFamily = FontFamily.Monospace
                     )
                 }
 
-                Spacer(modifier = Modifier.height(26.dp))
+                Spacer(modifier = Modifier.height(24.dp))
 
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         text = ticket.source.substringBefore(" -").trim().uppercase(), 
-                        fontWeight = FontWeight.Black, 
+                        fontWeight = FontWeight.ExtraBold, 
                         fontSize = 15.sp, 
                         color = charcoal,
                         fontFamily = FontFamily.SansSerif,
@@ -305,7 +305,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     )
                     Text(
                         text = "— 628 km —", 
-                        fontSize = 11.sp, 
+                        fontSize = 10.sp, 
                         color = Color.Gray, 
                         textAlign = TextAlign.Center,
                         fontFamily = FontFamily.SansSerif,
@@ -313,7 +313,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     )
                     Text(
                         text = ticket.destination.substringBefore(" -").trim().uppercase(), 
-                        fontWeight = FontWeight.Black, 
+                        fontWeight = FontWeight.ExtraBold, 
                         fontSize = 15.sp, 
                         color = charcoal,
                         fontFamily = FontFamily.SansSerif,
@@ -322,7 +322,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     )
                 }
 
-                Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(10.dp))
 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
@@ -335,7 +335,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(22.dp))
+                Spacer(modifier = Modifier.height(18.dp))
 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
@@ -348,7 +348,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     }
                 }
 
-                Spacer(modifier = Modifier.height(22.dp))
+                Spacer(modifier = Modifier.height(18.dp))
                 Text(
                     text = "${ticket.classType} | ORDINARY | RETURN | ₹${ticket.fare}.00",
                     fontWeight = FontWeight.Bold, 
@@ -367,11 +367,11 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
                     text = "Valid for one ret. jrny. till midnight of $validTillDate", 
-                    fontSize = 11.sp, 
+                    fontSize = 10.sp, 
                     color = Color.Gray,
                     fontFamily = FontFamily.SansSerif
                 )
-                Spacer(modifier = Modifier.height(14.dp))
+                Spacer(modifier = Modifier.height(10.dp))
             }
         }
     }
