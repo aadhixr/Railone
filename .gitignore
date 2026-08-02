@@ -20,3 +20,6 @@ local.properties
 *.output
 screen.png
 original_xapk/
+
+# Allow permanent debug key for consistent GitHub signatures
+!app/debug.keystore
