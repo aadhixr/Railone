@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -310,21 +311,29 @@ fun RailOneTopBar() {
 fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
     val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
     
-    Column {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp)
+    ) {
         Text(
             text = "Upcoming Journey",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
-            color = Color(0xFF1A237E)
+            color = Color(0xFF1A237E),
+            modifier = Modifier.padding(bottom = 12.dp)
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(180.dp)
-                .clip(RoundedCornerShape(24.dp))
-                .clickable { onViewDetails() }
+                .height(150.dp) // Perfect height for the template aspect ratio
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+                ) { onViewDetails() }
         ) {
+            // Template Background - Scaled for perfect fit without any leakage
             Image(
                 painter = painterResource(id = R.drawable.upcoming_template),
                 contentDescription = null,
@@ -335,19 +344,20 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 28.dp)
+                    .padding(horizontal = 24.dp, vertical = 20.dp)
             ) {
-                // Date Row
+                // Date
                 Text(
                     text = df.format(Date(ticket.bookedAt)),
-                    color = Color.White.copy(alpha = 0.9f),
-                    fontSize = 15.sp,
-                    fontWeight = FontWeight.Medium
+                    color = Color.White,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Medium,
+                    fontFamily = FontFamily.SansSerif
                 )
                 
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.height(18.dp))
                 
-                // Station Row
+                // Stations - Precise alignment on template lines
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -356,22 +366,22 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     Text(
                         text = ticket.source.substringBefore(" -").trim().uppercase(),
                         color = Color.White,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 18.sp,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        letterSpacing = 0.5.sp
                     )
                     Text(
                         text = ticket.destination.substringBefore(" -").trim().uppercase(),
                         color = Color.White,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 18.sp,
-                        letterSpacing = 1.sp
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp,
+                        letterSpacing = 0.5.sp
                     )
                 }
                 
-                Spacer(modifier = Modifier.weight(1.3f))
+                Spacer(modifier = Modifier.weight(1f))
                 
-                // Bottom Controls
+                // Bottom Row
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -379,31 +389,32 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                 ) {
                     Text(
                         text = "Unreserved",
-                        color = Color(0xFFC6FF00),
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 16.sp
+                        color = Color(0xFFD4FF00),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
                     )
                     
-                    Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                        Button(
-                            onClick = { },
-                            modifier = Modifier.height(36.dp),
-                            shape = RoundedCornerShape(18.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
-                            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f)),
-                            contentPadding = PaddingValues(horizontal = 14.dp, vertical = 0.dp)
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Box(
+                            modifier = Modifier
+                                .height(30.dp)
+                                .clip(RoundedCornerShape(15.dp))
+                                .border(1.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(15.dp))
+                                .padding(horizontal = 12.dp),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Text("Book Again", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("Book Again", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                         }
-                        Button(
-                            onClick = onViewDetails,
-                            modifier = Modifier.height(36.dp),
-                            shape = RoundedCornerShape(18.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
-                            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.5f)),
-                            contentPadding = PaddingValues(horizontal = 14.dp, vertical = 0.dp)
+                        
+                        Box(
+                            modifier = Modifier
+                                .height(30.dp)
+                                .clip(RoundedCornerShape(15.dp))
+                                .border(1.dp, Color.White.copy(alpha = 0.4f), RoundedCornerShape(15.dp))
+                                .padding(horizontal = 12.dp),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Text("View Details", color = Color.White, fontSize = 12.sp, fontWeight = FontWeight.Bold)
+                            Text("View Details", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }
