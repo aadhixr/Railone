@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-    namespace 'org.cris.aikyam'
+    namespace 'app.railonexr.android'
     compileSdk 35
 
     defaultConfig {
-        applicationId "org.cris.aikyam"
+        applicationId "app.railonexr.android"
         minSdk 27
         targetSdk 35
-        versionCode 7
+        versionCode 8
         versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"

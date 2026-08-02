@@ -76,7 +76,7 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\aa
 MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\be21d7984a5d06d4fc956be5bbc37b62\transformed\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\c69f7d4e1706bd9fb517b15af0942b3a\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
 	package
-		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:3:5-30
+		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:3:5-36
 		INJECTED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml
@@ -127,14 +127,14 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\aa
 		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:8:9-35
 	android:theme
 		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:13:9-45
-activity#org.cris.aikyam.MainActivity
+activity#app.railonexr.android.MainActivity
 ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:14:9-22:20
 	android:exported
 		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:16:13-36
 	android:theme
 		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:17:13-49
 	android:name
-		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:15:13-56
+		ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:15:13-62
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
 ADDED from C:\Users\aadhi\Desktop\RAILONE\app\src\main\AndroidManifest.xml:18:13-21:29
 action#android.intent.action.MAIN
@@ -335,7 +335,7 @@ ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transf
 		ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
 	android:name
 		ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:23:9-81
-permission#org.cris.aikyam.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+permission#app.railonexr.android.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:22:5-24:47
 	android:protectionLevel
 		ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:24:9-44
@@ -345,7 +345,7 @@ uses-permission#${applicationId}.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:26:22-94
-uses-permission#org.cris.aikyam.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+uses-permission#app.railonexr.android.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
 ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:26:5-97
 	android:name
 		ADDED from [androidx.core:core:1.16.0] C:\Users\aadhi\.gradle\caches\8.13\transforms\a3bda98dca43939c17c1faa2e1db3ef8\transformed\core-1.16.0\AndroidManifest.xml:26:22-94

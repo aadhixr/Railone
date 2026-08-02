@@ -4,14 +4,14 @@
     "type": "MERGED_MANIFESTS",
     "kind": "Directory"
   },
-  "applicationId": "org.cris.aikyam",
+  "applicationId": "app.railonexr.android",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 7,
+      "versionCode": 8,
       "versionName": "1.2",
       "outputFile": "AndroidManifest.xml"
     }

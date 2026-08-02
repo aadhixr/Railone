@@ -4,14 +4,14 @@
     "type": "LINKED_RESOURCES_BINARY_FORMAT",
     "kind": "Directory"
   },
-  "applicationId": "org.cris.aikyam",
+  "applicationId": "app.railonexr.android",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 7,
+      "versionCode": 8,
       "versionName": "1.2",
       "outputFile": "linked-resources-binary-format-debug.ap_"
     }
