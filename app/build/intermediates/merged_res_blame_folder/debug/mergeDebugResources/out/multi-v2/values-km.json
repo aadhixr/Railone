@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "app.railone.android.app-mergeDebugResources-64:/values-km/values-km.xml",
+            "outputFile": "org.cris.aikyam.app-mergeDebugResources-64:/values-km/values-km.xml",
             "map": [
                 {
                     "source": "C:\\Users\\aadhi\\.gradle\\caches\\8.13\\transforms\\b37c8a9e322cc7e67a94bf0c6287d727\\transformed\\foundation-release\\res\\values-km\\values-km.xml",

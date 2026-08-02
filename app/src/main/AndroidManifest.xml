@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="app.railone.android">
+    package="org.cris.aikyam">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.RailOne">
         <activity
-            android:name="app.railone.android.MainActivity"
+            android:name="org.cris.aikyam.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.RailOne">
             <intent-filter>

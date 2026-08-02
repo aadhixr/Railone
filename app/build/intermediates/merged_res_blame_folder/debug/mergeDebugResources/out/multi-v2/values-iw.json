@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "app.railone.android.app-mergeDebugResources-64:/values-iw/values-iw.xml",
+            "outputFile": "org.cris.aikyam.app-mergeDebugResources-64:/values-iw/values-iw.xml",
             "map": [
                 {
                     "source": "C:\\Users\\aadhi\\.gradle\\caches\\8.13\\transforms\\33063125cd39a25bb37d5e1233378984\\transformed\\ui-release\\res\\values-iw\\values-iw.xml",

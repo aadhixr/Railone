@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "app.railone.android.app-mergeDebugResources-64:/values-en-rAU/values-en-rAU.xml",
+            "outputFile": "org.cris.aikyam.app-mergeDebugResources-64:/values-en-rAU/values-en-rAU.xml",
             "map": [
                 {
                     "source": "C:\\Users\\aadhi\\.gradle\\caches\\8.13\\transforms\\ae80798fb5462a10d5ae5115297d161d\\transformed\\appcompat-1.7.0\\res\\values-en-rAU\\values-en-rAU.xml",

@@ -4,15 +4,15 @@
     "type": "LINKED_RESOURCES_BINARY_FORMAT",
     "kind": "Directory"
   },
-  "applicationId": "app.railone.android",
+  "applicationId": "org.cris.aikyam",
   "variantName": "debug",
   "elements": [
     {
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 6,
-      "versionName": "1.6",
+      "versionCode": 7,
+      "versionName": "1.2",
       "outputFile": "linked-resources-binary-format-debug.ap_"
     }
   ],

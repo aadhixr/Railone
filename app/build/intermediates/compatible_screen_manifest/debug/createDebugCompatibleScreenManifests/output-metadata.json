@@ -4,7 +4,7 @@
     "type": "COMPATIBLE_SCREEN_MANIFEST",
     "kind": "Directory"
   },
-  "applicationId": "app.railone.android",
+  "applicationId": "org.cris.aikyam",
   "variantName": "debug",
   "elements": []
 }
