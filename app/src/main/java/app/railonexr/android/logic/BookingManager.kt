@@ -33,32 +33,65 @@ data class Ticket(
         get() = System.currentTimeMillis() > validTill
 }
 
+@Serializable
+data class RecentSearch(
+    val from: String,
+    val to: String
+)
+
 object BookingManager {
     private val _bookings = mutableStateListOf<Ticket>()
     val bookings: List<Ticket> get() = _bookings
     
+    private val _recentSearches = mutableStateListOf<RecentSearch>()
+    val recentSearches: List<RecentSearch> get() = _recentSearches
+    
     private const val PREFS_NAME = "railone_prefs"
     private const val KEY_TICKETS = "booked_tickets"
+    private const val KEY_SEARCHES = "recent_searches"
     private val json = Json { ignoreUnknownKeys = true }
 
     fun init(context: Context) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val savedJson = prefs.getString(KEY_TICKETS, null)
-        if (savedJson != null) {
+        
+        // Load Tickets
+        prefs.getString(KEY_TICKETS, null)?.let { savedJson ->
             try {
                 val loadedTickets = json.decodeFromString<List<Ticket>>(savedJson)
                 _bookings.clear()
                 _bookings.addAll(loadedTickets)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            } catch (e: Exception) { e.printStackTrace() }
+        }
+        
+        // Load Recent Searches
+        prefs.getString(KEY_SEARCHES, null)?.let { savedJson ->
+            try {
+                val loadedSearches = json.decodeFromString<List<RecentSearch>>(savedJson)
+                _recentSearches.clear()
+                _recentSearches.addAll(loadedSearches)
+            } catch (e: Exception) { e.printStackTrace() }
         }
     }
 
     private fun save(context: Context) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val serialized = json.encodeToString(_bookings.toList())
-        prefs.edit().putString(KEY_TICKETS, serialized).apply()
+        val ticketsJson = json.encodeToString(_bookings.toList())
+        val searchesJson = json.encodeToString(_recentSearches.toList())
+        prefs.edit()
+            .putString(KEY_TICKETS, ticketsJson)
+            .putString(KEY_SEARCHES, searchesJson)
+            .apply()
+    }
+
+    fun addRecentSearch(context: Context, from: String, to: String) {
+        if (from.isEmpty() || to.isEmpty()) return
+        val newSearch = RecentSearch(from, to)
+        _recentSearches.removeAll { it.from == from && it.to == to }
+        _recentSearches.add(0, newSearch)
+        if (_recentSearches.size > 5) {
+            _recentSearches.removeAt(_recentSearches.size - 1)
+        }
+        save(context)
     }
 
     fun bookTicket(
@@ -94,6 +127,10 @@ object BookingManager {
             irNumber = generateIRNumber()
         )
         _bookings.add(0, newTicket)
+        
+        // Also add to recent searches when booking
+        addRecentSearch(context, source, dest)
+        
         save(context)
         return newTicket
     }

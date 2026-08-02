@@ -77,6 +77,10 @@ class MainActivity : ComponentActivity() {
                                 val temp = sourceStation
                                 sourceStation = destinationStation
                                 destinationStation = temp
+                            },
+                            onRecentSearchClick = { from, to ->
+                                sourceStation = from
+                                destinationStation = to
                             }
                         )
                     }

@@ -1,5 +1,6 @@
 R_DEF: Internal format may change without notice
 local
+drawable active_ticket_timer_template
 drawable ic_card_payment
 drawable ic_indian_railway
 drawable ic_logo

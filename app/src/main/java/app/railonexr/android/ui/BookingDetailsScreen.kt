@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -32,13 +33,14 @@ fun BookingDetailsScreen(
     onBack: () -> Unit
 ) {
     val ticket = remember(ticketId) { BookingManager.getTicketById(ticketId) }
-    var timeLeft by remember { mutableLongStateOf(300L) } // 5 minutes in seconds
+    var timeLeft by remember { mutableLongStateOf(300L) } // 5 minutes
 
     LaunchedEffect(Unit) {
         while (timeLeft > 0) {
             delay(1000)
             timeLeft--
         }
+        onBack() // Automatically close when timer hits 00:00
     }
 
     Scaffold(
@@ -83,10 +85,10 @@ fun BookingDetailsScreen(
                         text = "Thank You AADIL MUHAMMED, Happy Journey !",
                         fontSize = 12.sp,
                         color = Color.Gray,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        modifier = Modifier.padding(vertical = 16.dp)
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
-                    TicketCard(ticket, timeLeft)
+                    
+                    TicketCardPakka(ticket, timeLeft)
                 }
             }
 
@@ -182,10 +184,10 @@ fun ExpiredTicketDetails(ticket: Ticket) {
 }
 
 @Composable
-fun TicketCard(ticket: Ticket, timeLeft: Long) {
+fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
     val minutes = timeLeft / 60
     val seconds = timeLeft % 60
-    val timerText = String.format("%02d : %02d", minutes, seconds)
+    val timerText = String.format(Locale.getDefault(), "%02d : %02d", minutes, seconds)
     
     val df = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
     val bookingDate = df.format(Date(ticket.bookedAt))
@@ -197,42 +199,62 @@ fun TicketCard(ticket: Ticket, timeLeft: Long) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
     ) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Column {
-                // Dynamic Preview Area (Top part with timer)
+                // Top Timer Section using template
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(200.dp)
-                        .background(Color(0xFF121212)),
+                        .height(210.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    // Pattern background
-                    Canvas(modifier = Modifier.fillMaxSize()) {
-                        val squareSize = 20.dp.toPx()
-                        for (i in 0..size.width.toInt() step squareSize.toInt()) {
-                            for (j in 0..size.height.toInt() step squareSize.toInt()) {
-                                if ((i / squareSize.toInt() + j / squareSize.toInt()) % 2 == 0) {
-                                    drawRect(
-                                        color = Color.White.copy(alpha = 0.03f),
-                                        topLeft = androidx.compose.ui.geometry.Offset(i.toFloat(), j.toFloat()),
-                                        size = androidx.compose.ui.geometry.Size(squareSize, squareSize)
-                                    )
-                                }
-                            }
-                        }
-                    }
-
+                    Image(
+                        painter = painterResource(id = R.drawable.active_ticket_timer_template),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.FillBounds
+                    )
+                    
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                        Text("Dynamic preview will close in", color = Color.White, fontSize = 14.sp)
-                        Text(timerText, color = Color.Red, fontSize = 48.sp, fontWeight = FontWeight.Bold)
-                        Text("Ticket Booking Date & Time", color = Color.Gray, fontSize = 12.sp)
-                        Text(bookingDate, color = Color(0xFFFFB300), fontSize = 18.sp, fontWeight = FontWeight.Bold)
-                        Text("R26728", color = Color.Gray, fontSize = 12.sp)
-                        Text("Ticket is Non-Transferable", color = Color.White, fontSize = 12.sp)
+                        Text(
+                            "Dynamic preview will close in", 
+                            color = Color.White, 
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            timerText, 
+                            color = Color(0xFFFF3D00), // Bright Red-Orange
+                            fontSize = 52.sp, 
+                            fontWeight = FontWeight.ExtraBold
+                        )
+                        Text(
+                            "Ticket Booking Date & Time", 
+                            color = Color(0xFFBDBDBD), 
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Normal
+                        )
+                        Text(
+                            bookingDate, 
+                            color = Color(0xFFFFD54F), // Warm Gold
+                            fontSize = 19.sp, 
+                            fontWeight = FontWeight.Bold
+                        )
+                        Text(
+                            "R26728", 
+                            color = Color(0xFFBDBDBD), 
+                            fontSize = 13.sp,
+                            fontWeight = FontWeight.Medium
+                        )
+                        Text(
+                            "Ticket is Non-Transferable", 
+                            color = Color.White.copy(alpha = 0.8f), 
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Medium
+                        )
                     }
 
                     // Vertical Labels
@@ -240,92 +262,129 @@ fun TicketCard(ticket: Ticket, timeLeft: Long) {
                         "INDIAN RAILWAYS",
                         modifier = Modifier
                             .align(Alignment.CenterStart)
-                            .padding(start = 8.dp)
+                            .padding(start = 12.dp)
                             .graphicsLayer(rotationZ = -90f),
-                        color = Color.White.copy(alpha = 0.3f),
+                        color = Color(0xFFE0E0E0).copy(alpha = 0.4f),
                         fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
                     )
                     Text(
                         "भारतीय रेल",
                         modifier = Modifier
                             .align(Alignment.CenterEnd)
-                            .padding(end = 8.dp)
+                            .padding(end = 12.dp)
                             .graphicsLayer(rotationZ = 90f),
-                        color = Color.White.copy(alpha = 0.3f),
+                        color = Color(0xFFE0E0E0).copy(alpha = 0.4f),
                         fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 1.sp
                     )
                 }
 
-                // Ticket Details Area
-                Column(modifier = Modifier.padding(20.dp)) {
+                // Middle Ticket Content (Dark Charcoal look)
+                val charcoal = Color(0xFF333333)
+                Column(modifier = Modifier.padding(24.dp)) {
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text("Journey Ticket", fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                        Text(ticket.ticketId, fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                        Text("Journey Ticket", fontWeight = FontWeight.ExtraBold, fontSize = 15.sp, color = charcoal)
+                        Text(ticket.ticketId, fontWeight = FontWeight.Bold, fontSize = 15.sp, color = charcoal)
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(18.dp))
 
                     Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                        Text(ticket.source.substringBefore(" -").trim().uppercase(), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                        Text(
+                            ticket.source.substringBefore(" -").trim().uppercase(), 
+                            fontWeight = FontWeight.Black, 
+                            fontSize = 15.sp, 
+                            color = charcoal
+                        )
                         Spacer(modifier = Modifier.weight(1f))
-                        Text("--- 628 km ---", fontSize = 11.sp, color = Color.Gray)
+                        Text("— 628 km —", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Normal)
                         Spacer(modifier = Modifier.weight(1f))
-                        Text(ticket.destination.substringBefore(" -").trim().uppercase(), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                        Text(
+                            ticket.destination.substringBefore(" -").trim().uppercase(), 
+                            fontWeight = FontWeight.Black, 
+                            fontSize = 15.sp, 
+                            color = charcoal
+                        )
                     }
 
                     Spacer(modifier = Modifier.height(12.dp))
 
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Column {
-                            Text("Via", fontSize = 11.sp, color = Color.Gray)
-                            Text("RHA", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text("Via", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Medium)
+                            Text("RHA", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal)
                         }
                         Column(horizontalAlignment = Alignment.End) {
-                            Text("Passenger", fontSize = 11.sp, color = Color.Gray)
-                            Text("${ticket.adults} Adult, ${ticket.children} Child", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text("Passenger", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Medium)
+                            Text("${ticket.adults} Adult, ${ticket.children} Child", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal)
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(18.dp))
 
                     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                         Column {
-                            Text("Booked on", fontSize = 11.sp, color = Color.Gray)
-                            Text(SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(ticket.bookedAt)), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text("Booked on", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Medium)
+                            Text(SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(Date(ticket.bookedAt)), fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal)
                         }
                         Column(horizontalAlignment = Alignment.End) {
-                            Text("*Valid Till", fontSize = 11.sp, color = Color.Gray)
-                            Text(validTill, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                            Text("*Valid Till", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Medium)
+                            Text(validTill, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal)
                         }
                     }
 
+                    Spacer(modifier = Modifier.height(18.dp))
+                    Text(
+                        text = "${ticket.classType} | ORDINARY | RETURN | ₹${ticket.fare}.00",
+                        fontWeight = FontWeight.Bold, 
+                        fontSize = 14.sp,
+                        color = charcoal
+                    )
+                    Text(ticket.irNumber, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal)
+
+                    Spacer(modifier = Modifier.height(24.dp))
+                    // Dashed line
+                    Canvas(modifier = Modifier.fillMaxWidth().height(1.dp)) {
+                        val strokeWidth = 1.dp.toPx()
+                        val dashWidth = 12f
+                        val gapWidth = 8f
+                        var x = 0f
+                        while (x < size.width) {
+                            drawLine(
+                                color = Color.LightGray,
+                                start = androidx.compose.ui.geometry.Offset(x, 0f),
+                                end = androidx.compose.ui.geometry.Offset(x + dashWidth, 0f),
+                                strokeWidth = strokeWidth
+                            )
+                            x += dashWidth + gapWidth
+                        }
+                    }
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "${ticket.classType} | ORDINARY | RETURN | ₹${ticket.fare}",
-                        fontWeight = FontWeight.Bold, fontSize = 13.sp
+                        "Valid for one ret. jrny. till midnight of ${validTill.substringBefore(" ")}", 
+                        fontSize = 11.sp, 
+                        color = Color.Gray,
+                        fontWeight = FontWeight.Normal
                     )
-                    Text(ticket.irNumber, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Text("Valid for one ret. jrny. till midnight of 09/02/2026", fontSize = 10.sp, color = Color.Gray)
                 }
             }
             
-            // Side Cutouts
+            // Side Cutouts (Aligned with the dashed line)
             Box(
                 modifier = Modifier
-                    .size(24.dp)
-                    .offset(x = (-12).dp, y = 188.dp)
+                    .size(28.dp)
+                    .offset(x = (-14).dp, y = 524.dp) // Adjusted to align with bottom section
                     .clip(CircleShape)
                     .background(Color(0xFFF5F5F5))
                     .align(Alignment.TopStart)
             )
             Box(
                 modifier = Modifier
-                    .size(24.dp)
-                    .offset(x = 12.dp, y = 188.dp)
+                    .size(28.dp)
+                    .offset(x = 14.dp, y = 524.dp)
                     .clip(CircleShape)
                     .background(Color(0xFFF5F5F5))
                     .align(Alignment.TopEnd)

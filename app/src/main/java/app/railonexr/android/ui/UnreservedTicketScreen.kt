@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.railonexr.android.ui.theme.RailOneTheme
+import app.railonexr.android.logic.BookingManager
 
 @Composable
 fun UnreservedTicketScreen(
@@ -30,10 +31,12 @@ fun UnreservedTicketScreen(
     onFromClick: () -> Unit,
     onToClick: () -> Unit,
     onProceedToBook: () -> Unit,
-    onSwap: () -> Unit = {}
+    onSwap: () -> Unit = {},
+    onRecentSearchClick: (String, String) -> Unit = { _, _ -> }
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     var selectedStationType by remember { mutableIntStateOf(0) }
+    val recentSearches = BookingManager.recentSearches
 
     Scaffold(
         topBar = {
@@ -216,8 +219,18 @@ fun UnreservedTicketScreen(
             
             item {
                 LazyRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    item { RecentSearchCard("ERNAKULAM JN., ERS", "SMVT BENGALURU, SMVB") }
-                    item { RecentSearchCard("CHANGANASERI, CGY", "ERNAKULAM JN., ERS") }
+                    items(recentSearches.size) { index ->
+                        val search = recentSearches[index]
+                        RecentSearchCard(
+                            from = search.from, 
+                            to = search.to,
+                            onClick = { onRecentSearchClick(search.from, search.to) }
+                        )
+                    }
+                    if (recentSearches.isEmpty()) {
+                        item { RecentSearchCard("SMVT BENGALURU, SMVB", "ERNAKULAM JN., ERS") }
+                        item { RecentSearchCard("CHANGANASERI, CGY", "ERNAKULAM JN., ERS") }
+                    }
                 }
             }
             
@@ -320,9 +333,11 @@ fun StationField(label: String, value: String, onClick: () -> Unit) {
 }
 
 @Composable
-fun RecentSearchCard(from: String, to: String) {
+fun RecentSearchCard(from: String, to: String, onClick: () -> Unit = {}) {
     Card(
-        modifier = Modifier.width(220.dp),
+        modifier = Modifier
+            .width(220.dp)
+            .clickable { onClick() },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
     ) {
