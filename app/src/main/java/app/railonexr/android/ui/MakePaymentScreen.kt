@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
+import androidx.compose.ui.platform.LocalContext
 import app.railonexr.android.R
 
 import app.railonexr.android.logic.BookingManager
@@ -38,6 +39,7 @@ fun MakePaymentScreen(
     onSuccess: (String) -> Unit
 ) {
     var showReview by remember { mutableStateOf(false) }
+    val context = LocalContext.current
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -173,17 +175,18 @@ fun MakePaymentScreen(
                         PaymentOptionRow(
                             title = "",
                             onClick = {
-                                val newTicket = BookingManager.bookTicket(
-                                    source = source,
-                                    dest = dest,
-                                    fare = totalFare,
-                                    adults = adultCount,
-                                    children = childCount,
-                                    trainType = trainType,
-                                    classType = classType
-                                )
-                                onSuccess(newTicket.ticketId)
-                            },
+                            val newTicket = BookingManager.bookTicket(
+                                context = context,
+                                source = source,
+                                dest = dest,
+                                fare = totalFare,
+                                adults = adultCount,
+                                children = childCount,
+                                trainType = trainType,
+                                classType = classType
+                            )
+                            onSuccess(newTicket.ticketId)
+                        },
                             icon = {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Image(

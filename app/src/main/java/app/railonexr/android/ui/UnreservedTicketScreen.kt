@@ -29,7 +29,8 @@ fun UnreservedTicketScreen(
     onClose: () -> Unit,
     onFromClick: () -> Unit,
     onToClick: () -> Unit,
-    onProceedToBook: () -> Unit
+    onProceedToBook: () -> Unit,
+    onSwap: () -> Unit = {}
 ) {
     var selectedTab by remember { mutableIntStateOf(0) }
     var selectedStationType by remember { mutableIntStateOf(0) }
@@ -145,7 +146,7 @@ fun UnreservedTicketScreen(
                         
                         // Swap Button
                         IconButton(
-                            onClick = { /* TODO: Swap logic if needed */ },
+                            onClick = onSwap,
                             modifier = Modifier
                                 .align(Alignment.CenterEnd)
                                 .padding(end = 4.dp)

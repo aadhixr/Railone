@@ -18,6 +18,7 @@ import app.railonexr.android.ui.MakePaymentScreen
 import app.railonexr.android.ui.BookingDetailsScreen
 import app.railonexr.android.ui.MyBookingsScreen
 import app.railonexr.android.ui.theme.RailOneTheme
+import app.railonexr.android.logic.BookingManager
 
 sealed class Screen {
     object Splash : Screen()
@@ -41,6 +42,7 @@ sealed class Screen {
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        BookingManager.init(this)
         enableEdgeToEdge()
         setContent {
             RailOneTheme {
@@ -70,6 +72,11 @@ class MainActivity : ComponentActivity() {
                             onProceedToBook = { 
                                 focusManager.clearFocus()
                                 currentScreen = Screen.UnreservedJourney 
+                            },
+                            onSwap = {
+                                val temp = sourceStation
+                                sourceStation = destinationStation
+                                destinationStation = temp
                             }
                         )
                     }

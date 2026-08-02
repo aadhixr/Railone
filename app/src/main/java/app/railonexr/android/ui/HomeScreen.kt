@@ -54,8 +54,9 @@ fun HomeScreen(
     var showMenu by remember { mutableStateOf(false) }
     val updateRelease = UpdateManager.updateAvailable
     
-    val activeTickets = remember { BookingManager.getUpcomingTickets() }
-    val latestTicket = activeTickets.firstOrNull()
+    val latestTicket by remember { 
+        derivedStateOf { BookingManager.getUpcomingTickets().firstOrNull() } 
+    }
 
     LaunchedEffect(Unit) {
         UpdateManager.checkForUpdates()
@@ -105,19 +106,20 @@ fun HomeScreen(
 
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     GreetingSection("Aadil Muhammed")
-                    
-                    if (latestTicket != null) {
-                        Spacer(modifier = Modifier.height(16.dp))
-                        UpcomingJourneySection(
-                            ticket = latestTicket,
-                            onViewDetails = { onBookingClick(latestTicket.ticketId) }
-                        )
-                    }
-
                     Spacer(modifier = Modifier.height(24.dp))
                     JourneyPlannerSection(onUnreservedClick = onUnreservedClick)
                     Spacer(modifier = Modifier.height(24.dp))
                     OfferingsSection()
+
+                    val currentTicket = latestTicket
+                    if (currentTicket != null) {
+                        Spacer(modifier = Modifier.height(24.dp))
+                        UpcomingJourneySection(
+                            ticket = currentTicket,
+                            onViewDetails = { onBookingClick(currentTicket.ticketId) }
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(24.dp))
                     TriviaSection()
                     Spacer(modifier = Modifier.height(24.dp))
@@ -311,59 +313,97 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
     Column {
         Text(
             text = "Upcoming Journey",
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = Color(0xFF1A237E)
         )
-        Spacer(modifier = Modifier.height(12.dp))
-        Card(
+        Spacer(modifier = Modifier.height(16.dp))
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .clickable { onViewDetails() },
-            shape = RoundedCornerShape(24.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+                .height(160.dp)
+                .clip(RoundedCornerShape(24.dp))
+                .clickable { onViewDetails() }
         ) {
-            Box(
+            Image(
+                painter = painterResource(id = R.drawable.upcoming_template),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds
+            )
+            
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        brush = androidx.compose.ui.graphics.Brush.verticalGradient(
-                            colors = listOf(Color(0xFF9575CD), Color(0xFF7E57C2))
-                        )
-                    )
-                    .padding(20.dp)
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp, vertical = 24.dp)
             ) {
-                Column {
-                    Text(df.format(Date(ticket.bookedAt)), color = Color.White.copy(alpha = 0.8f), fontSize = 13.sp)
-                    Spacer(modifier = Modifier.height(12.dp))
-                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                        Text(ticket.source.substringBefore(" -").trim(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                        Text(ticket.destination.substringBefore(" -").trim(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                    }
-                    Spacer(modifier = Modifier.height(16.dp))
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text("Unreserved", color = Color(0xFFC6FF00), fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                        Spacer(modifier = Modifier.weight(1f))
-                        Row {
-                            Button(
-                                onClick = { },
-                                modifier = Modifier.height(32.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
-                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
-                            ) {
-                                Text("Book Again", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                            }
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Button(
-                                onClick = onViewDetails,
-                                modifier = Modifier.height(32.dp),
-                                shape = RoundedCornerShape(16.dp),
-                                colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
-                                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
-                            ) {
-                                Text("View Details", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                            }
+                // Date Row
+                Text(
+                    text = df.format(Date(ticket.bookedAt)),
+                    color = Color.White.copy(alpha = 0.8f),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
+                
+                Spacer(modifier = Modifier.weight(1f))
+                
+                // Station Row
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = ticket.source.substringBefore(" -").trim().uppercase(),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        letterSpacing = 0.5.sp
+                    )
+                    Text(
+                        text = ticket.destination.substringBefore(" -").trim().uppercase(),
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp,
+                        letterSpacing = 0.5.sp
+                    )
+                }
+                
+                Spacer(modifier = Modifier.weight(1f))
+                
+                // Bottom Controls
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "Unreserved",
+                        color = Color(0xFFCCFF00),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 15.sp
+                    )
+                    
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedButton(
+                            onClick = { },
+                            modifier = Modifier.height(34.dp),
+                            shape = RoundedCornerShape(17.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
+                            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)),
+                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+                        ) {
+                            Text("Book Again", fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                        }
+                        OutlinedButton(
+                            onClick = onViewDetails,
+                            modifier = Modifier.height(34.dp),
+                            shape = RoundedCornerShape(17.dp),
+                            colors = ButtonDefaults.outlinedButtonColors(contentColor = Color.White),
+                            border = BorderStroke(1.dp, Color.White.copy(alpha = 0.4f)),
+                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
+                        ) {
+                            Text("View Details", fontSize = 11.sp, fontWeight = FontWeight.Bold)
                         }
                     }
                 }

@@ -1,14 +1,19 @@
 package app.railonexr.android.logic
 
 import androidx.compose.runtime.mutableStateListOf
-import java.text.SimpleDateFormat
+import android.content.Context
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import java.util.*
 import kotlin.random.Random
 
+@Serializable
 enum class TicketStatus {
     UPCOMING, COMPLETED, CANCELLED
 }
 
+@Serializable
 data class Ticket(
     val utsId: String,
     val ticketId: String,
@@ -31,8 +36,33 @@ data class Ticket(
 object BookingManager {
     private val _bookings = mutableStateListOf<Ticket>()
     val bookings: List<Ticket> get() = _bookings
+    
+    private const val PREFS_NAME = "railone_prefs"
+    private const val KEY_TICKETS = "booked_tickets"
+    private val json = Json { ignoreUnknownKeys = true }
+
+    fun init(context: Context) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val savedJson = prefs.getString(KEY_TICKETS, null)
+        if (savedJson != null) {
+            try {
+                val loadedTickets = json.decodeFromString<List<Ticket>>(savedJson)
+                _bookings.clear()
+                _bookings.addAll(loadedTickets)
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun save(context: Context) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val serialized = json.encodeToString(_bookings.toList())
+        prefs.edit().putString(KEY_TICKETS, serialized).apply()
+    }
 
     fun bookTicket(
+        context: Context,
         source: String,
         dest: String,
         fare: String,
@@ -43,7 +73,6 @@ object BookingManager {
     ): Ticket {
         val now = System.currentTimeMillis()
         
-        // Validity is until midnight of the next day
         val calendar = Calendar.getInstance()
         calendar.add(Calendar.DAY_OF_YEAR, 1)
         calendar.set(Calendar.HOUR_OF_DAY, 23)
@@ -65,7 +94,16 @@ object BookingManager {
             irNumber = generateIRNumber()
         )
         _bookings.add(0, newTicket)
+        save(context)
         return newTicket
+    }
+
+    fun cancelTicket(context: Context, ticketId: String) {
+        val index = _bookings.indexOfFirst { it.ticketId == ticketId }
+        if (index != -1) {
+            _bookings[index] = _bookings[index].copy(status = TicketStatus.CANCELLED)
+            save(context)
+        }
     }
 
     private fun generateRandomAlphanumeric(length: Int): String {
@@ -76,8 +114,8 @@ object BookingManager {
     }
 
     private fun generateIRNumber(): String {
-        // Format like IR:19AAAGM0289C1ZG
-        return "IR:${generateRandomAlphanumeric(13)}"
+        // Format like IR:19AAAGM0289C1ZG (15 random chars after IR:)
+        return "IR:${generateRandomAlphanumeric(15)}"
     }
 
     fun getUpcomingTickets(): List<Ticket> {

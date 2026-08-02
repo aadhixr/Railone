@@ -3881,6 +3881,7 @@ int drawable test_level_drawable 0x7f070126
 int drawable tooltip_frame_dark 0x7f070127
 int drawable tooltip_frame_light 0x7f070128
 int drawable unreserved 0x7f070129
+int drawable upcoming_template 0x7f07012a
 int id ALT 0x7f080000
 int id BOTTOM_END 0x7f080001
 int id BOTTOM_START 0x7f080002

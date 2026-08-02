@@ -39,11 +39,15 @@ fun MyBookingsScreen(
     var selectedTab by remember { mutableIntStateOf(initialTab) }
     val tabs = listOf("Upcoming", "Completed", "Cancelled", "All")
 
-    val tickets = when (selectedTab) {
-        0 -> BookingManager.getUpcomingTickets()
-        1 -> BookingManager.getCompletedTickets()
-        2 -> BookingManager.getCancelledTickets()
-        else -> BookingManager.bookings
+    val tickets by remember(selectedTab) {
+        derivedStateOf {
+            when (selectedTab) {
+                0 -> BookingManager.getUpcomingTickets()
+                1 -> BookingManager.getCompletedTickets()
+                2 -> BookingManager.getCancelledTickets()
+                else -> BookingManager.bookings
+            }
+        }
     }
 
     Scaffold(
@@ -209,69 +213,107 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
 fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
     
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick(ticket.ticketId) },
-        shape = RoundedCornerShape(12.dp),
-        border = BorderStroke(1.dp, Color(0xFF4CAF50).copy(alpha = 0.3f)),
-        colors = CardDefaults.cardColors(containerColor = Color.White)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(4.dp))
-                        .background(Color(0xFFF3E5F5))
-                        .padding(horizontal = 8.dp, vertical = 2.dp)
-                ) {
-                    Text("Unreserved", color = Color(0xFF7B1FA2), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+    Box(modifier = Modifier.fillMaxWidth()) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable { onClick(ticket.ticketId) },
+            shape = RoundedCornerShape(12.dp),
+            border = BorderStroke(1.dp, Color(0xFF4CAF50)), // Solid green border
+            colors = CardDefaults.cardColors(containerColor = Color.White)
+        ) {
+            Column(modifier = Modifier.padding(16.dp)) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(4.dp))
+                            .background(Color(0xFFF3E5F5))
+                            .padding(horizontal = 8.dp, vertical = 2.dp)
+                    ) {
+                        Text("Unreserved", color = Color(0xFF7B1FA2), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                    }
+                    Text("UTS: ${ticket.utsId}", fontSize = 11.sp, color = Color.Black, fontWeight = FontWeight.Bold)
                 }
-                Text("UTS: ${ticket.utsId}", fontSize = 11.sp, color = Color.Gray, fontWeight = FontWeight.Bold)
-            }
-            
-            Spacer(modifier = Modifier.height(12.dp))
-            
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Column {
-                    Text("Ticket Type", fontSize = 10.sp, color = Color.Gray)
-                    Text(ticket.trainType.substringBefore("/"), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                
+                Spacer(modifier = Modifier.height(12.dp))
+                
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Column {
+                        Text("Ticket Type", fontSize = 10.sp, color = Color.Gray)
+                        Text("JOURNEY", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    }
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text("Booking Date", fontSize = 10.sp, color = Color.Gray)
+                        Text(df.format(Date(ticket.bookedAt)), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    }
                 }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Booking Date", fontSize = 10.sp, color = Color.Gray)
-                    Text(df.format(Date(ticket.bookedAt)), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                
+                Spacer(modifier = Modifier.height(12.dp))
+                
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(ticket.source.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text("--- 628 km ---", fontSize = 10.sp, color = Color.Gray)
+                    Spacer(modifier = Modifier.weight(1f))
+                    Text(ticket.destination.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 }
-            }
-            
-            Spacer(modifier = Modifier.height(12.dp))
-            
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Text(ticket.source.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 13.sp)
-                Spacer(modifier = Modifier.weight(1f))
-                Text("--- 628 km ---", fontSize = 10.sp, color = Color.Gray)
-                Spacer(modifier = Modifier.weight(1f))
-                Text(ticket.destination.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 13.sp)
-            }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            HorizontalDivider(thickness = 1.dp, color = Color(0xFFF5F5F5))
-            
-            Row(modifier = Modifier.fillMaxWidth()) {
-                TextButton(
-                    onClick = { },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("Book Again", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                
+                Spacer(modifier = Modifier.height(16.dp))
+                
+                // Dashed Divider
+                Canvas(modifier = Modifier.fillMaxWidth().height(1.dp)) {
+                    val strokeWidth = 1.dp.toPx()
+                    val dashWidth = 10f
+                    val gapWidth = 10f
+                    var x = 0f
+                    while (x < size.width) {
+                        drawLine(
+                            color = Color.LightGray,
+                            start = androidx.compose.ui.geometry.Offset(x, 0f),
+                            end = androidx.compose.ui.geometry.Offset(x + dashWidth, 0f),
+                            strokeWidth = strokeWidth
+                        )
+                        x += dashWidth + gapWidth
+                    }
                 }
-                Box(modifier = Modifier.width(1.dp).height(40.dp).background(Color(0xFFF5F5F5)))
-                TextButton(
-                    onClick = { onClick(ticket.ticketId) },
-                    modifier = Modifier.weight(1f)
-                ) {
-                    Text("View Details", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    TextButton(
+                        onClick = { },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("Book Again", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    }
+                    Box(modifier = Modifier.width(1.dp).height(24.dp).background(Color(0xFFF5F5F5)))
+                    TextButton(
+                        onClick = { onClick(ticket.ticketId) },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("View Details", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    }
                 }
             }
         }
+        
+        // Side cutouts
+        Box(
+            modifier = Modifier
+                .size(20.dp)
+                .offset(x = (-10).dp, y = 145.dp) // Approximate vertical center
+                .clip(CircleShape)
+                .background(Color.White)
+                .border(1.dp, Color(0xFF4CAF50), CircleShape)
+                .align(Alignment.TopStart)
+        )
+        Box(
+            modifier = Modifier
+                .size(20.dp)
+                .offset(x = 10.dp, y = 145.dp)
+                .clip(CircleShape)
+                .background(Color.White)
+                .border(1.dp, Color(0xFF4CAF50), CircleShape)
+                .align(Alignment.TopEnd)
+        )
     }
 }
 

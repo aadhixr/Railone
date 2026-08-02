@@ -3882,6 +3882,7 @@ drawable test_level_drawable
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 drawable unreserved
+drawable upcoming_template
 id ALT
 id BOTTOM_END
 id BOTTOM_START
