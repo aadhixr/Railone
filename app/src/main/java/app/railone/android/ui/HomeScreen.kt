@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.sp
 import app.railone.android.ui.theme.RailOneTheme
 import app.railone.android.R
 import app.railone.android.logic.UpdateManager
+import kotlinx.coroutines.launch
 
 @Preview(showBackground = true)
 @Composable
@@ -42,13 +44,22 @@ fun HomeScreen(
     onUnreservedClick: () -> Unit = {}
 ) {
     val uriHandler = LocalUriHandler.current
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(Unit) {
         UpdateManager.checkForUpdates()
     }
 
     Scaffold(
-        topBar = { RailOneTopBar() },
+        topBar = { 
+            RailOneTopBar(
+                onRefreshClick = {
+                    scope.launch {
+                        UpdateManager.checkForUpdates()
+                    }
+                }
+            ) 
+        },
         bottomBar = { RailOneBottomNavigation() },
         containerColor = Color.White
     ) { padding ->
@@ -94,7 +105,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun RailOneTopBar() {
+fun RailOneTopBar(onRefreshClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -121,32 +132,55 @@ fun RailOneTopBar() {
             contentScale = ContentScale.Fit
         )
 
-        // Notification Icon (Right)
-        Box(
-            modifier = Modifier
-                .size(44.dp)
-                .clip(CircleShape)
-                .background(Color(0xFFF5F5F5))
-                .align(Alignment.CenterEnd)
-                .border(1.dp, Color(0xFFE0E0E0), CircleShape),
-            contentAlignment = Alignment.Center
+        // Icons Area (Right)
+        Row(
+            modifier = Modifier.align(Alignment.CenterEnd),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Icon(
-                imageVector = Icons.Outlined.Notifications,
-                contentDescription = "Notifications",
-                modifier = Modifier.size(24.dp),
-                tint = Color.Black
-            )
+            // Refresh Icon for Updates
+            IconButton(
+                onClick = onRefreshClick,
+                modifier = Modifier
+                    .size(44.dp)
+                    .clip(CircleShape)
+                    .background(Color(0xFFF5F5F5))
+                    .border(1.dp, Color(0xFFE0E0E0), CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Refresh,
+                    contentDescription = "Check for Updates",
+                    modifier = Modifier.size(22.dp),
+                    tint = Color(0xFF005AC1)
+                )
+            }
+
+            // Notification Icon
             Box(
                 modifier = Modifier
-                    .size(18.dp)
+                    .size(44.dp)
                     .clip(CircleShape)
-                    .background(Color.Red)
-                    .align(Alignment.TopEnd)
-                    .offset(x = 2.dp, y = (-2).dp),
+                    .background(Color(0xFFF5F5F5))
+                    .border(1.dp, Color(0xFFE0E0E0), CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                Text("15", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                Icon(
+                    imageVector = Icons.Outlined.Notifications,
+                    contentDescription = "Notifications",
+                    modifier = Modifier.size(24.dp),
+                    tint = Color.Black
+                )
+                Box(
+                    modifier = Modifier
+                        .size(18.dp)
+                        .clip(CircleShape)
+                        .background(Color.Red)
+                        .align(Alignment.TopEnd)
+                        .offset(x = 2.dp, y = (-2).dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text("15", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                }
             }
         }
     }
