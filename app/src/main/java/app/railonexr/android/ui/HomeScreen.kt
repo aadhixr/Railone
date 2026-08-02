@@ -139,6 +139,11 @@ fun HomeScreen(
                                 fontSize = 12.sp,
                                 color = Color.Gray
                             )
+                            Text(
+                                text = "Local Developer Build",
+                                fontSize = 10.sp,
+                                color = Color.LightGray
+                            )
                             
                             Spacer(modifier = Modifier.height(24.dp))
                             
