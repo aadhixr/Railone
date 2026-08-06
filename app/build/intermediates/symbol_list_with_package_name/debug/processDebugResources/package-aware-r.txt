@@ -3703,6 +3703,7 @@ drawable abc_textfield_search_activated_mtrl_alpha
 drawable abc_textfield_search_default_mtrl_alpha
 drawable abc_textfield_search_material
 drawable abc_vector_test
+drawable acctive_ticket_timer_template
 drawable active_ticket_timer_template
 drawable avd_hide_password
 drawable avd_show_password
@@ -3884,6 +3885,9 @@ drawable tooltip_frame_dark
 drawable tooltip_frame_light
 drawable unreserved
 drawable upcoming_template
+font roboto_bold
+font roboto_medium
+font roboto_regular
 id ALT
 id BOTTOM_END
 id BOTTOM_START

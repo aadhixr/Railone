@@ -27,6 +27,9 @@ data class Ticket(
     val trainType: String,
     val classType: String,
     val irNumber: String,
+    val referenceNumber: String = "R26728",
+    val distance: String = "628 km",
+    val via: String = "RHA",
     var status: TicketStatus = TicketStatus.UPCOMING
 ) {
     val isExpired: Boolean
@@ -124,7 +127,10 @@ object BookingManager {
             children = children,
             trainType = trainType,
             classType = classType,
-            irNumber = generateIRNumber()
+            irNumber = generateIRNumber(),
+            referenceNumber = generateReferenceNumber(),
+            distance = getDistanceBetweenStations(source, dest),
+            via = getViaStations(source, dest)
         )
         _bookings.add(0, newTicket)
         
@@ -153,6 +159,38 @@ object BookingManager {
     private fun generateIRNumber(): String {
         // Format like IR:19AAAGM0289C1ZG (15 random chars after IR:)
         return "IR:${generateRandomAlphanumeric(15)}"
+    }
+
+    private fun generateReferenceNumber(): String {
+        // Format: R + 5 random digits (e.g. R26728)
+        val digits = (1..5).map { Random.nextInt(10) }.joinToString("")
+        return "R$digits"
+    }
+
+    fun getDistanceBetweenStations(source: String, dest: String): String {
+        val srcCode = source.split("-").lastOrNull()?.trim() ?: ""
+        val destCode = dest.split("-").lastOrNull()?.trim() ?: ""
+        
+        if ((srcCode == "ERS" && destCode == "SMVB") || (srcCode == "SMVB" && destCode == "ERS")) {
+            return "616 km"
+        }
+
+        // Deterministic random distance based on station names for other routes
+        val seed = (source.hashCode() + dest.hashCode()).toLong()
+        val random = Random(seed)
+        val dist = random.nextInt(50, 1500)
+        return "$dist km"
+    }
+
+    fun getViaStations(source: String, dest: String): String {
+        val srcCode = source.split("-").lastOrNull()?.trim() ?: ""
+        val destCode = dest.split("-").lastOrNull()?.trim() ?: ""
+
+        return when {
+            srcCode == "ERS" && destCode == "SMVB" -> "PGT-TUP-BWT"
+            srcCode == "SMVB" && destCode == "ERS" -> "BYPL-MLO-TPT"
+            else -> "RHA" // Default or lookup logic
+        }
     }
 
     fun getUpcomingTickets(): List<Ticket> {

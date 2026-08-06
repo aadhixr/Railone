@@ -367,16 +367,16 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     Text(
                         text = ticket.source.substringBefore(" -").trim().uppercase(),
                         color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp,
-                        letterSpacing = 0.5.sp
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 16.sp,
+                        letterSpacing = 0.6.sp
                     )
                     Text(
                         text = ticket.destination.substringBefore(" -").trim().uppercase(),
                         color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 15.sp,
-                        letterSpacing = 0.5.sp
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 16.sp,
+                        letterSpacing = 0.6.sp
                     )
                 }
                 

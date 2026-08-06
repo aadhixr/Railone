@@ -313,7 +313,7 @@ fun ReviewPopupContent(
                     Text(srcCode, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Black)
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         HorizontalDivider(modifier = Modifier.width(30.dp), thickness = 1.dp, color = Color.LightGray)
-                        Text("  628 km  ", fontSize = 11.sp, color = Color.Gray)
+                        Text("  ${BookingManager.getDistanceBetweenStations(source, dest)}  ", fontSize = 11.sp, color = Color.Gray)
                         HorizontalDivider(modifier = Modifier.width(30.dp), thickness = 1.dp, color = Color.LightGray)
                     }
                     Text(destCode, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = Color.Black)
@@ -328,7 +328,7 @@ fun ReviewPopupContent(
                 }
 
                 Spacer(modifier = Modifier.height(12.dp))
-                Text("Via: BWT-SA-CBE", fontSize = 11.sp, color = Color.Gray)
+                Text("Via: ${BookingManager.getViaStations(source, dest)}", fontSize = 11.sp, color = Color.Gray)
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = "$adultCount Adult, $childCount Child | $classType | $trainType",

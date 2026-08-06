@@ -13,8 +13,8 @@ android {
         applicationId "app.railonexr.android"
         minSdk 27
         targetSdk 35
-        versionCode 93
-        versionName "1.9.3"
+        versionCode 97
+        versionName "1.9.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -61,6 +61,12 @@ android {
     packaging {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "RailOne_v${defaultConfig.versionName}_${variant.name}.apk"
         }
     }
 }
