@@ -312,7 +312,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = 260.dp)
+                    .offset(y = 238.dp)
                     .padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -336,7 +336,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = 295.dp)
+                    .offset(y = 286.dp)
                     .padding(horizontal = 24.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -372,7 +372,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = 329.dp)
+                    .offset(y = 328.dp)
                     .padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -421,7 +421,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = 385.dp)
+                    .offset(y = 388.dp)
                     .padding(horizontal = 24.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
@@ -466,7 +466,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = 450.dp)
+                    .offset(y = 452.dp)
                     .padding(horizontal = 24.dp)
             ) {
                 Text(
@@ -494,7 +494,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 fontFamily = RobotoFamily,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .offset(y = 535.dp)
+                    .offset(y = 538.dp)
                     .padding(horizontal = 24.dp)
             )
         }
