@@ -18,10 +18,14 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.railonexr.android.MainActivity
+import app.railonexr.android.R
 import app.railonexr.android.Screen
 import app.railonexr.android.logic.BookingManager
 import app.railonexr.android.logic.Ticket
@@ -154,54 +158,112 @@ fun MyBookingsScreen(
 fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
     
-    Card(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onClick(ticket.ticketId) },
-        shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
+            .height(154.dp) // Fine-tuned height for the template aspect ratio
+            .clickable(
+                indication = null,
+                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+            ) { onClick(ticket.ticketId) }
     ) {
-        Box(
+        // Template Background
+        Image(
+            painter = painterResource(id = R.drawable.upcoming_template),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+        
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(Color(0xFF9575CD), Color(0xFF7E57C2))
-                    )
-                )
-                .padding(20.dp)
+                .fillMaxSize()
+                .padding(horizontal = 18.dp, vertical = 18.dp)
         ) {
-            Column {
-                Text(df.format(Date(ticket.bookedAt)), color = Color.White.copy(alpha = 0.8f), fontSize = 13.sp)
-                Spacer(modifier = Modifier.height(12.dp))
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(ticket.source.substringBefore(" -").trim(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                    Text(ticket.destination.substringBefore(" -").trim(), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Unreserved", color = Color(0xFFC6FF00), fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                    Spacer(modifier = Modifier.weight(1f))
-                    Row {
-                        Button(
-                            onClick = { },
-                            modifier = Modifier.height(32.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
-                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
-                        ) {
-                            Text("Book Again", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                        }
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Button(
-                            onClick = { onClick(ticket.ticketId) },
-                            modifier = Modifier.height(32.dp),
-                            shape = RoundedCornerShape(16.dp),
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White.copy(alpha = 0.2f)),
-                            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 0.dp)
-                        ) {
-                            Text("View Details", color = Color.White, fontSize = 11.sp, fontWeight = FontWeight.Bold)
-                        }
+            // Date - Positioned top-left
+            Text(
+                text = df.format(Date(ticket.bookedAt)),
+                color = Color(0xFFE8DFF8),
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Medium,
+                fontSize = 12.sp
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            // Stations
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = ticket.source.substringBefore(" -").trim().uppercase(),
+                    color = Color(0xFFF2EDF8),
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp
+                )
+
+                Text(
+                    text = ticket.destination.substringBefore(" -").trim().uppercase(),
+                    color = Color(0xFFF2EDF8),
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp
+                )
+            }
+            
+            Spacer(modifier = Modifier.weight(1f))
+            
+            // Bottom Row
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 6.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Unreserved",
+                    color = Color(0xFFD8FF4A),
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 14.sp
+                )
+                
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    modifier = Modifier.padding(end = 10.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .width(116.dp)
+                            .height(35.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "Book Again",
+                            color = Color.White,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 11.sp
+                        )
+                    }
+                    
+                    Box(
+                        modifier = Modifier
+                            .width(89.dp)
+                            .height(35.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "View Details",
+                            color = Color.White,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 11.sp
+                        )
                     }
                 }
             }

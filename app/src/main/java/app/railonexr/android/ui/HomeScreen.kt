@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,6 +35,12 @@ import app.railonexr.android.Screen
 import app.railonexr.android.logic.Ticket
 import java.text.SimpleDateFormat
 import java.util.*
+
+val Roboto = FontFamily(
+    Font(R.font.roboto_regular, FontWeight.Normal),
+    Font(R.font.roboto_medium, FontWeight.Medium),
+    Font(R.font.roboto_bold, FontWeight.Bold)
+)
 
 @Preview(showBackground = true)
 @Composable
@@ -272,9 +279,9 @@ fun RailOneTopBar() {
 
         // RailOne Logo (Center)
         Image(
-            painter = painterResource(id = R.drawable.ic_logo),
+            painter = painterResource(id = R.drawable.logo),
             contentDescription = "RailOne Logo",
-            modifier = Modifier.height(32.dp),
+            modifier = Modifier.height(30.dp),
             contentScale = ContentScale.Fit
         )
 
@@ -346,39 +353,39 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(horizontal = 24.dp, vertical = 22.dp)
+                    .padding(horizontal = 18.dp, vertical = 18.dp)
             ) {
                 // Date - Positioned top-left
                 Text(
                     text = df.format(Date(ticket.bookedAt)),
-                    color = Color.White,
-                    fontSize = 11.5.sp,
-                    fontWeight = FontWeight.Medium,
+                    color = Color(0xFFE8DFF8),
                     fontFamily = FontFamily.SansSerif,
-                    modifier = Modifier.padding(start = 2.dp)
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 12.sp
                 )
-                
-                Spacer(modifier = Modifier.height(28.dp)) // Aligns stations with the lines
+
+                Spacer(modifier = Modifier.height(24.dp)) // Aligns stations with the lines
                 
                 // Stations - Precise alignment on template lines
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = ticket.source.substringBefore(" -").trim().uppercase(),
-                        color = Color.White,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 16.sp,
-                        letterSpacing = 0.6.sp
+                        color = Color(0xFFF2EDF8),
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 14.sp
                     )
+
                     Text(
                         text = ticket.destination.substringBefore(" -").trim().uppercase(),
-                        color = Color.White,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 16.sp,
-                        letterSpacing = 0.6.sp
+                        color = Color(0xFFF2EDF8),
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.Medium,
+                        fontSize = 14.sp
                     )
                 }
                 
@@ -394,10 +401,10 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                 ) {
                     Text(
                         text = "Unreserved",
-                        color = Color(0xFFD4FF00),
+                        color = Color(0xFFD8FF4A),
+                        fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(start = 2.dp)
+                        fontSize = 14.sp
                     )
                     
                     Row(
@@ -407,20 +414,32 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         // Invisible areas for clicking, text is centered in the template's boxes
                         Box(
                             modifier = Modifier
-                                .width(90.dp)
-                                .height(30.dp),
+                                .width(116.dp)
+                                .height(35.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("Book Again", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = "Book Again",
+                                color = Color.White,
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 11.sp
+                            )
                         }
                         
                         Box(
                             modifier = Modifier
-                                .width(90.dp)
-                                .height(30.dp),
+                                .width(89.dp)
+                                .height(35.dp),
                             contentAlignment = Alignment.Center
                         ) {
-                            Text("View Details", color = Color.White, fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                            Text(
+                                text = "View Details",
+                                color = Color.White,
+                                fontFamily = FontFamily.SansSerif,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 11.sp
+                            )
                         }
                     }
                 }
