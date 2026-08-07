@@ -7,6 +7,6 @@ public final class BuildConfig {
   public static final boolean DEBUG = Boolean.parseBoolean("true");
   public static final String APPLICATION_ID = "app.railonexr.android";
   public static final String BUILD_TYPE = "debug";
-  public static final int VERSION_CODE = 96;
-  public static final String VERSION_NAME = "1.9.6";
+  public static final int VERSION_CODE = 101;
+  public static final String VERSION_NAME = "2.0.1";
 }

@@ -134,7 +134,7 @@ fun BookingDetailsScreen(
             Spacer(modifier = Modifier.height(6.dp))
 
             OutlinedButton(
-                onClick = { onBack() }, // Fixed: Explicitly navigate back to Home
+                onClick = { onBack() },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
@@ -240,7 +240,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 4.dp)
+            .padding(horizontal = 12.dp)
             .height(580.dp) 
     ) {
         // Full Ticket Template Background
@@ -251,20 +251,20 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             contentScale = ContentScale.FillBounds
         )
         
-        Box(modifier = Modifier.fillMaxSize()) {
-            // Top Section (Timer area) - Precisely positioned
+        Column(modifier = Modifier.fillMaxSize()) {
+            // Top Section (Timer area) - Precision alignment for the black area
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(230.dp)
-                    .offset(y = 12.dp),
+                    .padding(top = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "Dynamic preview will close in", 
                     color = Color.White, 
-                    fontSize = 13.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
                     fontFamily = RobotoFamily
                 )
@@ -278,14 +278,14 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 Text(
                     text = "Ticket Booking Date & Time", 
                     color = lightGray, 
-                    fontSize = 11.5.sp,
+                    fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = RobotoFamily
                 )
                 Text(
                     text = bookingDateDisplay, 
                     color = warmGold, 
-                    fontSize = 21.sp, 
+                    fontSize = 20.sp, 
                     fontWeight = FontWeight.Bold,
                     fontFamily = RobotoFamily
                 )
@@ -305,112 +305,86 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 )
             }
 
-            // ==========================
-            // JOURNEY DETAILS - PRECISION ALIGNMENT
-            // ==========================
-
-            // Journey Ticket & ID row
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 246.dp)
-                    .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = "Journey Ticket", 
-                    fontWeight = FontWeight.Medium, 
-                    fontSize = 14.sp, 
-                    color = charcoal,
-                    fontFamily = RobotoFamily
-                )
-                Text(
-                    text = ticket.ticketId, 
-                    fontWeight = FontWeight.Medium, 
-                    fontSize = 14.sp, 
-                    color = charcoal,
-                    fontFamily = RobotoFamily
-                )
-            }
-
-            // Stations Row - Aligned with middle horizontal lines
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 308.dp)
-                    .padding(horizontal = 24.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = ticket.source.substringBefore(" -").trim().uppercase(), 
-                    fontWeight = FontWeight.Bold, 
-                    fontSize = 18.sp, 
-                    color = charcoal,
-                    fontFamily = RobotoFamily,
-                    modifier = Modifier.weight(1f)
-                )
-                Text(
-                    text = "— ${ticket.distance} —", 
-                    fontSize = 10.sp, 
-                    color = Color.Gray, 
-                    textAlign = TextAlign.Center,
-                    fontFamily = RobotoFamily,
-                    modifier = Modifier.padding(horizontal = 4.dp)
-                )
-                Text(
-                    text = ticket.destination.substringBefore(" -").trim().uppercase(), 
-                    fontWeight = FontWeight.Bold, 
-                    fontSize = 18.sp, 
-                    color = charcoal,
-                    fontFamily = RobotoFamily,
-                    modifier = Modifier.weight(1f),
-                    textAlign = TextAlign.End
-                )
-            }
-
-            // Via & Passenger row
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 358.dp)
-                    .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text("Via", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = RobotoFamily)
-                    Text(ticket.via, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
-                }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("Passenger", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = RobotoFamily)
-                    Text("${ticket.adults} Adult, ${ticket.children} Child", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
-                }
-            }
-
-            // Booked on & Validity row
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 418.dp)
-                    .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Column {
-                    Text("Booked on", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = RobotoFamily)
-                    Text(bookingDateNumeric, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
-                }
-                Column(horizontalAlignment = Alignment.End) {
-                    Text("*Valid Till", fontSize = 11.sp, color = Color(0xFF9E9E9E), fontFamily = RobotoFamily)
-                    Text("$validTillDate $validTillTime", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
-                }
-            }
-
-            // Fare & IR Number Section
+            // Bottom Section (Journey Details) - Strictly aligned with Image 1
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 478.dp)
-                    .padding(horizontal = 24.dp)
+                    .fillMaxSize()
+                    .padding(horizontal = 24.dp, vertical = 20.dp)
             ) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(
+                        text = "Journey Ticket", 
+                        fontWeight = FontWeight.Bold, 
+                        fontSize = 15.sp, 
+                        color = charcoal,
+                        fontFamily = RobotoFamily
+                    )
+                    Text(
+                        text = ticket.ticketId, 
+                        fontWeight = FontWeight.SemiBold, 
+                        fontSize = 15.sp, 
+                        color = charcoal,
+                        fontFamily = RobotoFamily
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(26.dp))
+
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = ticket.source.substringBefore(" -").trim().uppercase(), 
+                        fontWeight = FontWeight.ExtraBold, 
+                        fontSize = 15.sp, 
+                        color = charcoal,
+                        fontFamily = RobotoFamily,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = "— ${ticket.distance} —", 
+                        fontSize = 11.sp, 
+                        color = Color.Gray, 
+                        textAlign = TextAlign.Center,
+                        fontFamily = RobotoFamily,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    )
+                    Text(
+                        text = ticket.destination.substringBefore(" -").trim().uppercase(), 
+                        fontWeight = FontWeight.ExtraBold, 
+                        fontSize = 15.sp, 
+                        color = charcoal,
+                        fontFamily = RobotoFamily,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.End
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(14.dp))
+
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Column {
+                        Text("Via", fontSize = 11.sp, color = Color.Gray, fontFamily = RobotoFamily)
+                        Text(ticket.via, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
+                    }
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text("Passenger", fontSize = 11.sp, color = Color.Gray, fontFamily = RobotoFamily)
+                        Text("${ticket.adults} Adult, ${ticket.children} Child", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(22.dp))
+
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Column {
+                        Text("Booked on", fontSize = 11.sp, color = Color.Gray, fontFamily = RobotoFamily)
+                        Text(bookingDateNumeric, fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
+                    }
+                    Column(horizontalAlignment = Alignment.End) {
+                        Text("*Valid Till", fontSize = 11.sp, color = Color.Gray, fontFamily = RobotoFamily)
+                        Text("$validTillDate $validTillTime", fontWeight = FontWeight.Bold, fontSize = 14.sp, color = charcoal, fontFamily = RobotoFamily)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(22.dp))
                 Text(
                     text = "${ticket.classType} | ORDINARY | RETURN | ₹${ticket.fare}.00",
                     fontWeight = FontWeight.Bold, 
@@ -423,21 +397,18 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     fontWeight = FontWeight.SemiBold, 
                     fontSize = 14.sp, 
                     color = charcoal,
-                    fontFamily = FontFamily.Monospace
+                    fontFamily = RobotoFamily
                 )
-            }
 
-            // Footer Text
-            Text(
-                text = "Valid for one ret. jrny. till midnight of $validTillDate", 
-                fontSize = 10.5.sp, 
-                color = Color.Gray,
-                fontFamily = RobotoFamily,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .offset(y = 548.dp)
-                    .padding(horizontal = 24.dp)
-            )
+                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = "Valid for one ret. jrny. till midnight of $validTillDate", 
+                    fontSize = 11.sp, 
+                    color = Color.Gray,
+                    fontFamily = RobotoFamily
+                )
+                Spacer(modifier = Modifier.height(14.dp))
+            }
         }
     }
 }
