@@ -108,6 +108,12 @@ fun HomeScreen(
                 Column(modifier = Modifier.padding(horizontal = 16.dp)) {
                     GreetingSection("Aadil Muhammed")
                     
+                    Spacer(modifier = Modifier.height(24.dp))
+                    JourneyPlannerSection(onUnreservedClick = onUnreservedClick)
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
+                    OfferingsSection()
+
                     val currentTicket = latestTicket
                     if (currentTicket != null) {
                         Spacer(modifier = Modifier.height(24.dp))
@@ -117,10 +123,6 @@ fun HomeScreen(
                         )
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
-                    JourneyPlannerSection(onUnreservedClick = onUnreservedClick)
-                    Spacer(modifier = Modifier.height(24.dp))
-                    OfferingsSection()
                     Spacer(modifier = Modifier.height(24.dp))
                     TriviaSection()
                     Spacer(modifier = Modifier.height(24.dp))

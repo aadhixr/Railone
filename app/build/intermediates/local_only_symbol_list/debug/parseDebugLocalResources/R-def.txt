@@ -11,6 +11,7 @@ drawable platform
 drawable reserved
 drawable unreserved
 drawable upcoming_template
+drawable uppcoming_template
 font roboto_bold
 font roboto_medium
 font roboto_regular

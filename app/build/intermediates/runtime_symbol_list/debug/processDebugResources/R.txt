@@ -3884,6 +3884,7 @@ int drawable tooltip_frame_dark 0x7f070129
 int drawable tooltip_frame_light 0x7f07012a
 int drawable unreserved 0x7f07012b
 int drawable upcoming_template 0x7f07012c
+int drawable uppcoming_template 0x7f07012d
 int font roboto_bold 0x7f080000
 int font roboto_medium 0x7f080001
 int font roboto_regular 0x7f080002
