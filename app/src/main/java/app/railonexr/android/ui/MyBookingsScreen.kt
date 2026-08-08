@@ -175,25 +175,26 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
             contentScale = ContentScale.FillBounds
         )
         
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 18.dp, vertical = 18.dp)
-        ) {
+        Box(modifier = Modifier.fillMaxSize()) {
             // Date - Positioned top-left
             Text(
                 text = df.format(Date(ticket.bookedAt)),
                 color = Color(0xFFE8DFF8),
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Medium,
-                fontSize = TicketUIConfig.fontSizeDate
+                fontSize = TicketUIConfig.fontSizeDate,
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .offset(x = TicketUIConfig.dateOffsetStart, y = TicketUIConfig.dateOffsetTop)
             )
 
-            Spacer(modifier = Modifier.weight(TicketUIConfig.stationVerticalWeight)) 
-            
-            // Stations
+            // Stations - Manual vertical placement
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter)
+                    .offset(y = TicketUIConfig.stationsOffsetTop)
+                    .padding(horizontal = TicketUIConfig.stationsPaddingHorizontal),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -214,59 +215,66 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                 )
             }
             
-            Spacer(modifier = Modifier.weight(1f))
+            // Badge - Positioned bottom-left
+            Text(
+                text = "Unreserved",
+                color = Color(0xFFD8FF4A),
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Bold,
+                fontSize = TicketUIConfig.fontSizeBadge,
+                modifier = Modifier
+                    .align(Alignment.BottomStart)
+                    .offset(x = TicketUIConfig.badgeOffsetStart, y = -TicketUIConfig.badgeOffsetBottom)
+            )
             
-            // Bottom Row
+            // Buttons - Positioned bottom-right
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = TicketUIConfig.bottomRowPadding),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                    .align(Alignment.BottomEnd)
+                    .offset(x = -TicketUIConfig.buttonsOffsetEnd, y = -TicketUIConfig.buttonsOffsetBottom)
+                    .fillMaxWidth(0.65f), // Relative width for the button area
+                horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "Unreserved",
-                    color = Color(0xFFD8FF4A),
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = TicketUIConfig.fontSizeBadge
-                )
-                
-                Row(
-                    horizontalArrangement = Arrangement.End,
-                    modifier = Modifier.weight(1f).padding(end = 4.dp)
+                // Responsive button areas centered in the template's boxes
+                Box(
+                    modifier = Modifier
+                        .weight(TicketUIConfig.weightBookAgain)
+                        .height(TicketUIConfig.buttonHeight),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .weight(TicketUIConfig.weightBookAgain)
-                            .height(TicketUIConfig.buttonHeight),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "Book Again",
-                            color = Color.White,
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = TicketUIConfig.fontSizeButtons
+                    Text(
+                        text = "Book Again",
+                        color = Color.White,
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = TicketUIConfig.fontSizeButtons,
+                        modifier = Modifier.offset(
+                            x = TicketUIConfig.buttonLabelOffsetX,
+                            y = TicketUIConfig.buttonLabelOffsetY
                         )
-                    }
-                    
-                    Spacer(modifier = Modifier.width(8.dp))
+                    )
+                }
+                
+                Spacer(modifier = Modifier.width(TicketUIConfig.buttonGap))
 
-                    Box(
-                        modifier = Modifier
-                            .weight(TicketUIConfig.weightViewDetails)
-                            .height(TicketUIConfig.buttonHeight),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = "View Details",
-                            color = Color.White,
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = FontWeight.Normal,
-                            fontSize = TicketUIConfig.fontSizeButtons
+                Box(
+                    modifier = Modifier
+                        .weight(TicketUIConfig.weightViewDetails)
+                        .height(TicketUIConfig.buttonHeight),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "View Details",
+                        color = Color.White,
+                        fontFamily = FontFamily.SansSerif,
+                        fontWeight = FontWeight.Normal,
+                        fontSize = TicketUIConfig.fontSizeButtons,
+                        modifier = Modifier.offset(
+                            x = TicketUIConfig.buttonLabelOffsetX,
+                            y = TicketUIConfig.buttonLabelOffsetY
                         )
-                    }
+                    )
                 }
             }
         }
