@@ -186,10 +186,10 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                 color = Color(0xFFE8DFF8),
                 fontFamily = FontFamily.SansSerif,
                 fontWeight = FontWeight.Medium,
-                fontSize = 12.sp
+                fontSize = 14.sp
             )
 
-            Spacer(modifier = Modifier.weight(0.16f)) // Responsive vertical alignment for stations line
+            Spacer(modifier = Modifier.weight(0.22f)) // Refined vertical alignment for stations line
             
             // Stations
             Row(
@@ -202,7 +202,7 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                     color = Color(0xFFF2EDF8),
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp
+                    fontSize = 16.sp
                 )
 
                 Text(
@@ -210,64 +210,66 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                     color = Color(0xFFF2EDF8),
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp
+                    fontSize = 16.sp
                 )
             }
             
             Spacer(modifier = Modifier.weight(1f))
+            
+            // Bottom Row
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 6.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "Unreserved",
+                    color = Color(0xFFD8FF4A),
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
                 
-                // Bottom Row
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 6.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    horizontalArrangement = Arrangement.End,
+                    modifier = Modifier.weight(1f).padding(end = 4.dp)
                 ) {
-                    Text(
-                        text = "Unreserved",
-                        color = Color(0xFFD8FF4A),
-                        fontFamily = FontFamily.SansSerif,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
-                    )
-                    
-                    Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(end = 10.dp)
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(35.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .width(116.dp)
-                                .height(35.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "Book Again",
-                                color = Color.White,
-                                fontFamily = FontFamily.SansSerif,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 11.sp
-                            )
-                        }
-                        
-                        Box(
-                            modifier = Modifier
-                                .width(89.dp)
-                                .height(35.dp),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = "View Details",
-                                color = Color.White,
-                                fontFamily = FontFamily.SansSerif,
-                                fontWeight = FontWeight.Normal,
-                                fontSize = 11.sp
-                            )
-                        }
+                        Text(
+                            text = "Book Again",
+                            color = Color.White,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 13.sp
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.width(8.dp))
+
+                    Box(
+                        modifier = Modifier
+                            .weight(0.8f)
+                            .height(35.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "View Details",
+                            color = Color.White,
+                            fontFamily = FontFamily.SansSerif,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 13.sp
+                        )
                     }
                 }
             }
+        }
         }
     }
 

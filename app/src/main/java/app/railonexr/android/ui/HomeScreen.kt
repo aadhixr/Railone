@@ -361,10 +361,10 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     color = Color(0xFFE8DFF8),
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 12.sp
+                    fontSize = 14.sp
                 )
 
-                Spacer(modifier = Modifier.weight(0.16f)) // Responsive vertical alignment for stations line
+                Spacer(modifier = Modifier.weight(0.22f)) // Refined vertical alignment for stations line
                 
                 // Stations - Precise alignment on template lines
                 Row(
@@ -377,7 +377,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         color = Color(0xFFF2EDF8),
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp
+                        fontSize = 16.sp
                     )
 
                     Text(
@@ -385,7 +385,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         color = Color(0xFFF2EDF8),
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp
+                        fontSize = 16.sp
                     )
                 }
                 
@@ -404,17 +404,17 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         color = Color(0xFFD8FF4A),
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 14.sp
+                        fontSize = 16.sp
                     )
                     
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
-                        modifier = Modifier.padding(end = 10.dp)
+                        horizontalArrangement = Arrangement.End,
+                        modifier = Modifier.weight(1f).padding(end = 4.dp)
                     ) {
-                        // Invisible areas for clicking, text is centered in the template's boxes
+                        // Responsive button areas centered in the template's boxes
                         Box(
                             modifier = Modifier
-                                .width(116.dp)
+                                .weight(1f)
                                 .height(35.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -423,13 +423,15 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                                 color = Color.White,
                                 fontFamily = FontFamily.SansSerif,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 11.sp
+                                fontSize = 13.sp
                             )
                         }
                         
+                        Spacer(modifier = Modifier.width(8.dp))
+
                         Box(
                             modifier = Modifier
-                                .width(89.dp)
+                                .weight(0.8f)
                                 .height(35.dp),
                             contentAlignment = Alignment.Center
                         ) {
@@ -438,7 +440,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                                 color = Color.White,
                                 fontFamily = FontFamily.SansSerif,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 11.sp
+                                fontSize = 13.sp
                             )
                         }
                     }
