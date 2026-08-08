@@ -7,6 +7,7 @@ drawable ic_indian_railway
 drawable ic_logo
 drawable ic_upi_name
 drawable ic_upi_symbol
+drawable logo
 drawable platform
 drawable reserved
 drawable unreserved

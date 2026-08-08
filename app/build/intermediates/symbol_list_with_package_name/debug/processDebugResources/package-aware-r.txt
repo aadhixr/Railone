@@ -3746,6 +3746,7 @@ drawable ic_mtrl_chip_close_circle
 drawable ic_search_black_24
 drawable ic_upi_name
 drawable ic_upi_symbol
+drawable logo
 drawable m3_action_bar_item_background
 drawable m3_avd_hide_password
 drawable m3_avd_show_password

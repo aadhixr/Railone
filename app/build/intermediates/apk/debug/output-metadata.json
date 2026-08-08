@@ -1,0 +1,21 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "app.railonexr.android",
+  "variantName": "debug",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 119,
+      "versionName": "2.2.9",
+      "outputFile": "RailOne_v2.2.9_debug.apk"
+    }
+  ],
+  "elementType": "File",
+  "minSdkVersionForDexing": 27
+}

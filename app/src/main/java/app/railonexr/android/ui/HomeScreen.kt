@@ -335,9 +335,8 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
         
         Box(
             modifier = Modifier
-                .width(338.dp)
-                .height(154.dp) // Locked size for the template aspect ratio
-                .align(Alignment.CenterHorizontally)
+                .fillMaxWidth()
+                .aspectRatio(338f / 154f) // Responsive aspect ratio for the template
                 .clickable(
                     indication = null,
                     interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
@@ -365,7 +364,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     fontSize = 12.sp
                 )
 
-                Spacer(modifier = Modifier.height(24.dp)) // Aligns stations with the lines
+                Spacer(modifier = Modifier.weight(0.16f)) // Responsive vertical alignment for stations line
                 
                 // Stations - Precise alignment on template lines
                 Row(

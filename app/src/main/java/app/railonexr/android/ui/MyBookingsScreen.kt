@@ -159,66 +159,62 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
     
     Box(
-        modifier = Modifier.fillMaxWidth(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(338f / 154f) // Responsive aspect ratio for the template
+            .clickable(
+                indication = null,
+                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+            ) { onClick(ticket.ticketId) }
     ) {
-        Box(
+        // Template Background
+        Image(
+            painter = painterResource(id = R.drawable.upcoming_template),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
+        )
+        
+        Column(
             modifier = Modifier
-                .width(338.dp)
-                .height(154.dp) // Locked size for the template aspect ratio
-                .clickable(
-                    indication = null,
-                    interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-                ) { onClick(ticket.ticketId) }
+                .fillMaxSize()
+                .padding(horizontal = 18.dp, vertical = 18.dp)
         ) {
-            // Template Background
-            Image(
-                painter = painterResource(id = R.drawable.upcoming_template),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillBounds
+            // Date - Positioned top-left
+            Text(
+                text = df.format(Date(ticket.bookedAt)),
+                color = Color(0xFFE8DFF8),
+                fontFamily = FontFamily.SansSerif,
+                fontWeight = FontWeight.Medium,
+                fontSize = 12.sp
             )
+
+            Spacer(modifier = Modifier.weight(0.16f)) // Responsive vertical alignment for stations line
             
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 18.dp, vertical = 18.dp)
+            // Stations
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Date - Positioned top-left
                 Text(
-                    text = df.format(Date(ticket.bookedAt)),
-                    color = Color(0xFFE8DFF8),
+                    text = ticket.source.substringBefore(" -").trim().uppercase(),
+                    color = Color(0xFFF2EDF8),
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 12.sp
+                    fontSize = 14.sp
                 )
 
-                Spacer(modifier = Modifier.height(24.dp))
-                
-                // Stations
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 0.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = ticket.source.substringBefore(" -").trim().uppercase(),
-                        color = Color(0xFFF2EDF8),
-                        fontFamily = FontFamily.SansSerif,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp
-                    )
-
-                    Text(
-                        text = ticket.destination.substringBefore(" -").trim().uppercase(),
-                        color = Color(0xFFF2EDF8),
-                        fontFamily = FontFamily.SansSerif,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 14.sp
-                    )
-                }
-                
-                Spacer(modifier = Modifier.weight(1f))
+                Text(
+                    text = ticket.destination.substringBefore(" -").trim().uppercase(),
+                    color = Color(0xFFF2EDF8),
+                    fontFamily = FontFamily.SansSerif,
+                    fontWeight = FontWeight.Medium,
+                    fontSize = 14.sp
+                )
+            }
+            
+            Spacer(modifier = Modifier.weight(1f))
                 
                 // Bottom Row
                 Row(
@@ -274,7 +270,6 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
             }
         }
     }
-}
 
 @Composable
 fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
