@@ -14,16 +14,16 @@ object TicketUIConfig {
 
     // --- Stations Placement ---
     // Controls the vertical height of the station names line.
-    val stationsOffsetTop = 89.dp
+    val stationsOffsetTop = 99.dp
     val stationsPaddingHorizontal = 18.dp
 
     // --- "Unreserved" Badge Placement ---
-    val badgeOffsetBottom = 40.dp
+    val badgeOffsetBottom = 49.dp
     val badgeOffsetStart = 18.dp
 
     // --- Buttons Placement ---
-    val buttonsOffsetBottom = 36.dp
-    val buttonsOffsetEnd = 40.dp
+    val buttonsOffsetBottom = 39.dp
+    val buttonsOffsetEnd = 43.dp
     val buttonGap = 8.dp
     
     // Height of the clickable hit areas for the buttons.
