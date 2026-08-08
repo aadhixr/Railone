@@ -277,7 +277,10 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
 fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
     
-    Box(modifier = Modifier.fillMaxWidth()) {
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.Center
+    ) {
         Card(
             modifier = Modifier
                 .fillMaxWidth()
@@ -286,7 +289,7 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
             border = BorderStroke(1.dp, Color(0xFF4CAF50)), // Solid green border
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
+            Column(modifier = Modifier.padding(18.dp)) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Box(
                         modifier = Modifier
@@ -294,76 +297,87 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                             .background(Color(0xFFF3E5F5))
                             .padding(horizontal = 8.dp, vertical = 2.dp)
                     ) {
-                        Text("Unreserved", color = Color(0xFF7B1FA2), fontSize = 10.sp, fontWeight = FontWeight.Bold)
+                        Text("Unreserved", color = Color(0xFF7B1FA2), fontSize = 12.sp, fontWeight = FontWeight.Bold)
                     }
-                    Text("UTS: ${ticket.utsId}", fontSize = 11.sp, color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("UTS: ${ticket.utsId}", fontSize = 13.sp, color = Color.Black, fontWeight = FontWeight.Bold)
                 }
                 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(14.dp))
                 
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                     Column {
-                        Text("Ticket Type", fontSize = 10.sp, color = Color.Gray)
-                        Text("JOURNEY", fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text("Ticket Type", fontSize = 12.sp, color = Color.Gray)
+                        Text("JOURNEY", fontWeight = FontWeight.Bold, fontSize = 15.sp)
                     }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("Booking Date", fontSize = 10.sp, color = Color.Gray)
-                        Text(df.format(Date(ticket.bookedAt)), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text("Booking Date", fontSize = 12.sp, color = Color.Gray)
+                        Text(df.format(Date(ticket.bookedAt)), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                     }
                 }
                 
-                Spacer(modifier = Modifier.height(12.dp))
+                Spacer(modifier = Modifier.height(14.dp))
                 
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                    Text(ticket.source.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    Text(ticket.source.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text("--- 628 km ---", fontSize = 10.sp, color = Color.Gray)
+                    Text("--- 628 km ---", fontSize = 12.sp, color = Color.Gray)
                     Spacer(modifier = Modifier.weight(1f))
-                    Text(ticket.destination.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    Text(ticket.destination.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
                 
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(20.dp))
                 
-                // Dashed Divider
-                Canvas(modifier = Modifier.fillMaxWidth().height(1.dp)) {
-                    val strokeWidth = 1.dp.toPx()
-                    val dashWidth = 10f
-                    val gapWidth = 10f
-                    var x = 0f
-                    while (x < size.width) {
-                        drawLine(
-                            color = Color.LightGray,
-                            start = androidx.compose.ui.geometry.Offset(x, 0f),
-                            end = androidx.compose.ui.geometry.Offset(x + dashWidth, 0f),
-                            strokeWidth = strokeWidth
-                        )
-                        x += dashWidth + gapWidth
+                // Dashed Divider Container to help alignment
+                Box(
+                    modifier = Modifier.fillMaxWidth().height(1.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Canvas(modifier = Modifier.fillMaxWidth().height(1.dp)) {
+                        val strokeWidth = 1.dp.toPx()
+                        val dashWidth = 10f
+                        val gapWidth = 10f
+                        var x = 0f
+                        while (x < size.width) {
+                            drawLine(
+                                color = Color.LightGray,
+                                start = androidx.compose.ui.geometry.Offset(x, 0f),
+                                end = androidx.compose.ui.geometry.Offset(x + dashWidth, 0f),
+                                strokeWidth = strokeWidth
+                            )
+                            x += dashWidth + gapWidth
+                        }
                     }
                 }
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
                     TextButton(
                         onClick = { },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("Book Again", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text("Book Again", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                     }
                     Box(modifier = Modifier.width(1.dp).height(24.dp).background(Color(0xFFF5F5F5)))
                     TextButton(
                         onClick = { onClick(ticket.ticketId) },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("View Details", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                        Text("View Details", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 15.sp)
                     }
                 }
             }
         }
         
-        // Side cutouts
+        // Side cutouts - Fixed relative position
+        // Since the card has grown, we adjust the offset or use a better centering strategy.
+        // For now, I'll fine-tune the Y based on the new content height.
+        // Approx: Header(30) + Spacing(14) + Info(40) + Spacing(14) + Stations(30) + Spacing(20) = 148dp
+        // The padding(18.dp) adds to the top. So around 166dp.
         Box(
             modifier = Modifier
                 .size(20.dp)
-                .offset(x = (-10).dp, y = 145.dp) // Approximate vertical center
+                .offset(x = (-10).dp, y = 168.dp) 
                 .clip(CircleShape)
                 .background(Color.White)
                 .border(1.dp, Color(0xFF4CAF50), CircleShape)
@@ -372,7 +386,7 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
         Box(
             modifier = Modifier
                 .size(20.dp)
-                .offset(x = 10.dp, y = 145.dp)
+                .offset(x = 10.dp, y = 168.dp)
                 .clip(CircleShape)
                 .background(Color.White)
                 .border(1.dp, Color(0xFF4CAF50), CircleShape)
