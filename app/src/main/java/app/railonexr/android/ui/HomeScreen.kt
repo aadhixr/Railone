@@ -361,10 +361,10 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     color = Color(0xFFE8DFF8),
                     fontFamily = FontFamily.SansSerif,
                     fontWeight = FontWeight.Medium,
-                    fontSize = 14.sp
+                    fontSize = TicketUIConfig.fontSizeDate
                 )
 
-                Spacer(modifier = Modifier.weight(0.45f)) // Pushed Stations lower to align with template line
+                Spacer(modifier = Modifier.weight(TicketUIConfig.stationVerticalWeight)) 
                 
                 // Stations - Precise alignment on template lines
                 Row(
@@ -377,7 +377,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         color = Color(0xFFF2EDF8),
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 18.sp
+                        fontSize = TicketUIConfig.fontSizeStations
                     )
 
                     Text(
@@ -385,7 +385,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         color = Color(0xFFF2EDF8),
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 18.sp
+                        fontSize = TicketUIConfig.fontSizeStations
                     )
                 }
                 
@@ -395,7 +395,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 2.dp), // Reduced padding for better button centering
+                        .padding(bottom = TicketUIConfig.bottomRowPadding),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -404,18 +404,17 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         color = Color(0xFFD8FF4A),
                         fontFamily = FontFamily.SansSerif,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 18.sp
+                        fontSize = TicketUIConfig.fontSizeBadge
                     )
                     
                     Row(
                         horizontalArrangement = Arrangement.End,
                         modifier = Modifier.weight(1f).padding(end = 4.dp)
                     ) {
-                        // Responsive button areas centered in the template's boxes
                         Box(
                             modifier = Modifier
-                                .weight(1.05f)
-                                .height(38.dp),
+                                .weight(TicketUIConfig.weightBookAgain)
+                                .height(TicketUIConfig.buttonHeight),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -423,7 +422,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                                 color = Color.White,
                                 fontFamily = FontFamily.SansSerif,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 14.sp
+                                fontSize = TicketUIConfig.fontSizeButtons
                             )
                         }
                         
@@ -431,8 +430,8 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
 
                         Box(
                             modifier = Modifier
-                                .weight(0.85f)
-                                .height(38.dp),
+                                .weight(TicketUIConfig.weightViewDetails)
+                                .height(TicketUIConfig.buttonHeight),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
@@ -440,7 +439,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                                 color = Color.White,
                                 fontFamily = FontFamily.SansSerif,
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 14.sp
+                                fontSize = TicketUIConfig.fontSizeButtons
                             )
                         }
                     }
