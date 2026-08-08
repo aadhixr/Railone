@@ -335,8 +335,9 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
         
         Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .height(154.dp) // Fine-tuned height for the template aspect ratio
+                .width(338.dp)
+                .height(154.dp) // Locked size for the template aspect ratio
+                .align(Alignment.CenterHorizontally)
                 .clickable(
                     indication = null,
                     interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
