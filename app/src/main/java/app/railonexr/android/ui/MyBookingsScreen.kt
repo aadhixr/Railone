@@ -416,9 +416,9 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
 @Composable
 fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit) {
     Surface(
-        color = Color(0xFF005AC1),
-        modifier = Modifier.fillMaxWidth().height(68.dp),
-        tonalElevation = 8.dp
+        color = Color(0xFF005AC1), // Solid professional blue
+        modifier = Modifier.fillMaxWidth().height(72.dp),
+        shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -450,14 +450,15 @@ fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit)
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
+                        colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color.White)
                     ) 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = label, 
                         color = Color.White,
-                        fontSize = 10.sp,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+                        fontSize = 11.sp,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                     ) 
                 }
             }

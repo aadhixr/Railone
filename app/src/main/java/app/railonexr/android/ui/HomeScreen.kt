@@ -146,7 +146,7 @@ fun HomeScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Image(
-                                painter = painterResource(id = R.drawable.logo),
+                                painter = painterResource(id = R.drawable.ic_logo),
                                 contentDescription = null,
                                 modifier = Modifier.size(64.dp)
                             )
@@ -565,18 +565,14 @@ fun OfferingCard(item: OfferingItem, modifier: Modifier) {
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
+        // Clean icons without extra background boxes
+        Image(
+            painter = painterResource(id = item.iconRes),
+            contentDescription = item.title,
             modifier = Modifier.size(64.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(
-                painter = painterResource(id = item.iconRes),
-                contentDescription = item.title,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Fit
-            )
-        }
-        Spacer(modifier = Modifier.height(8.dp))
+            contentScale = ContentScale.Fit
+        )
+        Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = item.title,
             fontSize = 11.sp,
@@ -732,9 +728,9 @@ fun RailOneBottomNavigation(
     onMenuClick: () -> Unit = {}
 ) {
     Surface(
-        color = Color(0xFF005AC1),
-        modifier = Modifier.fillMaxWidth().height(68.dp),
-        tonalElevation = 8.dp
+        color = Color(0xFF005AC1), // Same blue as logo background area
+        modifier = Modifier.fillMaxWidth().height(72.dp),
+        shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier.fillMaxSize(),
@@ -766,13 +762,15 @@ fun RailOneBottomNavigation(
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp),
+                        // Clean white icons for everyone, no orange
+                        colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color.White)
                     ) 
-                    Spacer(modifier = Modifier.height(4.dp))
+                    Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = label, 
                         color = Color.White,
-                        fontSize = 10.sp,
+                        fontSize = 11.sp,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                     ) 
                 }
