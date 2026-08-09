@@ -273,9 +273,9 @@ fun RailOneTopBar() {
 
         // RailOne Logo (Center)
         Image(
-            painter = painterResource(id = R.drawable.logo),
+            painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = "RailOne Logo",
-            modifier = Modifier.height(30.dp),
+            modifier = Modifier.height(32.dp),
             contentScale = ContentScale.Fit
         )
 
@@ -566,16 +566,14 @@ fun OfferingCard(item: OfferingItem, modifier: Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier
-                .size(68.dp)
-                .clip(RoundedCornerShape(12.dp))
-                .background(item.color),
+            modifier = Modifier.size(64.dp),
             contentAlignment = Alignment.Center
         ) {
             Image(
                 painter = painterResource(id = item.iconRes),
                 contentDescription = item.title,
-                modifier = Modifier.size(36.dp)
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Fit
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -778,7 +776,7 @@ fun RailOneBottomNavigation(
                     unselectedIconColor = Color.White,
                     selectedTextColor = activeColor,
                     unselectedTextColor = Color.White,
-                    indicatorColor = Color.White.copy(alpha = 0.15f)
+                    indicatorColor = Color.Transparent
                 )
             )
         }

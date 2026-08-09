@@ -1,20 +1,36 @@
 R_DEF: Internal format may change without notice
 local
-drawable acctive_ticket_timer_template
 drawable active_ticket_timer_template
+drawable bookings
+drawable coach_position
+drawable file_refund
+drawable go_to_waves
+drawable home
 drawable ic_card_payment
 drawable ic_indian_railway
 drawable ic_logo
 drawable ic_upi_name
 drawable ic_upi_symbol
+drawable info_1
+drawable info_2
+drawable info_3
+drawable info_4
+drawable info_5
 drawable logo
+drawable menu
 drawable no_ticket_logo
+drawable order_food
 drawable platform
+drawable pnr_status
+drawable rail_madad
 drawable reserved
+drawable search_train
 drawable ticket_icon_grey
 drawable ticket_icon_yellow
+drawable track_your_train
 drawable unreserved
 drawable upcoming_template
+drawable you
 font roboto_bold
 font roboto_medium
 font roboto_regular
