@@ -8,8 +8,11 @@ drawable ic_logo
 drawable ic_upi_name
 drawable ic_upi_symbol
 drawable logo
+drawable no_ticket_logo
 drawable platform
 drawable reserved
+drawable ticket_icon_grey
+drawable ticket_icon_yellow
 drawable unreserved
 drawable upcoming_template
 drawable uppcoming_template

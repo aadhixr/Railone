@@ -1,0 +1,21 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "app.railonexr.android",
+  "variantName": "debug",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 128,
+      "versionName": "2.3.8",
+      "outputFile": "RailOne_v2.3.8_debug.apk"
+    }
+  ],
+  "elementType": "File",
+  "minSdkVersionForDexing": 27
+}

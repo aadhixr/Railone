@@ -3866,6 +3866,7 @@ drawable mtrl_switch_track
 drawable mtrl_switch_track_decoration
 drawable mtrl_tabs_default_indicator
 drawable navigation_empty_icon
+drawable no_ticket_logo
 drawable notification_action_background
 drawable notification_bg
 drawable notification_bg_low
@@ -3882,6 +3883,8 @@ drawable notify_panel_notification_icon_bg
 drawable platform
 drawable reserved
 drawable test_level_drawable
+drawable ticket_icon_grey
+drawable ticket_icon_yellow
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 drawable unreserved

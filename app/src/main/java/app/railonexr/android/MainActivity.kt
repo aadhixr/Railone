@@ -137,8 +137,7 @@ class MainActivity : ComponentActivity() {
                                 onBack = { currentScreen = Screen.Home },
                                 onTicketClick = { ticketId ->
                                     currentScreen = Screen.BookingDetails(ticketId)
-                                },
-                                onBottomNavClick = { navScreen -> currentScreen = navScreen }
+                                }
                             )
                         }
                         is Screen.SearchStation -> {
