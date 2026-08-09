@@ -756,10 +756,10 @@ fun RailOneBottomNavigation(
                 )
 
                 val cfg = when(label) {
-                    "Home" ->        ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
-                    "My Bookings" -> ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
-                    "You" ->         ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
-                    "Menu" ->        ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    "Home" ->        ItemConfig(56.dp, 56.dp, 0.dp, 8.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    "My Bookings" -> ItemConfig(66.dp, 46.dp, 0.dp, 13.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    "You" ->         ItemConfig(43.dp, 43.dp, 0.dp, 13.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    "Menu" ->        ItemConfig(33.dp, 33.dp, 0.dp, 15.dp, 0.dp, 0.dp, 4.dp, 10.sp)
                     else ->          ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
                 }
                 
