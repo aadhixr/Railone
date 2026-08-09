@@ -435,18 +435,26 @@ fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit)
             navItems.forEach { (label, iconRes, screen) ->
                 val isSelected = label == selectedLabel
                 
-                // Individual Image Control: (Width, Height, OffsetX, OffsetY)
-                val (iWidth, iHeight, iX, iY) = when(label) {
-                    "Home" ->        listOf(24.dp, 24.dp, 0.dp, 0.dp)
-                    "My Bookings" -> listOf(24.dp, 24.dp, 0.dp, 0.dp)
-                    "You" ->         listOf(24.dp, 24.dp, 0.dp, 0.dp)
-                    "Menu" ->        listOf(24.dp, 24.dp, 0.dp, 0.dp)
-                    else ->          listOf(24.dp, 24.dp, 0.dp, 0.dp)
+                // --- FULL CONTROL PANEL FOR EACH ITEM ---
+                data class ItemConfig(
+                    val iW: androidx.compose.ui.unit.Dp, val iH: androidx.compose.ui.unit.Dp, 
+                    val iX: androidx.compose.ui.unit.Dp, val iY: androidx.compose.ui.unit.Dp, 
+                    val itX: androidx.compose.ui.unit.Dp, val itY: androidx.compose.ui.unit.Dp, 
+                    val space: androidx.compose.ui.unit.Dp, val lSize: androidx.compose.ui.unit.TextUnit
+                )
+
+                val cfg = when(label) {
+                    "Home" ->        ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    "My Bookings" -> ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    "You" ->         ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    "Menu" ->        ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
+                    else ->          ItemConfig(26.dp, 26.dp, 0.dp, 0.dp, 0.dp, 0.dp, 4.dp, 10.sp)
                 }
                 
                 Column(
                     modifier = Modifier
                         .weight(1f)
+                        .offset(x = cfg.itX, y = cfg.itY)
                         .clickable(
                             indication = null,
                             interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
@@ -460,14 +468,14 @@ fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit)
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
                         modifier = Modifier
-                            .size(width = iWidth, height = iHeight)
-                            .offset(x = iX, y = iY)
+                            .size(width = cfg.iW, height = cfg.iH)
+                            .offset(x = cfg.iX, y = cfg.iY)
                     ) 
-                    Spacer(modifier = Modifier.height(6.dp))
+                    Spacer(modifier = Modifier.height(cfg.space))
                     Text(
                         text = label, 
                         color = Color.White,
-                        fontSize = 10.sp,
+                        fontSize = cfg.lSize,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
                     ) 
                 }
