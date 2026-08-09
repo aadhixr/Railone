@@ -146,7 +146,7 @@ fun HomeScreen(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Image(
-                                painter = painterResource(id = R.drawable.ic_logo),
+                                painter = painterResource(id = R.drawable.logo),
                                 contentDescription = null,
                                 modifier = Modifier.size(64.dp)
                             )
@@ -731,54 +731,52 @@ fun RailOneBottomNavigation(
     onNavClick: (Screen) -> Unit,
     onMenuClick: () -> Unit = {}
 ) {
-    NavigationBar(
-        containerColor = Color(0xFF005AC1),
+    Surface(
+        color = Color(0xFF005AC1),
+        modifier = Modifier.fillMaxWidth().height(68.dp),
         tonalElevation = 8.dp
     ) {
-        val navItems = listOf(
-            Triple("Home", R.drawable.home, Screen.Home),
-            Triple("My Bookings", R.drawable.bookings, Screen.MyBookings(3)),
-            Triple("You", R.drawable.you, Screen.Home),
-            Triple("Menu", R.drawable.menu, Screen.Home)
-        )
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val navItems = listOf(
+                Triple("Home", R.drawable.home, Screen.Home),
+                Triple("My Bookings", R.drawable.bookings, Screen.MyBookings(3)),
+                Triple("You", R.drawable.you, Screen.Home),
+                Triple("Menu", R.drawable.menu, Screen.Home)
+            )
 
-        navItems.forEach { (label, iconRes, screen) ->
-            val isSelected = label == selectedLabel
-            val activeColor = Color(0xFFFFA726)
-            
-            NavigationBarItem(
-                selected = isSelected,
-                onClick = {
-                    if (label == "Menu") {
-                        onMenuClick()
-                    } else {
-                        onNavClick(screen)
-                    }
-                },
-                icon = { 
+            navItems.forEach { (label, iconRes, screen) ->
+                val isSelected = label == selectedLabel
+                
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+                        ) {
+                            if (label == "Menu") onMenuClick() else onNavClick(screen)
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(26.dp),
-                        colorFilter = if (isSelected) androidx.compose.ui.graphics.ColorFilter.tint(activeColor) else null
+                        modifier = Modifier.size(24.dp)
                     ) 
-                },
-                label = { 
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = label, 
-                        color = if (isSelected) activeColor else Color.White,
-                        fontSize = 11.sp,
+                        color = Color.White,
+                        fontSize = 10.sp,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                     ) 
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = activeColor,
-                    unselectedIconColor = Color.White,
-                    selectedTextColor = activeColor,
-                    unselectedTextColor = Color.White,
-                    indicatorColor = Color.Transparent
-                )
-            )
+                }
+            }
         }
     }
 }

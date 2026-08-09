@@ -415,43 +415,52 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
 
 @Composable
 fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit) {
-    NavigationBar(
-        containerColor = Color(0xFF005AC1),
+    Surface(
+        color = Color(0xFF005AC1),
+        modifier = Modifier.fillMaxWidth().height(68.dp),
+        tonalElevation = 8.dp
     ) {
-        val navItems = listOf(
-            Triple("Home", Icons.Default.Home, Screen.Home),
-            Triple("My Bookings", Icons.Default.Book, Screen.MyBookings(3)),
-            Triple("You", Icons.Default.Person, Screen.Home), // Placeholder
-            Triple("Menu", Icons.Default.Menu, Screen.Home) // Handled by callback in HomeScreen
-        )
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            val navItems = listOf(
+                Triple("Home", R.drawable.home, Screen.Home),
+                Triple("My Bookings", R.drawable.bookings, Screen.MyBookings(3)),
+                Triple("You", R.drawable.you, Screen.Home),
+                Triple("Menu", R.drawable.menu, Screen.Home)
+            )
 
-        navItems.forEach { (label, icon, screen) ->
-            val isSelected = label == selectedLabel
-            NavigationBarItem(
-                selected = isSelected,
-                onClick = { onNavClick(screen) },
-                icon = { 
-                    Icon(
-                        imageVector = icon, 
+            navItems.forEach { (label, iconRes, screen) ->
+                val isSelected = label == selectedLabel
+                
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .clickable(
+                            indication = null,
+                            interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+                        ) {
+                            onNavClick(screen)
+                        },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        tint = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f)
+                        modifier = Modifier.size(24.dp)
                     ) 
-                },
-                label = { 
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = label, 
-                        color = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f),
-                        fontSize = 10.sp
+                        color = Color.White,
+                        fontSize = 10.sp,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                     ) 
-                },
-                colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.White.copy(alpha = 0.7f),
-                    selectedTextColor = Color.White,
-                    unselectedTextColor = Color.White.copy(alpha = 0.7f),
-                    indicatorColor = Color.White.copy(alpha = 0.2f)
-                )
-            )
+                }
+            }
         }
     }
 }
