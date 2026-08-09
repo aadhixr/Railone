@@ -532,14 +532,14 @@ fun OfferingsSection() {
         Spacer(modifier = Modifier.height(20.dp))
         
         val items = listOf(
-            OfferingItem("Search Trains", Icons.Outlined.Route, Color(0xFFFFE4E8)),
-            OfferingItem("PNR Status", Icons.Outlined.ConfirmationNumber, Color(0xFFE8F5E9)),
-            OfferingItem("Coach Position", Icons.Outlined.Train, Color(0xFFE3F2FD)),
-            OfferingItem("Track Your Train", Icons.Outlined.MyLocation, Color(0xFFFFF3E0)),
-            OfferingItem("Order Food", Icons.Outlined.Restaurant, Color(0xFFE8EAF6)),
-            OfferingItem("File Refund", Icons.AutoMirrored.Outlined.AssignmentReturn, Color(0xFFEEEEEE)),
-            OfferingItem("Rail Madad", Icons.Outlined.Handshake, Color(0xFFFBE9E7)),
-            OfferingItem("Go To WAVES", Icons.Outlined.Layers, Color(0xFFF3E5F5))
+            OfferingItem("Search Trains", R.drawable.search_train, Color(0xFFFFE4E8)),
+            OfferingItem("PNR Status", R.drawable.pnr_status, Color(0xFFE8F5E9)),
+            OfferingItem("Coach Position", R.drawable.coach_position, Color(0xFFE3F2FD)),
+            OfferingItem("Track Your Train", R.drawable.track_your_train, Color(0xFFFFF3E0)),
+            OfferingItem("Order Food", R.drawable.order_food, Color(0xFFE8EAF6)),
+            OfferingItem("File Refund", R.drawable.file_refund, Color(0xFFEEEEEE)),
+            OfferingItem("Rail Madad", R.drawable.rail_madad, Color(0xFFFBE9E7)),
+            OfferingItem("Go To WAVES", R.drawable.go_to_waves, Color(0xFFF3E5F5))
         )
 
         Column(verticalArrangement = Arrangement.spacedBy(24.dp)) {
@@ -557,7 +557,7 @@ fun OfferingsSection() {
     }
 }
 
-data class OfferingItem(val title: String, val icon: ImageVector, val color: Color)
+data class OfferingItem(val title: String, val iconRes: Int, val color: Color)
 
 @Composable
 fun OfferingCard(item: OfferingItem, modifier: Modifier) {
@@ -572,11 +572,10 @@ fun OfferingCard(item: OfferingItem, modifier: Modifier) {
                 .background(item.color),
             contentAlignment = Alignment.Center
         ) {
-            Icon(
-                imageVector = item.icon,
+            Image(
+                painter = painterResource(id = item.iconRes),
                 contentDescription = item.title,
-                tint = if (item.title == "Search Trains") Color(0xFFE91E63) else Color(0xFF5C6BC0),
-                modifier = Modifier.size(32.dp)
+                modifier = Modifier.size(36.dp)
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
@@ -608,19 +607,31 @@ fun TriviaSection() {
             item { 
                 TriviaCard(
                     "First ever passenger train was run between Bori Bandar to Thane on April 16, 1853.",
-                    ""
+                    R.drawable.`1`
                 ) 
             }
             item { 
                 TriviaCard(
                     "Chenab Railway Bridge in Dharot, Jammu & Kashmir is the World's highest Railway Bridge.",
-                    ""
+                    R.drawable.`2`
                 ) 
             }
             item { 
                 TriviaCard(
                     "Noney Bridge is the tallest railway bridge in India with 141 meters.",
-                    ""
+                    R.drawable.`3`
+                ) 
+            }
+            item { 
+                TriviaCard(
+                    "Shree Siddharoodha Swamiji Railway Station Hubballi is world's longest Railway Platform with length of 1505 meters.",
+                    R.drawable.`4`
+                ) 
+            }
+            item { 
+                TriviaCard(
+                    "99% Electrification is achieved in Indian Railways.",
+                    R.drawable.`5`
                 ) 
             }
         }
@@ -628,7 +639,7 @@ fun TriviaSection() {
 }
 
 @Composable
-fun TriviaCard(title: String, subtitle: String) {
+fun TriviaCard(title: String, imageRes: Int) {
     Card(
         modifier = Modifier.width(260.dp),
         shape = RoundedCornerShape(16.dp),
@@ -639,10 +650,16 @@ fun TriviaCard(title: String, subtitle: String) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(140.dp)
+                    .height(160.dp)
                     .clip(RoundedCornerShape(16.dp))
-                    .background(Color(0xFFF5F5F5))
-            )
+            ) {
+                Image(
+                    painter = painterResource(id = imageRes),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+            }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = title, 
@@ -651,14 +668,6 @@ fun TriviaCard(title: String, subtitle: String) {
                 color = Color(0xFF1A237E),
                 lineHeight = 16.sp
             )
-            if (subtitle.isNotEmpty()) {
-                Text(
-                    text = subtitle, 
-                    fontSize = 12.sp, 
-                    fontWeight = FontWeight.Bold, 
-                    color = Color(0xFF005AC1)
-                )
-            }
         }
     }
 }
@@ -726,16 +735,19 @@ fun RailOneBottomNavigation(
 ) {
     NavigationBar(
         containerColor = Color(0xFF005AC1),
+        tonalElevation = 8.dp
     ) {
         val navItems = listOf(
-            Triple("Home", Icons.Default.Home, Screen.Home),
-            Triple("My Bookings", Icons.Default.Book, Screen.MyBookings(3)),
-            Triple("You", Icons.Default.Person, Screen.Home),
-            Triple("Menu", Icons.Default.Menu, Screen.Home)
+            Triple("Home", R.drawable.home, Screen.Home),
+            Triple("My Bookings", R.drawable.bookings, Screen.MyBookings(3)),
+            Triple("You", R.drawable.you, Screen.Home),
+            Triple("Menu", R.drawable.menu, Screen.Home)
         )
 
-        navItems.forEach { (label, icon, screen) ->
+        navItems.forEach { (label, iconRes, screen) ->
             val isSelected = label == selectedLabel
+            val activeColor = Color(0xFFFFA726)
+            
             NavigationBarItem(
                 selected = isSelected,
                 onClick = {
@@ -746,25 +758,27 @@ fun RailOneBottomNavigation(
                     }
                 },
                 icon = { 
-                    Icon(
-                        imageVector = icon, 
+                    Image(
+                        painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        tint = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f)
+                        modifier = Modifier.size(26.dp),
+                        colorFilter = if (isSelected) androidx.compose.ui.graphics.ColorFilter.tint(activeColor) else null
                     ) 
                 },
                 label = { 
                     Text(
                         text = label, 
-                        color = if (isSelected) Color.White else Color.White.copy(alpha = 0.7f),
-                        fontSize = 10.sp
+                        color = if (isSelected) activeColor else Color.White,
+                        fontSize = 11.sp,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                     ) 
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
-                    unselectedIconColor = Color.White.copy(alpha = 0.7f),
-                    selectedTextColor = Color.White,
-                    unselectedTextColor = Color.White.copy(alpha = 0.7f),
-                    indicatorColor = Color.White.copy(alpha = 0.2f)
+                    selectedIconColor = activeColor,
+                    unselectedIconColor = Color.White,
+                    selectedTextColor = activeColor,
+                    unselectedTextColor = Color.White,
+                    indicatorColor = Color.White.copy(alpha = 0.15f)
                 )
             )
         }
