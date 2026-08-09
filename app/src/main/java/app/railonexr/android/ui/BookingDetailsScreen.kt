@@ -30,11 +30,6 @@ import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
 
-val RobotoFamily = FontFamily(
-    Font(R.font.roboto_regular, FontWeight.Normal),
-    Font(R.font.roboto_medium, FontWeight.Medium),
-    Font(R.font.roboto_bold, FontWeight.Bold)
-)
 @Composable
 fun BookingDetailsScreen(
     ticketId: String,
