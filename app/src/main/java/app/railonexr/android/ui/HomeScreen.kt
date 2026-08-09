@@ -389,7 +389,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     text = "Unreserved",
                     color = Color(0xFFC6E0B4), // Green, Accent 6, Lighter 60%
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Light,
+                    fontWeight = FontWeight.Bold,
                     fontSize = TicketUIConfig.fontSizeBadge,
                     modifier = Modifier
                         .align(Alignment.BottomStart)
