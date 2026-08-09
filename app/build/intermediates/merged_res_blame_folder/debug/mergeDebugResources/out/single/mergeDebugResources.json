@@ -40,10 +40,6 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\ticket_icon_yellow.png"
     },
     {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_search_train.png.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/search_train.png"
-    },
-    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_rail_madad.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\rail_madad.png"
     },
@@ -92,6 +88,10 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\info_5.png"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_bookings.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/bookings.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_pnr_status.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\pnr_status.png"
     },
@@ -108,6 +108,10 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\logo.jpeg"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_menu.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/menu.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_ic_logo.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\ic_logo.png"
     },
@@ -118,6 +122,10 @@
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_ic_indian_railway.jpg.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\ic_indian_railway.jpg"
+    },
+    {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_you.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/you.png"
     },
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_file_refund.png.flat",
@@ -134,6 +142,10 @@
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_menu.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\menu.png"
+    },
+    {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_home.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/home.png"
     },
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_ticket_icon_grey.png.flat",

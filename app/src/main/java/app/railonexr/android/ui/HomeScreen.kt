@@ -511,12 +511,7 @@ fun JourneyCard(
             )
         }
         Spacer(modifier = Modifier.height(8.dp))
-        Text(
-            text = title,
-            fontWeight = FontWeight.Bold,
-            color = Color(0xFF1A237E),
-            fontSize = 13.sp
-        )
+
     }
 }
 
@@ -655,13 +650,7 @@ fun TriviaCard(title: String, imageRes: Int) {
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = title, 
-                fontSize = 12.sp, 
-                fontWeight = FontWeight.Medium,
-                color = Color(0xFF1A237E),
-                lineHeight = 16.sp
-            )
+
         }
     }
 }
@@ -747,6 +736,15 @@ fun RailOneBottomNavigation(
             navItems.forEach { (label, iconRes, screen) ->
                 val isSelected = label == selectedLabel
                 
+                // Individual size control for each icon
+                val iconSize = when(label) {
+                    "Home" -> 34.dp
+                    "My Bookings" -> 24.dp
+                    "You" -> 24.dp
+                    "Menu" -> 24.dp
+                    else -> 24.dp
+                }
+                
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -762,13 +760,13 @@ fun RailOneBottomNavigation(
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(iconSize)
                     ) 
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
                         text = label, 
                         color = Color.White,
-                        fontSize = 11.sp,
+                        fontSize = 0.sp,
                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                     ) 
                 }

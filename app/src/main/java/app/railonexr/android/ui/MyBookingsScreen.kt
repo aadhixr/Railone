@@ -435,6 +435,15 @@ fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit)
             navItems.forEach { (label, iconRes, screen) ->
                 val isSelected = label == selectedLabel
                 
+                // Individual size control for each icon
+                val iconSize = when(label) {
+                    "Home" -> 24.dp
+                    "My Bookings" -> 24.dp
+                    "You" -> 24.dp
+                    "Menu" -> 24.dp
+                    else -> 24.dp
+                }
+                
                 Column(
                     modifier = Modifier
                         .weight(1f)
@@ -450,7 +459,7 @@ fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit)
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(iconSize)
                     ) 
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
