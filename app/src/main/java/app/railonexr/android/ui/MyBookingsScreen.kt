@@ -30,6 +30,7 @@ import app.railonexr.android.Screen
 import app.railonexr.android.logic.BookingManager
 import app.railonexr.android.logic.Ticket
 import app.railonexr.android.logic.TicketStatus
+import androidx.compose.ui.text.font.Font
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -88,26 +89,34 @@ fun MyBookingsScreen(
         },
         containerColor = Color.White
     ) { padding ->
-        Column(modifier = Modifier.padding(padding)) {
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxSize()
+        ) {
             if (tickets.isEmpty()) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.offset(y = (-40).dp) // Adjust center position
+                        modifier = Modifier.offset(y = (-40).dp)
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.no_ticket_logo),
                             contentDescription = null,
-                            modifier = Modifier.size(100.dp),
+                            modifier = Modifier.size(120.dp),
                             contentScale = ContentScale.Fit
                         )
-                        Spacer(modifier = Modifier.height(24.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         Text(
                             "No Tickets Found. Swipe down to refresh.", 
-                            color = Color.Gray, 
+                            color = Color.Gray.copy(alpha = 0.8f), 
                             fontSize = 14.sp,
-                            fontFamily = FontFamily.SansSerif,
-                            fontWeight = FontWeight.Light
+                            fontFamily = RobotoFamily,
+                            fontWeight = FontWeight.Light,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
                         )
                     }
                 }
@@ -137,44 +146,53 @@ fun BookingStatusTabs(
 ) {
     val tabs = listOf("Upcoming", "Completed", "Cancelled", "All")
     
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Color(0xFFE3F2FD)) // Light blue background for the whole bar
-            .padding(8.dp)
-            .height(80.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = Color(0xFFF1F8FF), // Light blue background
+        shadowElevation = 4.dp
     ) {
-        tabs.forEachIndexed { index, title ->
-            val isSelected = selectedTab == index
-            
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .fillMaxHeight()
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(if (isSelected) Color.White else Color.Transparent)
-                    .clickable { onTabSelected(index) },
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
+                .height(80.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            tabs.forEachIndexed { index, title ->
+                val isSelected = selectedTab == index
+                
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .padding(horizontal = 4.dp, vertical = 6.dp)
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(if (isSelected) Color.White else Color.Transparent)
+                        .clickable { onTabSelected(index) },
+                    contentAlignment = Alignment.Center
                 ) {
-                    Image(
-                        painter = painterResource(
-                            id = if (isSelected) R.drawable.ticket_icon_yellow else R.drawable.ticket_icon_grey
-                        ),
-                        contentDescription = null,
-                        modifier = Modifier.size(28.dp)
-                    )
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(
-                        text = title,
-                        fontSize = 12.sp,
-                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
-                        color = if (isSelected) Color(0xFFFFA726) else Color.Gray
-                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Image(
+                            painter = painterResource(
+                                id = if (isSelected) R.drawable.ticket_icon_yellow else R.drawable.ticket_icon_grey
+                            ),
+                            contentDescription = null,
+                            modifier = Modifier.size(28.dp),
+                            contentScale = ContentScale.Fit
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = title,
+                            fontSize = 11.sp,
+                            fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                            color = if (isSelected) Color(0xFFFFA726) else Color(0xFF757575),
+                            fontFamily = RobotoFamily
+                        )
+                    }
                 }
             }
         }
@@ -196,7 +214,7 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     ) {
         // Template Background
         Image(
-            painter = painterResource(id = R.drawable.uupcoming_template),
+            painter = painterResource(id = R.drawable.upcoming_template),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.FillBounds

@@ -15,8 +15,6 @@ drawable ticket_icon_grey
 drawable ticket_icon_yellow
 drawable unreserved
 drawable upcoming_template
-drawable uppcoming_template
-drawable uupcoming_template
 font roboto_bold
 font roboto_medium
 font roboto_regular

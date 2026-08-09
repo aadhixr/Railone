@@ -68,10 +68,6 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\no_ticket_logo.png"
     },
     {
-        "merged": "app.railonexr.android.app-debug-66:/drawable_upcoming_template.png.flat",
-        "source": "app.railonexr.android.app-main-68:/drawable/upcoming_template.png"
-    },
-    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_uupcoming_template.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\uupcoming_template.png"
     },
