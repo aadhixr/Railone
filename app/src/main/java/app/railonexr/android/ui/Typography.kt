@@ -10,3 +10,7 @@ val RobotoFamily = FontFamily(
     Font(R.font.roboto_medium, FontWeight.Medium),
     Font(R.font.roboto_bold, FontWeight.Bold)
 )
+
+val AvenirFamily = FontFamily(
+    Font(R.font.avenir_next_lt_pro_light, FontWeight.Light)
+)

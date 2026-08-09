@@ -11,9 +11,9 @@
       "type": "SINGLE",
       "filters": [],
       "attributes": [],
-      "versionCode": 146,
-      "versionName": "2.5.1",
-      "outputFile": "RailOne_v2.5.1_debug.apk"
+      "versionCode": 148,
+      "versionName": "2.5.2",
+      "outputFile": "RailOne_v2.5.2_debug.apk"
     }
   ],
   "elementType": "File",

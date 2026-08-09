@@ -225,8 +225,8 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
             Text(
                 text = df.format(Date(ticket.bookedAt)),
                 color = Color(0xFFE8DFF8),
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Medium,
+                fontFamily = AvenirFamily,
+                fontWeight = FontWeight.Light,
                 fontSize = TicketUIConfig.fontSizeDate,
                 modifier = Modifier
                     .align(Alignment.TopStart)
@@ -246,16 +246,16 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                 Text(
                     text = ticket.source.substringBefore(" -").trim().uppercase(),
                     color = Color(0xFFF2EDF8),
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Medium,
+                    fontFamily = AvenirFamily,
+                    fontWeight = FontWeight.Light,
                     fontSize = TicketUIConfig.fontSizeStations
                 )
 
                 Text(
                     text = ticket.destination.substringBefore(" -").trim().uppercase(),
                     color = Color(0xFFF2EDF8),
-                    fontFamily = FontFamily.SansSerif,
-                    fontWeight = FontWeight.Medium,
+                    fontFamily = AvenirFamily,
+                    fontWeight = FontWeight.Light,
                     fontSize = TicketUIConfig.fontSizeStations
                 )
             }
@@ -263,9 +263,9 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
             // Badge - Positioned bottom-left
             Text(
                 text = "Unreserved",
-                color = Color(0xFFD8FF4A),
-                fontFamily = FontFamily.SansSerif,
-                fontWeight = FontWeight.Bold,
+                color = Color(0xFFC6E0B4), // Green, Accent 6, Lighter 60%
+                fontFamily = AvenirFamily,
+                fontWeight = FontWeight.Light,
                 fontSize = TicketUIConfig.fontSizeBadge,
                 modifier = Modifier
                     .align(Alignment.BottomStart)
@@ -291,8 +291,8 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                     Text(
                         text = "Book Again",
                         color = Color.White,
-                        fontFamily = FontFamily.SansSerif,
-                        fontWeight = FontWeight.Normal,
+                        fontFamily = AvenirFamily,
+                        fontWeight = FontWeight.Light,
                         fontSize = TicketUIConfig.fontSizeButtons,
                         modifier = Modifier.offset(
                             x = TicketUIConfig.buttonLabelOffsetX,
@@ -312,8 +312,8 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                     Text(
                         text = "View Details",
                         color = Color.White,
-                        fontFamily = FontFamily.SansSerif,
-                        fontWeight = FontWeight.Normal,
+                        fontFamily = AvenirFamily,
+                        fontWeight = FontWeight.Light,
                         fontSize = TicketUIConfig.fontSizeButtons,
                         modifier = Modifier.offset(
                             x = TicketUIConfig.buttonLabelOffsetX,
