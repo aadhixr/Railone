@@ -1,7 +1,7 @@
 {
   "version": 3,
   "artifactType": {
-    "type": "PACKAGED_MANIFESTS",
+    "type": "APK",
     "kind": "Directory"
   },
   "applicationId": "app.railonexr.android",
@@ -13,8 +13,9 @@
       "attributes": [],
       "versionCode": 140,
       "versionName": "2.4.7",
-      "outputFile": "AndroidManifest.xml"
+      "outputFile": "RailOne_v2.4.7_debug.apk"
     }
   ],
-  "elementType": "File"
+  "elementType": "File",
+  "minSdkVersionForDexing": 27
 }

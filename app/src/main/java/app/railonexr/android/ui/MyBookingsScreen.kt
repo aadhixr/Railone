@@ -450,8 +450,7 @@ fun RailOneBottomNavigation(selectedLabel: String, onNavClick: (Screen) -> Unit)
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(24.dp),
-                        colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color.White)
+                        modifier = Modifier.size(24.dp)
                     ) 
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(

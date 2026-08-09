@@ -273,7 +273,7 @@ fun RailOneTopBar() {
 
         // RailOne Logo (Center)
         Image(
-            painter = painterResource(id = R.drawable.ic_logo),
+            painter = painterResource(id = R.drawable.logo),
             contentDescription = "RailOne Logo",
             modifier = Modifier.height(32.dp),
             contentScale = ContentScale.Fit
@@ -569,7 +569,7 @@ fun OfferingCard(item: OfferingItem, modifier: Modifier) {
         Image(
             painter = painterResource(id = item.iconRes),
             contentDescription = item.title,
-            modifier = Modifier.size(64.dp),
+            modifier = Modifier.size(80.dp),
             contentScale = ContentScale.Fit
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -762,9 +762,7 @@ fun RailOneBottomNavigation(
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(24.dp),
-                        // Clean white icons for everyone, no orange
-                        colorFilter = androidx.compose.ui.graphics.ColorFilter.tint(Color.White)
+                        modifier = Modifier.size(24.dp)
                     ) 
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(

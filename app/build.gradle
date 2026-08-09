@@ -13,8 +13,8 @@ android {
         applicationId "app.railonexr.android"
         minSdk 27
         targetSdk 35
-        versionCode 138
-        versionName "2.4.6"
+        versionCode 140
+        versionName "2.4.7"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
