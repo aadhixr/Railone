@@ -350,7 +350,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                     text = df.format(Date(ticket.bookedAt)),
                     color = Color(0xFFE8DFF8),
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Light,
+                    fontWeight = FontWeight.Normal,
                     fontSize = TicketUIConfig.fontSizeDate,
                     modifier = Modifier
                         .align(Alignment.TopStart)
@@ -371,7 +371,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         text = ticket.source.substringBefore(" -").trim().uppercase(),
                         color = Color(0xFFF2EDF8),
                         fontFamily = AvenirFamily,
-                        fontWeight = FontWeight.Light,
+                        fontWeight = FontWeight.Normal,
                         fontSize = TicketUIConfig.fontSizeStations
                     )
 
@@ -379,7 +379,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                         text = ticket.destination.substringBefore(" -").trim().uppercase(),
                         color = Color(0xFFF2EDF8),
                         fontFamily = AvenirFamily,
-                        fontWeight = FontWeight.Light,
+                        fontWeight = FontWeight.Normal,
                         fontSize = TicketUIConfig.fontSizeStations
                     )
                 }
@@ -416,7 +416,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                             text = "Book Again",
                             color = Color.White,
                             fontFamily = AvenirFamily,
-                            fontWeight = FontWeight.Light,
+                            fontWeight = FontWeight.Normal,
                             fontSize = TicketUIConfig.fontSizeButtons,
                             modifier = Modifier.offset(
                                 x = TicketUIConfig.buttonLabelOffsetX,
@@ -437,7 +437,7 @@ fun UpcomingJourneySection(ticket: Ticket, onViewDetails: () -> Unit) {
                             text = "View Details",
                             color = Color.White,
                             fontFamily = AvenirFamily,
-                            fontWeight = FontWeight.Light,
+                            fontWeight = FontWeight.Normal,
                             fontSize = TicketUIConfig.fontSizeButtons,
                             modifier = Modifier.offset(
                                 x = TicketUIConfig.buttonLabelOffsetX,

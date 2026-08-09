@@ -31,7 +31,8 @@ drawable track_your_train
 drawable unreserved
 drawable upcoming_template
 drawable you
-font avenir_next_lt_pro_light
+font avenir_bold
+font avenir_regular
 font roboto_bold
 font roboto_medium
 font roboto_regular
