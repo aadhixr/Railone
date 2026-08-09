@@ -640,7 +640,7 @@ fun TriviaCard(title: String, imageRes: Int) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(160.dp)
-                    .clip(RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(6.dp))
             ) {
                 Image(
                     painter = painterResource(id = imageRes),
@@ -736,13 +736,13 @@ fun RailOneBottomNavigation(
             navItems.forEach { (label, iconRes, screen) ->
                 val isSelected = label == selectedLabel
                 
-                // Individual size control for each icon
-                val iconSize = when(label) {
-                    "Home" -> 34.dp
-                    "My Bookings" -> 24.dp
-                    "You" -> 24.dp
-                    "Menu" -> 24.dp
-                    else -> 24.dp
+                // Individual Image Control: (Width, Height, OffsetX, OffsetY)
+                val (iWidth, iHeight, iX, iY) = when(label) {
+                    "Home" ->        listOf(64.dp, 24.dp, 0.dp, 0.dp)
+                    "My Bookings" -> listOf(24.dp, 24.dp, 0.dp, 0.dp)
+                    "You" ->         listOf(24.dp, 24.dp, 0.dp, 0.dp)
+                    "Menu" ->        listOf(24.dp, 24.dp, 0.dp, 0.dp)
+                    else ->          listOf(24.dp, 24.dp, 0.dp, 0.dp)
                 }
                 
                 Column(
@@ -760,7 +760,9 @@ fun RailOneBottomNavigation(
                     Image(
                         painter = painterResource(id = iconRes), 
                         contentDescription = label,
-                        modifier = Modifier.size(iconSize)
+                        modifier = Modifier
+                            .size(width = iWidth, height = iHeight)
+                            .offset(x = iX, y = iY)
                     ) 
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
