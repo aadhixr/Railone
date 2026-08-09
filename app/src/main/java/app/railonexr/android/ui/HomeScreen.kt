@@ -607,31 +607,31 @@ fun TriviaSection() {
             item { 
                 TriviaCard(
                     "First ever passenger train was run between Bori Bandar to Thane on April 16, 1853.",
-                    R.drawable.`1`
+                    R.drawable.info_1
                 ) 
             }
             item { 
                 TriviaCard(
                     "Chenab Railway Bridge in Dharot, Jammu & Kashmir is the World's highest Railway Bridge.",
-                    R.drawable.`2`
+                    R.drawable.info_2
                 ) 
             }
             item { 
                 TriviaCard(
                     "Noney Bridge is the tallest railway bridge in India with 141 meters.",
-                    R.drawable.`3`
+                    R.drawable.info_3
                 ) 
             }
             item { 
                 TriviaCard(
                     "Shree Siddharoodha Swamiji Railway Station Hubballi is world's longest Railway Platform with length of 1505 meters.",
-                    R.drawable.`4`
+                    R.drawable.info_4
                 ) 
             }
             item { 
                 TriviaCard(
                     "99% Electrification is achieved in Indian Railways.",
-                    R.drawable.`5`
+                    R.drawable.info_5
                 ) 
             }
         }
