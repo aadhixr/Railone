@@ -36,15 +36,23 @@ fun BookingDetailsScreen(
     ticketId: String,
     onBack: () -> Unit
 ) {
-    val ticket = remember(ticketId) { BookingManager.getTicketById(ticketId) }
-    var timeLeft by remember { mutableLongStateOf(300L) } // 5 minutes
+    val ticket = remember(ticketId) {
+        BookingManager.getTicketById(ticketId)
+    }
 
+    var timeLeft by remember {
+        mutableLongStateOf(300L)
+    }
+
+    // 5 minute timer
     LaunchedEffect(Unit) {
         while (timeLeft > 0) {
             delay(1000)
             timeLeft--
         }
-        onBack() // Automatically close when timer hits 00:00
+
+        // Automatically close when timer reaches 00:00
+        onBack()
     }
 
     Scaffold(
@@ -54,69 +62,144 @@ fun BookingDetailsScreen(
                     .fillMaxWidth()
                     .background(Color(0xFF005AC1))
                     .statusBarsPadding()
-                    .padding(horizontal = 8.dp, vertical = 12.dp),
+                    .padding(
+                        horizontal = 8.dp,
+                        vertical = 12.dp
+                    ),
                 contentAlignment = Alignment.CenterStart
             ) {
-                IconButton(onClick = onBack) {
-                    Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
+
+                IconButton(
+                    onClick = onBack
+                ) {
+                    Icon(
+                        Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = "Back",
+                        tint = Color.White
+                    )
                 }
-                Column(modifier = Modifier.padding(start = 48.dp)) {
-                    Text("Booking Details", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                    Text("Mobile: 7561801904", color = Color.White.copy(alpha = 0.8f), fontSize = 12.sp)
+
+                Column(
+                    modifier = Modifier
+                        .padding(start = 48.dp)
+                ) {
+
+                    Text(
+                        text = "Booking Details",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+
+                    Text(
+                        text = "Mobile: 7561801904",
+                        color = Color.White.copy(alpha = 0.8f),
+                        fontSize = 12.sp
+                    )
                 }
+
                 IconButton(
                     onClick = { },
-                    modifier = Modifier.align(Alignment.CenterEnd)
+                    modifier = Modifier.align(
+                        Alignment.CenterEnd
+                    )
                 ) {
-                    Icon(Icons.Default.Share, "Share", tint = Color.White)
+                    Icon(
+                        Icons.Default.Share,
+                        contentDescription = "Share",
+                        tint = Color.White
+                    )
                 }
             }
         },
+
         containerColor = Color(0xFFF5F5F5)
+
     ) { padding ->
+
         Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(
+                    rememberScrollState()
+                ),
+
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
             if (ticket != null) {
-                if (ticket.isExpired || ticket.status == TicketStatus.COMPLETED || ticket.status == TicketStatus.CANCELLED) {
+
+                if (
+                    ticket.isExpired ||
+                    ticket.status == TicketStatus.COMPLETED ||
+                    ticket.status == TicketStatus.CANCELLED
+                ) {
+
                     ExpiredTicketDetails(ticket)
+
                 } else {
+
                     Text(
                         text = "Thank You AADIL MUHAMMED, Happy Journey !",
+
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(start = 16.dp, top = 12.dp, bottom = 12.dp),
+                            .padding(
+                                start = 16.dp,
+                                top = 12.dp,
+                                bottom = 12.dp
+                            ),
+
                         textAlign = TextAlign.Start,
                         fontFamily = RobotoFamily,
                         fontSize = 12.sp,
                         color = Color.Gray
                     )
-                    
-                    TicketCardPakka(ticket, timeLeft)
+
+                    TicketCardPakka(
+                        ticket = ticket,
+                        timeLeft = timeLeft
+                    )
                 }
             }
 
-            Spacer(modifier = Modifier.height(10.dp))
+            Spacer(
+                modifier = Modifier.height(10.dp)
+            )
+
+            // =====================================================
+            // NON-REFUNDABLE NOTE
+            // =====================================================
 
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 14.dp, vertical = 2.dp),   // was 5.dp
+                    .padding(
+                        horizontal = 14.dp,
+                        vertical = 2.dp
+                    ),
+
                 shape = RoundedCornerShape(10.dp),
+
                 colors = CardDefaults.cardColors(
                     containerColor = Color(0xFFFFF1F1)
                 ),
+
                 elevation = CardDefaults.cardElevation(0.dp)
+
             ) {
+
                 Text(
                     text = "Note: This ticket is non refundable. Ticket is stored locally on the device. Please do not change your handset or perform factory reset.",
+
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 13.dp, vertical = 6.dp),   // was 12.dp
+                        .padding(
+                            horizontal = 13.dp,
+                            vertical = 6.dp
+                        ),
+
                     color = Color(0xFFD32F2F),
                     fontFamily = RobotoFamily,
                     fontSize = 11.sp,
@@ -126,19 +209,34 @@ fun BookingDetailsScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(6.dp))   // was 16.dp
+            Spacer(
+                modifier = Modifier.height(6.dp)
+            )
+
+            // =====================================================
+            // BOOK CONNECTING JOURNEY
+            // =====================================================
 
             OutlinedButton(
+
                 onClick = onBack,
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 24.dp)
                     .height(40.dp),
+
                 shape = RoundedCornerShape(24.dp),
-                border = BorderStroke(1.dp, Color(0xFF005AC1))
+
+                border = BorderStroke(
+                    1.dp,
+                    Color(0xFF005AC1)
+                )
+
             ) {
+
                 Text(
-                    "Book Connecting Journey",
+                    text = "Book Connecting Journey",
                     color = Color(0xFF005AC1),
                     fontWeight = FontWeight.Bold,
                     fontFamily = RobotoFamily,
@@ -146,147 +244,605 @@ fun BookingDetailsScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))   // was 32.dp
+            Spacer(
+                modifier = Modifier.height(24.dp)
+            )
         }
     }
 }
 
+
+// =============================================================
+// EXPIRED / COMPLETED / CANCELLED TICKET
+// CODE-GENERATED TICKET DESIGN
+// =============================================================
+
 @Composable
-fun ExpiredTicketDetails(ticket: Ticket) {
-    val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-    val bookingDate = df.format(Date(ticket.bookedAt))
-    
+fun ExpiredTicketDetails(
+    ticket: Ticket
+) {
+
+    // =========================================================
+    // BOOKING DATE
+    // =========================================================
+
+    val df = SimpleDateFormat(
+        "yyyy-MM-dd HH:mm:ss",
+        Locale.getDefault()
+    )
+
+    val bookingDate = df.format(
+        Date(ticket.bookedAt)
+    )
+
+
+    // =========================================================
+    // COLOURS
+    // =========================================================
+
+    val ticketBlue = Color(0xFFC7EAF0)
+    val textBlack = Color(0xFF151515)
+    val textGray = Color(0xFF777777)
+
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp),
+
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
+        // =====================================================
+        // TICKET
+        // =====================================================
+
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(338f / 120f) // Adjusted for more info template
+                .aspectRatio(1080f / 315f)
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.expired_ticket_more_info_template),
-                contentDescription = null,
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.FillBounds
-            )
-            
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 20.dp, vertical = 16.dp)
+
+            // =================================================
+            // TICKET SHAPE
+            // =================================================
+
+            Canvas(
+                modifier = Modifier.fillMaxSize()
             ) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+
+                val width = size.width
+                val height = size.height
+
+                // ---------------------------------------------
+                // CORNER SIZE
+                // ---------------------------------------------
+
+                val cornerRadius = 26.dp.toPx()
+
+                // ---------------------------------------------
+                // NOTCH SIZE
+                // ---------------------------------------------
+
+                val notchRadius = 25.dp.toPx()
+
+                // ---------------------------------------------
+                // NOTCH LEFT / RIGHT POSITION
+                //
+                // Increase 125 -> notch moves LEFT
+                // Decrease 125 -> notch moves RIGHT
+                // ---------------------------------------------
+
+                val notchX =
+                    width - 125.dp.toPx()
+
+
+                // =================================================
+                // PATH
+                // =================================================
+
+                val path =
+                    androidx.compose.ui.graphics.Path().apply {
+
+                        // -----------------------------------------
+                        // TOP LEFT
+                        // -----------------------------------------
+
+                        moveTo(
+                            cornerRadius,
+                            0f
+                        )
+
+                        // -----------------------------------------
+                        // TOP EDGE
+                        // -----------------------------------------
+
+                        lineTo(
+                            notchX - notchRadius,
+                            0f
+                        )
+
+                        // -----------------------------------------
+                        // TOP NOTCH
+                        // -----------------------------------------
+
+                        cubicTo(
+
+                            notchX - notchRadius,
+                            notchRadius * 0.65f,
+
+                            notchX + notchRadius,
+                            notchRadius * 0.65f,
+
+                            notchX + notchRadius,
+                            0f
+                        )
+
+                        // -----------------------------------------
+                        // TOP RIGHT EDGE
+                        // -----------------------------------------
+
+                        lineTo(
+                            width - cornerRadius,
+                            0f
+                        )
+
+                        // -----------------------------------------
+                        // TOP RIGHT CORNER
+                        // -----------------------------------------
+
+                        quadraticBezierTo(
+                            width,
+                            0f,
+                            width,
+                            cornerRadius
+                        )
+
+                        // -----------------------------------------
+                        // RIGHT SIDE
+                        // -----------------------------------------
+
+                        lineTo(
+                            width,
+                            height - cornerRadius
+                        )
+
+                        // -----------------------------------------
+                        // BOTTOM RIGHT CORNER
+                        // -----------------------------------------
+
+                        quadraticBezierTo(
+                            width,
+                            height,
+                            width - cornerRadius,
+                            height
+                        )
+
+                        // -----------------------------------------
+                        // BOTTOM EDGE
+                        // -----------------------------------------
+
+                        lineTo(
+                            notchX + notchRadius,
+                            height
+                        )
+
+                        // -----------------------------------------
+                        // BOTTOM NOTCH
+                        // -----------------------------------------
+
+                        cubicTo(
+
+                            notchX + notchRadius,
+                            height - notchRadius * 0.65f,
+
+                            notchX - notchRadius,
+                            height - notchRadius * 0.65f,
+
+                            notchX - notchRadius,
+                            height
+                        )
+
+                        // -----------------------------------------
+                        // BOTTOM LEFT EDGE
+                        // -----------------------------------------
+
+                        lineTo(
+                            cornerRadius,
+                            height
+                        )
+
+                        // -----------------------------------------
+                        // BOTTOM LEFT CORNER
+                        // -----------------------------------------
+
+                        quadraticBezierTo(
+                            0f,
+                            height,
+                            0f,
+                            height - cornerRadius
+                        )
+
+                        // -----------------------------------------
+                        // LEFT SIDE
+                        // -----------------------------------------
+
+                        lineTo(
+                            0f,
+                            cornerRadius
+                        )
+
+                        // -----------------------------------------
+                        // TOP LEFT CORNER
+                        // -----------------------------------------
+
+                        quadraticBezierTo(
+                            0f,
+                            0f,
+                            cornerRadius,
+                            0f
+                        )
+
+                        close()
+                    }
+
+
+                // =================================================
+                // DRAW TICKET
+                // =================================================
+
+                drawPath(
+                    path = path,
+                    color = ticketBlue
+                )
+            }
+
+
+            // =====================================================
+            // TICKET CONTENT
+            // =====================================================
+
+            Box(
+                modifier = Modifier.fillMaxSize()
+            ) {
+
+                // =================================================
+                // JOURNEY
+                // Current: line ~510
+                // =================================================
+
+                Text(
+                    text = "JOURNEY",
+
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(
+                            start = 25.dp,
+                            top = 24.dp
+                        ),
+
+                    fontFamily = AvenirFamily,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textBlack,
+                    letterSpacing = 0.sp
+                )
+
+
+                // =================================================
+                // UTS ID
+                // Current: line ~531
+                // =================================================
+
+                Text(
+                    text = ticket.ticketId,
+
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(
+                            end = 40.dp,
+                            top = 26.dp
+                        ),
+
+                    fontFamily = AvenirFamily,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = textBlack,
+                    letterSpacing = 0.sp
+                )
+
+
+                // =================================================
+                // SOURCE
+                // Current: line ~552
+                // =================================================
+
+                Text(
+                    text = ticket.source
+                        .substringBefore(" -")
+                        .trim()
+                        .uppercase(),
+
+                    modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(
+                            start = 25.dp,
+                            top = 50.dp
+                        ),
+
+                    fontFamily = AvenirFamily,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = textBlack,
+                    letterSpacing = 0.sp
+                )
+
+
+                // =================================================
+                // DESTINATION
+                // Current: line ~576
+                // =================================================
+
+                Text(
+                    text = ticket.destination
+                        .substringBefore(" -")
+                        .trim()
+                        .uppercase(),
+
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(
+                            end = 35.dp,
+                            top = 50.dp
+                        ),
+
+                    fontFamily = AvenirFamily,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = textBlack,
+                    letterSpacing = 0.sp
+                )
+
+
+                // =================================================
+                // VIA
+                // Current: line ~599
+                // =================================================
+
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(
+                            start = 25.dp,
+                            bottom = 15.dp
+                        )
+                ) {
+
                     Text(
-                        "JOURNEY", 
-                        fontSize = 13.sp, 
-                        fontWeight = FontWeight.Bold,
+                        text = "Via",
+
                         fontFamily = AvenirFamily,
-                        color = Color.Black
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = textGray,
+                        letterSpacing = 0.sp
                     )
+
                     Text(
-                        ticket.ticketId, 
-                        fontSize = 13.sp, 
-                        fontWeight = FontWeight.Bold,
+                        text = ticket.via.ifBlank {
+                            "---"
+                        },
+
                         fontFamily = AvenirFamily,
-                        color = Color.Black
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = textBlack,
+                        letterSpacing = 0.sp
                     )
                 }
-                
-                Spacer(modifier = Modifier.height(18.dp))
-                
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+
+
+                // =================================================
+                // BOOKED ON
+                // Current: line ~634
+                // =================================================
+
+                Column(
+
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                        .padding(
+                            end = 40.dp,
+                            bottom = 12.dp
+                        ),
+
+                    horizontalAlignment =
+                        Alignment.End
+
+                ) {
+
                     Text(
-                        ticket.source.substringBefore(" -").trim().uppercase(), 
-                        fontWeight = FontWeight.Bold, 
-                        fontSize = 14.sp,
+                        text = "Booked on",
+
                         fontFamily = AvenirFamily,
-                        color = Color.Black
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = textGray,
+                        letterSpacing = 0.sp
                     )
+
                     Text(
-                        ticket.destination.substringBefore(" -").trim().uppercase(), 
-                        fontWeight = FontWeight.Bold, 
-                        fontSize = 14.sp,
+                        text = bookingDate,
+
                         fontFamily = AvenirFamily,
-                        color = Color.Black
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = textBlack,
+                        letterSpacing = 0.sp
                     )
-                }
-                
-                Spacer(modifier = Modifier.height(8.dp))
-                
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Column {
-                        Text("Via", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
-                        Text("---", fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
-                    }
-                    Column(horizontalAlignment = Alignment.End) {
-                        Text("Booked on", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
-                        Text(bookingDate, fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
-                    }
                 }
             }
         }
-        
-        Spacer(modifier = Modifier.height(24.dp))
-        
+
+
+        // =====================================================
+        // SPACE BELOW TICKET
+        // =====================================================
+
+        Spacer(
+            modifier = Modifier.height(24.dp)
+        )
+
+
+        // =====================================================
+        // DETAILS BELOW TICKET
+        // =====================================================
+
         Column(
+
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp),
-            horizontalAlignment = Alignment.Start
+
+            horizontalAlignment =
+                Alignment.Start
+
         ) {
+
             Text(
-                "Ticket Expired", 
-                color = Color.Gray, 
-                fontSize = 13.sp, 
+                text = "Ticket Expired",
+
+                fontFamily = AvenirFamily,
+                fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
-                fontFamily = AvenirFamily
+                color = Color.Gray
             )
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            Text(
-                "Passenger(s) : ${ticket.adults} Adult , ${ticket.children} Child",
-                fontWeight = FontWeight.Bold,
-                fontSize = 15.sp,
-                color = Color.Black,
-                fontFamily = AvenirFamily
+
+            Spacer(
+                modifier = Modifier.height(16.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
+
             Text(
-                "${ticket.classType} | ORDINARY | JOURNEY | ₹${ticket.fare}.00",
-                fontWeight = FontWeight.Bold,
+                text =
+                    "Passenger(s) : ${ticket.adults} Adult , ${ticket.children} Child",
+
+                fontFamily = AvenirFamily,
                 fontSize = 15.sp,
-                color = Color.Black,
-                fontFamily = AvenirFamily
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
+            )
+
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
+
+            Text(
+                text =
+                    "${ticket.classType} | ORDINARY | JOURNEY | ₹${ticket.fare}.00",
+
+                fontFamily = AvenirFamily,
+                fontSize = 15.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
         }
     }
 }
+// =============================================================
+// ACTIVE TICKET WITH TIMER
+// =============================================================
 
 @Composable
-fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
+fun TicketCardPakka(
+    ticket: Ticket,
+    timeLeft: Long
+) {
 
-    val minutes = timeLeft / 60
-    val seconds = timeLeft % 60
-    val timerText = String.format(Locale.getDefault(), "%02d : %02d", minutes, seconds)
-    
-    val dfDisplay = SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault())
-    val bookingDateDisplay = dfDisplay.format(Date(ticket.bookedAt))
-    
-    val dfNumeric = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-    val bookingDateNumeric = dfNumeric.format(Date(ticket.bookedAt))
-    
-    val validTillDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date(ticket.validTill))
-    val validTillTime = SimpleDateFormat("HH:mm", Locale.getDefault()).format(Date(ticket.validTill))
+    // =========================================================
+    // TIMER
+    // =========================================================
 
-    val charcoal = Color(0xFF333333)
-    val lightGray = Color(0xFFBDBDBD)
-    val warmGold = Color(0xFFFFB300)
-    val redOrange = Color(0xFFFF3D00)
+    val minutes =
+        timeLeft / 60
+
+    val seconds =
+        timeLeft % 60
+
+    val timerText =
+        String.format(
+            Locale.getDefault(),
+            "%02d : %02d",
+            minutes,
+            seconds
+        )
+
+
+    // =========================================================
+    // DATES
+    // =========================================================
+
+    val dfDisplay =
+        SimpleDateFormat(
+            "dd MMM yyyy, HH:mm",
+            Locale.getDefault()
+        )
+
+    val bookingDateDisplay =
+        dfDisplay.format(
+            Date(ticket.bookedAt)
+        )
+
+
+    val dfNumeric =
+        SimpleDateFormat(
+            "dd/MM/yyyy HH:mm",
+            Locale.getDefault()
+        )
+
+    val bookingDateNumeric =
+        dfNumeric.format(
+            Date(ticket.bookedAt)
+        )
+
+
+    val validTillDate =
+        SimpleDateFormat(
+            "dd/MM/yyyy",
+            Locale.getDefault()
+        ).format(
+            Date(ticket.validTill)
+        )
+
+
+    val validTillTime =
+        SimpleDateFormat(
+            "HH:mm",
+            Locale.getDefault()
+        ).format(
+            Date(ticket.validTill)
+        )
+
+
+    // =========================================================
+    // COLOURS
+    // =========================================================
+
+    val charcoal =
+        Color(0xFF333333)
+
+    val lightGray =
+        Color(0xFFBDBDBD)
+
+    val warmGold =
+        Color(0xFFFFB300)
+
+    val redOrange =
+        Color(0xFFFF3D00)
+
+
+    // =========================================================
+    // MAIN ACTIVE TICKET
+    // =========================================================
 
     Box(
         modifier = Modifier
@@ -294,24 +850,48 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             .padding(horizontal = 2.dp)
             .height(580.dp)
     ) {
-        // Full Ticket Template Background
+
+        // =====================================================
+        // ACTIVE TICKET TEMPLATE
+        // =====================================================
+
         Image(
-            painter = painterResource(id = R.drawable.active_ticket_timer_template),
+
+            painter = painterResource(
+                id = R.drawable.active_ticket_timer_template
+            ),
+
             contentDescription = null,
+
             modifier = Modifier.fillMaxSize(),
+
             contentScale = ContentScale.FillBounds
         )
-        
-        Box(modifier = Modifier.fillMaxSize()) {
-            // Top Section (Timer area) - Precisely positioned
+
+
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+
+            // =================================================
+            // TOP TIMER SECTION
+            // =================================================
+
             Column(
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(230.dp)
                     .offset(y = 10.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+
+                horizontalAlignment =
+                    Alignment.CenterHorizontally,
+
+                verticalArrangement =
+                    Arrangement.Center
+
             ) {
+
                 Text(
                     text = "Dynamic preview will close in",
                     color = Color.White,
@@ -319,6 +899,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     fontWeight = FontWeight.Medium,
                     fontFamily = RobotoFamily
                 )
+
                 Text(
                     text = timerText,
                     color = redOrange,
@@ -326,6 +907,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     fontWeight = FontWeight.ExtraBold,
                     fontFamily = RobotoFamily
                 )
+
                 Text(
                     text = "Ticket Booking Date & Time",
                     color = lightGray,
@@ -333,6 +915,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     fontWeight = FontWeight.Normal,
                     fontFamily = RobotoFamily
                 )
+
                 Text(
                     text = bookingDateDisplay,
                     color = warmGold,
@@ -340,6 +923,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     fontWeight = FontWeight.Bold,
                     fontFamily = RobotoFamily
                 )
+
                 Text(
                     text = ticket.referenceNumber,
                     color = lightGray,
@@ -347,6 +931,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     fontWeight = FontWeight.Medium,
                     fontFamily = RobotoFamily
                 )
+
                 Text(
                     text = "Ticket is Non-Transferable",
                     color = Color.White,
@@ -356,18 +941,23 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 )
             }
 
-            // ==========================
-            // JOURNEY DETAILS - PRECISION ALIGNMENT
-            // ==========================
 
-            // Journey Ticket & ID row - Moved down to clear black area
+            // =================================================
+            // JOURNEY DETAILS
+            // =================================================
+
             Row(
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = 255.dp)
                     .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
+
             ) {
+
                 Text(
                     text = "Journey Ticket",
                     fontWeight = FontWeight.Medium,
@@ -375,6 +965,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     color = charcoal,
                     fontFamily = RobotoFamily
                 )
+
                 Text(
                     text = ticket.ticketId,
                     fontWeight = FontWeight.Medium,
@@ -384,51 +975,88 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 )
             }
 
-            // Stations Row - Aligned with middle horizontal space
+
+            // =================================================
+            // STATIONS
+            // =================================================
+
             Row(
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = 290.dp)
                     .padding(horizontal = 24.dp),
-                verticalAlignment = Alignment.CenterVertically
+
+                verticalAlignment =
+                    Alignment.CenterVertically
+
             ) {
+
                 Text(
-                    text = ticket.source.substringBefore(" -").trim().uppercase(),
+                    text = ticket.source
+                        .substringBefore(" -")
+                        .trim()
+                        .uppercase(),
+
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
                     color = charcoal,
                     fontFamily = RobotoFamily,
+
                     modifier = Modifier.weight(1f)
                 )
+
                 Text(
                     text = "— ${ticket.distance} —",
+
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Normal,
                     color = Color.Gray,
                     fontFamily = RobotoFamily,
+
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 4.dp)
+
+                    modifier = Modifier.padding(
+                        horizontal = 4.dp
+                    )
                 )
+
                 Text(
-                    text = ticket.destination.substringBefore(" -").trim().uppercase(),
+                    text = ticket.destination
+                        .substringBefore(" -")
+                        .trim()
+                        .uppercase(),
+
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
                     color = charcoal,
                     fontFamily = RobotoFamily,
+
                     modifier = Modifier.weight(1f),
+
                     textAlign = TextAlign.End
                 )
             }
 
-            // Via & Passenger row
+
+            // =================================================
+            // VIA & PASSENGER
+            // =================================================
+
             Row(
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = 328.dp)
                     .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
+
             ) {
+
                 Column {
+
                     Text(
                         text = "Via",
                         fontSize = 11.sp,
@@ -447,9 +1075,12 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     )
                 }
 
+
                 Column(
-                    horizontalAlignment = Alignment.End
+                    horizontalAlignment =
+                        Alignment.End
                 ) {
+
                     Text(
                         text = "Passenger",
                         fontSize = 11.sp,
@@ -459,7 +1090,9 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     )
 
                     Text(
-                        text = "${ticket.adults} Adult, ${ticket.children} Child",
+                        text =
+                            "${ticket.adults} Adult, ${ticket.children} Child",
+
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
                         color = charcoal,
@@ -469,15 +1102,25 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 }
             }
 
-            // Booked on & Validity row
+
+            // =================================================
+            // BOOKED ON & VALIDITY
+            // =================================================
+
             Row(
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = 388.dp)
                     .padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
+
             ) {
+
                 Column {
+
                     Text(
                         text = "Booked on",
                         fontSize = 11.sp,
@@ -485,6 +1128,7 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                         color = Color(0xFF9E9E9E),
                         fontFamily = RobotoFamily
                     )
+
                     Text(
                         text = bookingDateNumeric,
                         fontSize = 13.sp,
@@ -494,9 +1138,12 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                     )
                 }
 
+
                 Column(
-                    horizontalAlignment = Alignment.End
+                    horizontalAlignment =
+                        Alignment.End
                 ) {
+
                     Text(
                         text = "Validity",
                         fontSize = 11.sp,
@@ -504,8 +1151,11 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                         color = Color(0xFF9E9E9E),
                         fontFamily = RobotoFamily
                     )
+
                     Text(
-                        text = "$validTillDate $validTillTime",
+                        text =
+                            "$validTillDate $validTillTime",
+
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
                         color = charcoal,
@@ -514,22 +1164,33 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
                 }
             }
 
-            // Fare & IR Number Section
+
+            // =================================================
+            // FARE & IR NUMBER
+            // =================================================
+
             Column(
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = 452.dp)
                     .padding(horizontal = 24.dp)
+
             ) {
+
                 Text(
-                    text = "${ticket.classType} | ORDINARY | RETURN | ₹${ticket.fare}.00",
+                    text =
+                        "${ticket.classType} | ORDINARY | RETURN | ₹${ticket.fare}.00",
+
                     fontWeight = FontWeight.Medium,
                     fontSize = 13.sp,
                     color = charcoal,
                     fontFamily = RobotoFamily
                 )
+
                 Text(
                     text = ticket.irNumber,
+
                     fontWeight = FontWeight.Medium,
                     fontSize = 13.sp,
                     color = charcoal,
@@ -538,12 +1199,19 @@ fun TicketCardPakka(ticket: Ticket, timeLeft: Long) {
             }
 
 
-            // Footer Text
+            // =================================================
+            // FOOTER
+            // =================================================
+
             Text(
-                text = "Valid for one ret. jrny. till midnight of $validTillDate",
+
+                text =
+                    "Valid for one ret. jrny. till midnight of $validTillDate",
+
                 fontSize = 9.sp,
                 color = Color.Gray,
                 fontFamily = RobotoFamily,
+
                 modifier = Modifier
                     .fillMaxWidth()
                     .offset(y = 538.dp)

@@ -61,9 +61,9 @@ fun MyBookingsScreen(
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back", tint = Color.White)
                 }
                 Text(
-                    "My Bookings", 
-                    color = Color.White, 
-                    fontWeight = FontWeight.Bold, 
+                    "My Bookings",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
                     fontSize = 18.sp,
                     modifier = Modifier.padding(start = 48.dp)
                 )
@@ -117,8 +117,8 @@ fun MyBookingsScreen(
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         Text(
-                            "No Tickets Found. Swipe down to refresh.", 
-                            color = Color.Gray.copy(alpha = 0.8f), 
+                            "No Tickets Found. Swipe down to refresh.",
+                            color = Color.Gray.copy(alpha = 0.8f),
                             fontSize = 14.sp,
                             fontFamily = RobotoFamily,
                             fontWeight = FontWeight.Light,
@@ -130,7 +130,7 @@ fun MyBookingsScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
                     if (selectedTab == 3) { // All tab - group with headings
                         if (upcoming.isNotEmpty()) {
@@ -147,10 +147,22 @@ fun MyBookingsScreen(
                         }
                     } else {
                         items(tickets) { ticket ->
-                            when (ticket.status) {
-                                TicketStatus.UPCOMING -> UpcomingTicketCard(ticket, onTicketClick)
-                                TicketStatus.COMPLETED -> CompletedTicketCard(ticket, onTicketClick)
-                                TicketStatus.CANCELLED -> CancelledTicketCard(ticket, onTicketClick)
+                            when (selectedTab) {
+                                0 -> UpcomingTicketCard(ticket, onTicketClick)
+                                1 -> CompletedTicketCard(ticket, onTicketClick)
+                                2 -> CancelledTicketCard(ticket, onTicketClick)
+                                3 -> {
+                                    when (ticket.status) {
+                                        TicketStatus.UPCOMING ->
+                                            UpcomingTicketCard(ticket, onTicketClick)
+
+                                        TicketStatus.COMPLETED ->
+                                            CompletedTicketCard(ticket, onTicketClick)
+
+                                        TicketStatus.CANCELLED ->
+                                            CancelledTicketCard(ticket, onTicketClick)
+                                    }
+                                }
                             }
                         }
                     }
@@ -167,7 +179,7 @@ fun StatusHeading(text: String, color: Color) {
         color = color,
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth().offset(y = 10.dp),
         textAlign = androidx.compose.ui.text.style.TextAlign.Center
     )
 }
@@ -178,10 +190,10 @@ fun BookingStatusTabs(
     onTabSelected: (Int) -> Unit
 ) {
     val tabs = listOf("Upcoming", "Completed", "Cancelled", "All")
-    
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = Color(0xFFF1F8FF), 
+        color = Color(0xFFF1F8FF),
         shadowElevation = 4.dp
     ) {
         Row(
@@ -194,14 +206,14 @@ fun BookingStatusTabs(
         ) {
             tabs.forEachIndexed { index, title ->
                 val isSelected = selectedTab == index
-                
+
                 val activeColor = when(index) {
                     0 -> Color(0xFFF9A825) // Upcoming - Yellow
                     1 -> Color(0xFF4CAF50) // Completed - Green
                     2 -> Color.Red          // Cancelled - Red
                     else -> Color(0xFF005AC1) // All - Blue
                 }
-                
+
                 val iconRes = if (isSelected) {
                     when(index) {
                         0 -> R.drawable.upcoming_icon
@@ -212,7 +224,7 @@ fun BookingStatusTabs(
                 } else {
                     R.drawable.ticket_icon_grey
                 }
-                
+
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -251,7 +263,7 @@ fun BookingStatusTabs(
 @Composable
 fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     TicketShapeCard(
-        ticket = ticket, 
+        ticket = ticket,
         color = Color(0xFFFBC02D), // Yellow for Upcoming
         statusText = "Upcoming",
         statusColor = Color(0xFF7B1FA2),
@@ -263,11 +275,11 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
 @Composable
 fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     TicketShapeCard(
-        ticket = ticket, 
-        color = Color(0xFF20A36A), // Green for Completed
-        statusText = "Boarded",
-        statusColor = Color(0xFF2E7D32),
-        statusBg = Color(0xFFE8F5E9),
+        ticket = ticket,
+        color = Color(0xFF4CAF50), // Green for Completed
+        statusText = "Unreserved",
+        statusColor = Color(0xFF7B1FA2),
+        statusBg = Color(0xFFEAD9F4),
         onClick = onClick
     )
 }
@@ -275,9 +287,9 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
 @Composable
 fun CancelledTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
     TicketShapeCard(
-        ticket = ticket, 
+        ticket = ticket,
         color = Color(0xFFEF2222), // Red for Cancelled
-        statusText = "Cancelled",
+        statusText = "Unreserved",
         statusColor = Color.Red,
         statusBg = Color(0xFFFFEBEE),
         onClick = onClick
@@ -293,97 +305,467 @@ fun TicketShapeCard(
     statusBg: Color,
     onClick: (String) -> Unit
 ) {
-    val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
-    
+    val df = SimpleDateFormat(
+        "EEE, dd MMM yy",
+        Locale.getDefault()
+    )
+
     Box(
         modifier = Modifier
+            // =====================================================
+            // RESPONSIVE WIDTH
+            // =====================================================
+            // Ticket uses the complete available screen width.
+            // Only the width stretches with the screen.
+            //
             .fillMaxWidth()
+
+            // Keep the original 1000 : 365 ratio.
             .aspectRatio(1000f / 365f)
+
+            // Small vertical spacing.
             .padding(vertical = 4.dp)
+
+            // Make the complete ticket clickable.
             .clickable(
                 indication = null,
-                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-            ) { onClick(ticket.ticketId) }
+                interactionSource = remember {
+                    androidx.compose.foundation.interaction
+                        .MutableInteractionSource()
+                }
+            ) {
+                onClick(ticket.ticketId)
+            }
     ) {
-        // SVG-Style Path Drawing
-        Canvas(modifier = Modifier.fillMaxSize()) {
+
+        // =========================================================
+        // TICKET CANVAS
+        // =========================================================
+
+        Canvas(
+            modifier = Modifier.fillMaxSize()
+        ) {
+
+            // =====================================================
+            // SCALE
+            // =====================================================
+            //
+            // The ticket is designed using a 1000 x 365
+            // coordinate system.
+            //
+            // scaleX = responsive ticket width
+            // scaleY = ticket height
+            //
             val scaleX = size.width / 1000f
-            val scaleY = size.height / 365f
-            
+            val scaleY = size.height / 335f
+
+
+            // =====================================================
+            // NOTCH SETTINGS
+            // =====================================================
+            //
+            // IMPORTANT:
+            //
+            // The notch is controlled from these values.
+            //
+            // Change ONLY notchCenterY when you want to move
+            // the notch up or down.
+            //
+            // Smaller value = UP
+            // Larger value  = DOWN
+            //
+            // Example:
+            //
+            // 170f  -> UP
+            // 182.5f -> CENTRE
+            // 195f -> DOWN
+            //
+
+            val notchCenterY = 280f
+
+
+            // =====================================================
+            // NOTCH HEIGHT
+            // =====================================================
+            //
+            // This controls the vertical size of the notch.
+            //
+            // Keep this fixed so the notch doesn't become larger
+            // when the ticket becomes wider.
+            //
+
+            val notchHeight = 60f
+
+
+            // =====================================================
+            // NOTCH DEPTH
+            // =====================================================
+            //
+            // Controls how far the notch enters the ticket.
+            //
+            // Increase this value -> deeper notch.
+            // Decrease this value -> shallower notch.
+            //
+
+            val notchDepth = 30f
+
+
+            // Calculate the top and bottom of the notch
+            // automatically from its centre.
+
+            val notchTop =
+                notchCenterY - (notchHeight / 2f)
+
+            val notchBottom =
+                notchCenterY + (notchHeight / 2f)
+
+
+            // =====================================================
+            // HORIZONTAL NOTCH POSITIONS
+            // =====================================================
+            //
+            // These are positioned near the OUTER SIDES.
+            //
+            // Left  = 45
+            // Right = 955
+            //
+            // This keeps them away from the centre.
+            //
+
+            val leftNotchX = 45f
+
+            val rightNotchX = 955f
+
+
+            // =====================================================
+            // TICKET PATH
+            // =====================================================
+
             val path = androidx.compose.ui.graphics.Path().apply {
-                moveTo(24 * scaleX, 2 * scaleY)
-                lineTo(976 * scaleX, 2 * scaleY)
-                quadraticBezierTo(998 * scaleX, 2 * scaleY, 998 * scaleX, 24 * scaleY)
-                lineTo(998 * scaleX, 150 * scaleY)
-                cubicTo(965 * scaleX, 150 * scaleY, 945 * scaleX, 164 * scaleY, 945 * scaleX, 182.5f * scaleY)
-                cubicTo(945 * scaleX, 201 * scaleY, 965 * scaleX, 215 * scaleY, 998 * scaleX, 215 * scaleY)
-                lineTo(998 * scaleX, 341 * scaleY)
-                quadraticBezierTo(998 * scaleX, 363 * scaleY, 976 * scaleX, 363 * scaleY)
-                lineTo(24 * scaleX, 363 * scaleY)
-                quadraticBezierTo(2 * scaleX, 363 * scaleY, 2 * scaleX, 341 * scaleY)
-                lineTo(2 * scaleX, 215 * scaleY)
-                cubicTo(35 * scaleX, 215 * scaleY, 55 * scaleX, 201 * scaleY, 55 * scaleX, 182.5f * scaleY)
-                cubicTo(55 * scaleX, 164 * scaleY, 35 * scaleX, 150 * scaleY, 2 * scaleX, 150 * scaleY)
-                lineTo(2 * scaleX, 24 * scaleY)
-                quadraticBezierTo(2 * scaleX, 2 * scaleY, 24 * scaleX, 2 * scaleY)
+
+                // =================================================
+                // TOP-LEFT CORNER
+                // =================================================
+
+                moveTo(
+                    24f * scaleX,
+                    2f * scaleY
+                )
+
+
+                // =================================================
+                // TOP EDGE
+                // =================================================
+
+                lineTo(
+                    976f * scaleX,
+                    2f * scaleY
+                )
+
+
+                // =================================================
+                // TOP-RIGHT CORNER
+                // =================================================
+
+                quadraticBezierTo(
+                    998f * scaleX,
+                    2f * scaleY,
+
+                    998f * scaleX,
+                    24f * scaleY
+                )
+
+
+                // =================================================
+                // RIGHT SIDE — ABOVE NOTCH
+                // =================================================
+
+                lineTo(
+                    998f * scaleX,
+                    notchTop * scaleY
+                )
+
+
+                // =================================================
+                // RIGHT NOTCH — TOP TO CENTRE
+                // =================================================
+
+                cubicTo(
+
+                    // Control point 1
+                    (998f - notchDepth) * scaleX,
+                    notchTop * scaleY,
+
+                    // Control point 2
+                    rightNotchX * scaleX,
+                    (notchCenterY - notchHeight * 0.28f) * scaleY,
+
+                    // Notch centre
+                    rightNotchX * scaleX,
+                    notchCenterY * scaleY
+                )
+
+
+                // =================================================
+                // RIGHT NOTCH — CENTRE TO BOTTOM
+                // =================================================
+
+                cubicTo(
+
+                    // Control point 1
+                    rightNotchX * scaleX,
+                    (notchCenterY + notchHeight * 0.28f) * scaleY,
+
+                    // Control point 2
+                    (998f - notchDepth) * scaleX,
+                    notchBottom * scaleY,
+
+                    // Return to ticket edge
+                    998f * scaleX,
+                    notchBottom * scaleY
+                )
+
+
+                // =================================================
+                // RIGHT SIDE — BELOW NOTCH
+                // =================================================
+
+                lineTo(
+                    998f * scaleX,
+                    341f * scaleY
+                )
+
+
+                // =================================================
+                // BOTTOM-RIGHT CORNER
+                // =================================================
+
+                quadraticBezierTo(
+                    998f * scaleX,
+                    363f * scaleY,
+
+                    976f * scaleX,
+                    363f * scaleY
+                )
+
+
+                // =================================================
+                // BOTTOM EDGE
+                // =================================================
+
+                lineTo(
+                    24f * scaleX,
+                    363f * scaleY
+                )
+
+
+                // =================================================
+                // BOTTOM-LEFT CORNER
+                // =================================================
+
+                quadraticBezierTo(
+                    2f * scaleX,
+                    363f * scaleY,
+
+                    2f * scaleX,
+                    341f * scaleY
+                )
+
+
+                // =================================================
+                // LEFT SIDE — BELOW NOTCH
+                // =================================================
+
+                lineTo(
+                    2f * scaleX,
+                    notchBottom * scaleY
+                )
+
+
+                // =================================================
+                // LEFT NOTCH — BOTTOM TO CENTRE
+                // =================================================
+
+                cubicTo(
+
+                    // Control point 1
+                    (2f + notchDepth) * scaleX,
+                    notchBottom * scaleY,
+
+                    // Control point 2
+                    leftNotchX * scaleX,
+                    (notchCenterY + notchHeight * 0.28f) * scaleY,
+
+                    // Notch centre
+                    leftNotchX * scaleX,
+                    notchCenterY * scaleY
+                )
+
+
+                // =================================================
+                // LEFT NOTCH — CENTRE TO TOP
+                // =================================================
+
+                cubicTo(
+
+                    // Control point 1
+                    leftNotchX * scaleX,
+                    (notchCenterY - notchHeight * 0.28f) * scaleY,
+
+                    // Control point 2
+                    (2f + notchDepth) * scaleX,
+                    notchTop * scaleY,
+
+                    // Return to ticket edge
+                    2f * scaleX,
+                    notchTop * scaleY
+                )
+
+
+                // =================================================
+                // LEFT SIDE — ABOVE NOTCH
+                // =================================================
+
+                lineTo(
+                    2f * scaleX,
+                    24f * scaleY
+                )
+
+
+                // =================================================
+                // TOP-LEFT CORNER
+                // =================================================
+
+                quadraticBezierTo(
+                    2f * scaleX,
+                    2f * scaleY,
+
+                    24f * scaleX,
+                    2f * scaleY
+                )
+
+
+                // Close the complete ticket path.
                 close()
             }
-            
-            drawPath(path = path, color = Color(0xFFFAFAFA))
-            drawPath(path = path, color = color, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2 * scaleX))
-            
-            // Perforation Line
+
+
+            // =====================================================
+            // TICKET BACKGROUND
+            // =====================================================
+
+            drawPath(
+                path = path,
+                color = Color(0xFFFAFAFA)
+            )
+
+
+            // =====================================================
+            // TICKET BORDER
+            // =====================================================
+            //
+            // 1.dp keeps the border very thin.
+            //
+            // DO NOT use 2 * scaleX here because that makes the
+            // border thickness dependent on screen width.
+            //
+
+            drawPath(
+                path = path,
+
+                color = color,
+
+                style = androidx.compose.ui.graphics.drawscope
+                    .Stroke(
+                        width = 1.dp.toPx()
+                    )
+            )
+
+
+            // =====================================================
+            // DASHED PERFORATION LINE
+            // =====================================================
+            //
+            // The perforation follows the centre of the notch.
+            //
+            // Therefore, if you move notchCenterY, the dashed line
+            // moves with it.
+            //
+
             drawLine(
                 color = color,
-                start = androidx.compose.ui.geometry.Offset(55 * scaleX, 182.5f * scaleY),
-                end = androidx.compose.ui.geometry.Offset(945 * scaleX, 182.5f * scaleY),
-                strokeWidth = 1 * scaleX,
-                pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(8 * scaleX, 8 * scaleX), 0f)
+
+                start = androidx.compose.ui.geometry.Offset(
+                    leftNotchX * scaleX,
+                    notchCenterY * scaleY
+                ),
+
+                end = androidx.compose.ui.geometry.Offset(
+                    rightNotchX * scaleX,
+                    notchCenterY * scaleY
+                ),
+
+                // Very thin line
+                strokeWidth = 1.dp.toPx(),
+
+                // Dash length + gap
+                pathEffect =
+                    androidx.compose.ui.graphics.PathEffect
+                        .dashPathEffect(
+                            floatArrayOf(
+                                5.dp.toPx(),
+                                5.dp.toPx()
+                            ),
+                            0f
+                        )
             )
         }
-        
+
+
+
+
         // Content overlay
         Box(modifier = Modifier.fillMaxSize()) {
             // Status Badge
             Box(
                 modifier = Modifier
-                    .offset(x = 25.dp, y = 18.dp)
-                    .clip(RoundedCornerShape(17.dp))
+                    .offset(x = 8.dp, y = 10.dp)
+                    .clip(RoundedCornerShape(5.dp))
                     .background(statusBg)
                     .padding(horizontal = 14.dp, vertical = 6.dp)
             ) {
                 Text(
-                    text = if (statusText == "Upcoming") "Unreserved" else statusText, 
-                    color = statusColor, 
-                    fontSize = 14.sp, 
+                    text = if (statusText == "Upcoming") "Unreserved" else statusText,
+                    color = statusColor,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     fontFamily = AvenirFamily
                 )
             }
-            
+
             Text(
                 text = "UTS: ${ticket.utsId}",
-                modifier = Modifier.align(Alignment.TopEnd).padding(top = 22.dp, end = 25.dp),
+                modifier = Modifier.align(Alignment.TopEnd).padding(top = 12.dp, end = 25.dp),
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF666666),
                 fontFamily = AvenirFamily
             )
-            
+
             // Ticket Info
-            Column(modifier = Modifier.padding(start = 25.dp, top = 65.dp)) {
-                Text("Ticket Type", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
+            Column(modifier = Modifier.padding(start = 14.dp, top = 45.dp)) {
+                Text("Ticket Type", fontSize = 12.sp, color = Color.Gray, fontFamily = AvenirFamily)
                 Text("JOURNEY", fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
             }
-            
-            Column(modifier = Modifier.align(Alignment.TopEnd).padding(top = 65.dp, end = 25.dp), horizontalAlignment = Alignment.End) {
-                Text("Booking Date", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
-                Text(df.format(Date(ticket.bookedAt)), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
+
+            Column(modifier = Modifier.align(Alignment.TopEnd).padding(top = 45.dp, end = 25.dp), horizontalAlignment = Alignment.End) {
+                Text("Booking Date", fontSize = 12.sp, color = Color.Gray, fontFamily = AvenirFamily)
+                Text(df.format(Date(ticket.bookedAt)), fontSize = 12.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
             }
-            
+
             // Stations
             Row(
-                modifier = Modifier.fillMaxWidth().align(Alignment.Center).padding(horizontal = 25.dp).offset(y = 15.dp),
+                modifier = Modifier.fillMaxWidth().align(Alignment.Center).padding(horizontal = 14.dp).offset(y = 15.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -410,10 +792,10 @@ fun TicketShapeCard(
                     modifier = Modifier.weight(1f)
                 )
             }
-            
+
             // Bottom Actions
             Row(
-                modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).padding(bottom = 12.dp),
+                modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).offset(y = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {

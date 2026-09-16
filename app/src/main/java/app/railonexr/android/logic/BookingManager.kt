@@ -171,8 +171,13 @@ object BookingManager {
         val srcCode = source.split("-").lastOrNull()?.trim() ?: ""
         val destCode = dest.split("-").lastOrNull()?.trim() ?: ""
         
-        if ((srcCode == "ERS" && destCode == "SMVB") || (srcCode == "SMVB" && destCode == "ERS")) {
+        if (((srcCode == "ERS" || srcCode == "ERN") && (destCode == "SMVB" || destCode == "SBC")) || 
+            ((srcCode == "SMVB" || srcCode == "SBC") && (destCode == "ERS" || destCode == "ERN"))) {
             return "616 km"
+        }
+
+        if ((srcCode == "SBC" && destCode == "CGY") || (srcCode == "CGY" && destCode == "SBC")) {
+            return "664 km"
         }
 
         // Deterministic random distance based on station names for other routes

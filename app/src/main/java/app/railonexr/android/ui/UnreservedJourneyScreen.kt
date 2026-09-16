@@ -32,11 +32,16 @@ fun UnreservedJourneyScreen(
 
     val baseFare = remember(sourceStation, destinationStation) {
         when {
-            (sourceStation.contains("SMVB") || sourceStation.contains("SMVT")) &&
-            (destinationStation.contains("ERS") || destinationStation.contains("ERNAKULAM")) -> 215
+            ((sourceStation.contains("SMVB") || sourceStation.contains("SMVT") || sourceStation.contains("SBC")) &&
+            (destinationStation.contains("ERS") || destinationStation.contains("ERNAKULAM"))) -> 215
 
-            (sourceStation.contains("ERS") || sourceStation.contains("ERNAKULAM")) &&
-            (destinationStation.contains("SMVB") || destinationStation.contains("SMVT")) -> 210
+            ((sourceStation.contains("ERS") || sourceStation.contains("ERNAKULAM")) &&
+            (destinationStation.contains("SMVB") || destinationStation.contains("SMVT") || destinationStation.contains("SBC"))) -> 210
+
+            ((sourceStation.contains("SBC") || sourceStation.contains("KSR")) && 
+            destinationStation.contains("CGY")) ||
+            (sourceStation.contains("CGY") && 
+            (destinationStation.contains("SBC") || destinationStation.contains("KSR"))) -> 225
 
             else -> 210 // Default
         }
