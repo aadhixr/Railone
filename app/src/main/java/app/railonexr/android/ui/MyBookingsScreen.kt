@@ -167,7 +167,8 @@ fun StatusHeading(text: String, color: Color) {
         color = color,
         fontSize = 14.sp,
         fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp)
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        textAlign = androidx.compose.ui.text.style.TextAlign.Center
     )
 }
 
@@ -201,11 +202,15 @@ fun BookingStatusTabs(
                     else -> Color(0xFF005AC1) // All - Blue
                 }
                 
-                val iconRes = when(index) {
-                    0 -> R.drawable.upcoming_icon
-                    1 -> R.drawable.completed_icon
-                    2 -> R.drawable.cancelled_icon
-                    else -> R.drawable.all_icon
+                val iconRes = if (isSelected) {
+                    when(index) {
+                        0 -> R.drawable.upcoming_icon
+                        1 -> R.drawable.completed_icon
+                        2 -> R.drawable.cancelled_icon
+                        else -> R.drawable.all_icon
+                    }
+                } else {
+                    R.drawable.ticket_icon_grey
                 }
                 
                 Box(
@@ -226,8 +231,7 @@ fun BookingStatusTabs(
                             painter = painterResource(id = iconRes),
                             contentDescription = null,
                             modifier = Modifier.size(28.dp),
-                            contentScale = ContentScale.Fit,
-                            colorFilter = if (isSelected) null else androidx.compose.ui.graphics.ColorFilter.tint(Color.Gray)
+                            contentScale = ContentScale.Fit
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
@@ -270,18 +274,18 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                 color = Color(0xFF6D4C41),
                 fontFamily = AvenirFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = TicketUIConfig.fontSizeDate,
+                fontSize = 13.sp,
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .offset(x = TicketUIConfig.dateOffsetStart, y = TicketUIConfig.dateOffsetTop)
+                    .offset(x = 18.dp, y = 35.dp)
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.TopCenter)
-                    .offset(y = TicketUIConfig.stationsOffsetTop)
-                    .padding(horizontal = TicketUIConfig.stationsPaddingHorizontal),
+                    .offset(y = 82.dp) // Shifted up from 90+ to sit above line
+                    .padding(horizontal = 18.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -289,34 +293,23 @@ fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                     text = ticket.source.substringBefore(" -").trim().uppercase(),
                     color = Color.Black,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = TicketUIConfig.fontSizeStations
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 )
 
                 Text(
                     text = ticket.destination.substringBefore(" -").trim().uppercase(),
                     color = Color.Black,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = TicketUIConfig.fontSizeStations
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 )
             }
-            
-            Text(
-                text = "Unreserved",
-                color = Color(0xFF689F38),
-                fontFamily = AvenirFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = TicketUIConfig.fontSizeBadge,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .offset(x = TicketUIConfig.badgeOffsetStart, y = -TicketUIConfig.badgeOffsetBottom)
-            )
             
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .offset(x = -TicketUIConfig.buttonsOffsetEnd, y = -TicketUIConfig.buttonsOffsetBottom)
+                    .offset(x = (-40).dp, y = (-26).dp) // Aligned inside bottom slot
                     .fillMaxWidth(0.65f),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
@@ -359,18 +352,18 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                 color = Color(0xFF455A64),
                 fontFamily = AvenirFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = TicketUIConfig.fontSizeDate,
+                fontSize = 13.sp,
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .offset(x = TicketUIConfig.dateOffsetStart, y = TicketUIConfig.dateOffsetTop)
+                    .offset(x = 18.dp, y = 35.dp)
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.TopCenter)
-                    .offset(y = TicketUIConfig.stationsOffsetTop)
-                    .padding(horizontal = TicketUIConfig.stationsPaddingHorizontal),
+                    .offset(y = 82.dp)
+                    .padding(horizontal = 18.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -378,34 +371,23 @@ fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                     text = ticket.source.substringBefore(" -").trim().uppercase(),
                     color = Color.Black,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = TicketUIConfig.fontSizeStations
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 )
 
                 Text(
                     text = ticket.destination.substringBefore(" -").trim().uppercase(),
                     color = Color.Black,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = TicketUIConfig.fontSizeStations
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 )
             }
-            
-            Text(
-                text = "Unreserved",
-                color = Color(0xFFBA68C8),
-                fontFamily = AvenirFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = TicketUIConfig.fontSizeBadge,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .offset(x = TicketUIConfig.badgeOffsetStart, y = -TicketUIConfig.badgeOffsetBottom)
-            )
             
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .offset(x = -TicketUIConfig.buttonsOffsetEnd, y = -TicketUIConfig.buttonsOffsetBottom)
+                    .offset(x = (-40).dp, y = (-26).dp)
                     .fillMaxWidth(0.65f),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
@@ -448,18 +430,18 @@ fun CancelledTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                 color = Color(0xFFD32F2F),
                 fontFamily = AvenirFamily,
                 fontWeight = FontWeight.Normal,
-                fontSize = TicketUIConfig.fontSizeDate,
+                fontSize = 13.sp,
                 modifier = Modifier
                     .align(Alignment.TopStart)
-                    .offset(x = TicketUIConfig.dateOffsetStart, y = TicketUIConfig.dateOffsetTop)
+                    .offset(x = 18.dp, y = 35.dp)
             )
 
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.TopCenter)
-                    .offset(y = TicketUIConfig.stationsOffsetTop)
-                    .padding(horizontal = TicketUIConfig.stationsPaddingHorizontal),
+                    .offset(y = 82.dp)
+                    .padding(horizontal = 18.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -467,34 +449,23 @@ fun CancelledTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
                     text = ticket.source.substringBefore(" -").trim().uppercase(),
                     color = Color.Black,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = TicketUIConfig.fontSizeStations
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 )
 
                 Text(
                     text = ticket.destination.substringBefore(" -").trim().uppercase(),
                     color = Color.Black,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.Normal,
-                    fontSize = TicketUIConfig.fontSizeStations
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 14.sp
                 )
             }
-            
-            Text(
-                text = "Cancelled",
-                color = Color.Red,
-                fontFamily = AvenirFamily,
-                fontWeight = FontWeight.Bold,
-                fontSize = TicketUIConfig.fontSizeBadge,
-                modifier = Modifier
-                    .align(Alignment.BottomStart)
-                    .offset(x = TicketUIConfig.badgeOffsetStart, y = -TicketUIConfig.badgeOffsetBottom)
-            )
             
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
-                    .offset(x = -TicketUIConfig.buttonsOffsetEnd, y = -TicketUIConfig.buttonsOffsetBottom)
+                    .offset(x = (-40).dp, y = (-26).dp)
                     .fillMaxWidth(0.65f),
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
