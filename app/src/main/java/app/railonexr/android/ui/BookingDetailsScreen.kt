@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import app.railonexr.android.R
 import app.railonexr.android.logic.BookingManager
 import app.railonexr.android.logic.Ticket
+import app.railonexr.android.logic.TicketStatus
 import kotlinx.coroutines.delay
 import java.text.SimpleDateFormat
 import java.util.*
@@ -81,7 +82,7 @@ fun BookingDetailsScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             if (ticket != null) {
-                if (ticket.isExpired) {
+                if (ticket.isExpired || ticket.status == TicketStatus.COMPLETED || ticket.status == TicketStatus.CANCELLED) {
                     ExpiredTicketDetails(ticket)
                 } else {
                     Text(
@@ -152,59 +153,115 @@ fun BookingDetailsScreen(
 
 @Composable
 fun ExpiredTicketDetails(ticket: Ticket) {
-    val df = SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault())
+    val df = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
     val bookingDate = df.format(Date(ticket.bookedAt))
     
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(0.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFE3F2FD))
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(338f / 120f) // Adjusted for more info template
         ) {
-            Column(modifier = Modifier.padding(20.dp)) {
+            Image(
+                painter = painterResource(id = R.drawable.expired_ticket_more_info_template),
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.FillBounds
+            )
+            
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 20.dp, vertical = 16.dp)
+            ) {
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("JOURNEY", fontSize = 12.sp, color = Color.Gray)
-                    Text(ticket.ticketId, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                    Text(
+                        "JOURNEY", 
+                        fontSize = 13.sp, 
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = AvenirFamily,
+                        color = Color.Black
+                    )
+                    Text(
+                        ticket.ticketId, 
+                        fontSize = 13.sp, 
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = AvenirFamily,
+                        color = Color.Black
+                    )
                 }
-                Spacer(modifier = Modifier.height(12.dp))
+                
+                Spacer(modifier = Modifier.height(18.dp))
+                
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text(ticket.source.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 14.sp)
-                    Text(ticket.destination.substringBefore(" -").trim(), fontWeight = FontWeight.Bold, fontSize = 14.sp)
+                    Text(
+                        ticket.source.substringBefore(" -").trim().uppercase(), 
+                        fontWeight = FontWeight.Bold, 
+                        fontSize = 14.sp,
+                        fontFamily = AvenirFamily,
+                        color = Color.Black
+                    )
+                    Text(
+                        ticket.destination.substringBefore(" -").trim().uppercase(), 
+                        fontWeight = FontWeight.Bold, 
+                        fontSize = 14.sp,
+                        fontFamily = AvenirFamily,
+                        color = Color.Black
+                    )
                 }
+                
+                Spacer(modifier = Modifier.height(8.dp))
+                
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                    Text("Via", fontSize = 11.sp, color = Color.Gray)
+                    Column {
+                        Text("Via", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
+                        Text("---", fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
+                    }
                     Column(horizontalAlignment = Alignment.End) {
-                        Text("Booked on", fontSize = 11.sp, color = Color.Gray)
-                        Text(bookingDate, fontWeight = FontWeight.Bold, fontSize = 11.sp)
+                        Text("Booked on", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
+                        Text(bookingDate, fontSize = 12.sp, color = Color.Black, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
                     }
                 }
-                Text("---", fontSize = 12.sp, color = Color.Black)
             }
         }
         
         Spacer(modifier = Modifier.height(24.dp))
-        Text(
-            "Ticket Expired", 
-            modifier = Modifier.padding(horizontal = 20.dp),
-            color = Color.Gray, 
-            fontSize = 13.sp, 
-            fontWeight = FontWeight.Bold
-        )
         
-        Spacer(modifier = Modifier.height(16.dp))
-        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 4.dp),
+            horizontalAlignment = Alignment.Start
+        ) {
+            Text(
+                "Ticket Expired", 
+                color = Color.Gray, 
+                fontSize = 13.sp, 
+                fontWeight = FontWeight.Medium,
+                fontFamily = AvenirFamily
+            )
+            
+            Spacer(modifier = Modifier.height(16.dp))
+            
             Text(
                 "Passenger(s) : ${ticket.adults} Adult , ${ticket.children} Child",
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                color = Color.Black
+                fontSize = 15.sp,
+                color = Color.Black,
+                fontFamily = AvenirFamily
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 "${ticket.classType} | ORDINARY | JOURNEY | ₹${ticket.fare}.00",
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                color = Color.Black
+                fontSize = 15.sp,
+                color = Color.Black,
+                fontFamily = AvenirFamily
             )
         }
     }

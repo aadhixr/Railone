@@ -1,10 +1,15 @@
 R_DEF: Internal format may change without notice
 local
 drawable active_ticket_timer_template
+drawable all_icon
 drawable bookings
+drawable cancelled_icon
 drawable coach_position
+drawable completed_icon
+drawable expired_ticket_more_info_template
 drawable file_refund
 drawable go_to_waves
+drawable green_completed_template
 drawable home
 drawable ic_card_payment
 drawable ic_indian_railway
@@ -23,13 +28,16 @@ drawable order_food
 drawable platform
 drawable pnr_status
 drawable rail_madad
+drawable red_cancelled_template
 drawable reserved
 drawable search_train
+drawable social_media_banner
 drawable ticket_icon_grey
-drawable ticket_icon_yellow
 drawable track_your_train
 drawable unreserved
+drawable upcoming_icon
 drawable upcoming_template
+drawable yellow_upcoming_template
 drawable you
 font avenir_bold
 font avenir_regular

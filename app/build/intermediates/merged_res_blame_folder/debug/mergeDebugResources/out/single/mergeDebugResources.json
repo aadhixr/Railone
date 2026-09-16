@@ -12,8 +12,16 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\ic_upi_symbol.jpg"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_upcoming_icon.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/upcoming_icon.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_active_ticket_timer_template.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\active_ticket_timer_template.png"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\font_avenir_regular.ttf.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\font\\avenir_regular.ttf"
     },
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_bookings.png.flat",
@@ -28,6 +36,10 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\coach_position.png"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_green_completed_template.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/green_completed_template.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_platform.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\platform.png"
     },
@@ -36,12 +48,20 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\home.png"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_expired_ticket_more_info_template.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/expired_ticket_more_info_template.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_ticket_icon_yellow.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\ticket_icon_yellow.png"
     },
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_rail_madad.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\rail_madad.png"
+    },
+    {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_cancelled_icon.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/cancelled_icon.png"
     },
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_ic_upi_name.jpg.flat",
@@ -56,6 +76,10 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\you.png"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_red_cancelled_template.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/red_cancelled_template.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_info_1.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\info_1.png"
     },
@@ -68,10 +92,6 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\go_to_waves.png"
     },
     {
-        "merged": "app.railonexr.android.app-debug-66:/font_avenir_bold.ttf.flat",
-        "source": "app.railonexr.android.app-main-68:/font/avenir_bold.ttf"
-    },
-    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_search_train.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\search_train.png"
     },
@@ -80,12 +100,12 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\order_food.png"
     },
     {
-        "merged": "app.railonexr.android.app-debug-66:/font_avenir_regular.ttf.flat",
-        "source": "app.railonexr.android.app-main-68:/font/avenir_regular.ttf"
-    },
-    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\font_roboto_regular.ttf.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\font\\roboto_regular.ttf"
+    },
+    {
+        "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\font_avenir_bold.ttf.flat",
+        "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\font\\avenir_bold.ttf"
     },
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_track_your_train.png.flat",
@@ -94,6 +114,10 @@
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_info_5.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\info_5.png"
+    },
+    {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_yellow_upcoming_template.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/yellow_upcoming_template.png"
     },
     {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_pnr_status.png.flat",
@@ -128,6 +152,10 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\file_refund.png"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_all_icon.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/all_icon.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_no_ticket_logo.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\no_ticket_logo.png"
     },
@@ -144,7 +172,15 @@
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\menu.png"
     },
     {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_social_media_banner.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/social_media_banner.png"
+    },
+    {
         "merged": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-debug-66:\\drawable_ticket_icon_grey.png.flat",
         "source": "C:\\Users\\aadhi\\.gradle\\daemon\\9.5.0\\app.railonexr.android.app-main-68:\\drawable\\ticket_icon_grey.png"
+    },
+    {
+        "merged": "app.railonexr.android.app-debug-66:/drawable_completed_icon.png.flat",
+        "source": "app.railonexr.android.app-main-68:/drawable/completed_icon.png"
     }
 ]

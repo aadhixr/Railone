@@ -677,29 +677,14 @@ fun SocialMediaSection() {
         )
         Spacer(modifier = Modifier.height(16.dp))
         
-        // Banner Placeholder
-        Box(
+        Image(
+            painter = painterResource(id = R.drawable.social_media_banner),
+            contentDescription = "Social Media Platforms",
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
-                .clip(RoundedCornerShape(16.dp))
-                .background(Color(0xFFE3F2FD)),
-            contentAlignment = Alignment.Center
-        ) {
-            Text("Social Media Banner", color = Color(0xFF1A237E))
-        }
-        
-        Spacer(modifier = Modifier.height(16.dp))
-        
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            SocialIcon(Icons.Default.Facebook, Color(0xFF1877F2))
-            SocialIcon(Icons.Default.Share, Color(0xFF000000)) // Fallback for X
-            SocialIcon(Icons.Default.CameraAlt, Color(0xFFE4405F)) // Fallback for Instagram
-            SocialIcon(Icons.Default.PlayCircle, Color(0xFFFF0000))
-        }
+                .clip(RoundedCornerShape(16.dp)),
+            contentScale = ContentScale.FillWidth
+        )
     }
 }
 
