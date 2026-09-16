@@ -250,232 +250,179 @@ fun BookingStatusTabs(
 
 @Composable
 fun UpcomingTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
-    val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
-    
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(338f / 154f)
-            .clickable(
-                indication = null,
-                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-            ) { onClick(ticket.ticketId) }
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.yellow_upcoming_template),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        
-        Box(modifier = Modifier.fillMaxSize()) {
-            Text(
-                text = df.format(Date(ticket.bookedAt)),
-                color = Color(0xFF6D4C41),
-                fontFamily = AvenirFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 13.sp,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 18.dp, y = 35.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.TopCenter)
-                    .offset(y = 82.dp) // Shifted up from 90+ to sit above line
-                    .padding(horizontal = 18.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = ticket.source.substringBefore(" -").trim().uppercase(),
-                    color = Color.Black,
-                    fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
-                )
-
-                Text(
-                    text = ticket.destination.substringBefore(" -").trim().uppercase(),
-                    color = Color.Black,
-                    fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
-                )
-            }
-            
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .offset(x = (-40).dp, y = (-26).dp) // Aligned inside bottom slot
-                    .fillMaxWidth(0.65f),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(modifier = Modifier.weight(1f).height(38.dp), contentAlignment = Alignment.Center) {
-                    Text("Book Again", color = Color(0xFF1565C0), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Box(modifier = Modifier.weight(1f).height(38.dp), contentAlignment = Alignment.Center) {
-                    Text("View Details", color = Color(0xFF1565C0), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
-                }
-            }
-        }
-    }
+    TicketShapeCard(
+        ticket = ticket, 
+        color = Color(0xFFFBC02D), // Yellow for Upcoming
+        statusText = "Upcoming",
+        statusColor = Color(0xFF7B1FA2),
+        statusBg = Color(0xFFEAD9F4),
+        onClick = onClick
+    )
 }
 
 @Composable
 fun CompletedTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
-    val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
-    
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(338f / 154f)
-            .clickable(
-                indication = null,
-                interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
-            ) { onClick(ticket.ticketId) }
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.green_completed_template),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        
-        Box(modifier = Modifier.fillMaxSize()) {
-            Text(
-                text = df.format(Date(ticket.bookedAt)),
-                color = Color(0xFF455A64),
-                fontFamily = AvenirFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 13.sp,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 18.dp, y = 35.dp)
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.TopCenter)
-                    .offset(y = 82.dp)
-                    .padding(horizontal = 18.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = ticket.source.substringBefore(" -").trim().uppercase(),
-                    color = Color.Black,
-                    fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
-                )
-
-                Text(
-                    text = ticket.destination.substringBefore(" -").trim().uppercase(),
-                    color = Color.Black,
-                    fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
-                )
-            }
-            
-            Row(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .offset(x = (-40).dp, y = (-26).dp)
-                    .fillMaxWidth(0.65f),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Box(modifier = Modifier.weight(1f).height(38.dp), contentAlignment = Alignment.Center) {
-                    Text("Book Again", color = Color(0xFF1565C0), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
-                }
-                Spacer(modifier = Modifier.width(8.dp))
-                Box(modifier = Modifier.weight(1f).height(38.dp), contentAlignment = Alignment.Center) {
-                    Text("View Details", color = Color(0xFF1565C0), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
-                }
-            }
-        }
-    }
+    TicketShapeCard(
+        ticket = ticket, 
+        color = Color(0xFF20A36A), // Green for Completed
+        statusText = "Boarded",
+        statusColor = Color(0xFF2E7D32),
+        statusBg = Color(0xFFE8F5E9),
+        onClick = onClick
+    )
 }
 
 @Composable
 fun CancelledTicketCard(ticket: Ticket, onClick: (String) -> Unit) {
+    TicketShapeCard(
+        ticket = ticket, 
+        color = Color(0xFFEF2222), // Red for Cancelled
+        statusText = "Cancelled",
+        statusColor = Color.Red,
+        statusBg = Color(0xFFFFEBEE),
+        onClick = onClick
+    )
+}
+
+@Composable
+fun TicketShapeCard(
+    ticket: Ticket,
+    color: Color,
+    statusText: String,
+    statusColor: Color,
+    statusBg: Color,
+    onClick: (String) -> Unit
+) {
     val df = SimpleDateFormat("EEE, dd MMM yy", Locale.getDefault())
     
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .aspectRatio(338f / 154f)
+            .aspectRatio(1000f / 365f)
+            .padding(vertical = 4.dp)
             .clickable(
                 indication = null,
                 interactionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
             ) { onClick(ticket.ticketId) }
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.red_cancelled_template),
-            contentDescription = null,
-            modifier = Modifier.fillMaxSize(),
-            contentScale = ContentScale.FillBounds
-        )
-        
-        Box(modifier = Modifier.fillMaxSize()) {
-            Text(
-                text = df.format(Date(ticket.bookedAt)),
-                color = Color(0xFFD32F2F),
-                fontFamily = AvenirFamily,
-                fontWeight = FontWeight.Normal,
-                fontSize = 13.sp,
-                modifier = Modifier
-                    .align(Alignment.TopStart)
-                    .offset(x = 18.dp, y = 35.dp)
+        // SVG-Style Path Drawing
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val scaleX = size.width / 1000f
+            val scaleY = size.height / 365f
+            
+            val path = androidx.compose.ui.graphics.Path().apply {
+                moveTo(24 * scaleX, 2 * scaleY)
+                lineTo(976 * scaleX, 2 * scaleY)
+                quadraticBezierTo(998 * scaleX, 2 * scaleY, 998 * scaleX, 24 * scaleY)
+                lineTo(998 * scaleX, 150 * scaleY)
+                cubicTo(965 * scaleX, 150 * scaleY, 945 * scaleX, 164 * scaleY, 945 * scaleX, 182.5f * scaleY)
+                cubicTo(945 * scaleX, 201 * scaleY, 965 * scaleX, 215 * scaleY, 998 * scaleX, 215 * scaleY)
+                lineTo(998 * scaleX, 341 * scaleY)
+                quadraticBezierTo(998 * scaleX, 363 * scaleY, 976 * scaleX, 363 * scaleY)
+                lineTo(24 * scaleX, 363 * scaleY)
+                quadraticBezierTo(2 * scaleX, 363 * scaleY, 2 * scaleX, 341 * scaleY)
+                lineTo(2 * scaleX, 215 * scaleY)
+                cubicTo(35 * scaleX, 215 * scaleY, 55 * scaleX, 201 * scaleY, 55 * scaleX, 182.5f * scaleY)
+                cubicTo(55 * scaleX, 164 * scaleY, 35 * scaleX, 150 * scaleY, 2 * scaleX, 150 * scaleY)
+                lineTo(2 * scaleX, 24 * scaleY)
+                quadraticBezierTo(2 * scaleX, 2 * scaleY, 24 * scaleX, 2 * scaleY)
+                close()
+            }
+            
+            drawPath(path = path, color = Color(0xFFFAFAFA))
+            drawPath(path = path, color = color, style = androidx.compose.ui.graphics.drawscope.Stroke(width = 2 * scaleX))
+            
+            // Perforation Line
+            drawLine(
+                color = color,
+                start = androidx.compose.ui.geometry.Offset(55 * scaleX, 182.5f * scaleY),
+                end = androidx.compose.ui.geometry.Offset(945 * scaleX, 182.5f * scaleY),
+                strokeWidth = 1 * scaleX,
+                pathEffect = androidx.compose.ui.graphics.PathEffect.dashPathEffect(floatArrayOf(8 * scaleX, 8 * scaleX), 0f)
             )
-
-            Row(
+        }
+        
+        // Content overlay
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Status Badge
+            Box(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.TopCenter)
-                    .offset(y = 82.dp)
-                    .padding(horizontal = 18.dp),
+                    .offset(x = 25.dp, y = 18.dp)
+                    .clip(RoundedCornerShape(17.dp))
+                    .background(statusBg)
+                    .padding(horizontal = 14.dp, vertical = 6.dp)
+            ) {
+                Text(
+                    text = if (statusText == "Upcoming") "Unreserved" else statusText, 
+                    color = statusColor, 
+                    fontSize = 14.sp, 
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = AvenirFamily
+                )
+            }
+            
+            Text(
+                text = "UTS: ${ticket.utsId}",
+                modifier = Modifier.align(Alignment.TopEnd).padding(top = 22.dp, end = 25.dp),
+                fontSize = 13.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color(0xFF666666),
+                fontFamily = AvenirFamily
+            )
+            
+            // Ticket Info
+            Column(modifier = Modifier.padding(start = 25.dp, top = 65.dp)) {
+                Text("Ticket Type", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
+                Text("JOURNEY", fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
+            }
+            
+            Column(modifier = Modifier.align(Alignment.TopEnd).padding(top = 65.dp, end = 25.dp), horizontalAlignment = Alignment.End) {
+                Text("Booking Date", fontSize = 11.sp, color = Color.Gray, fontFamily = AvenirFamily)
+                Text(df.format(Date(ticket.bookedAt)), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
+            }
+            
+            // Stations
+            Row(
+                modifier = Modifier.fillMaxWidth().align(Alignment.Center).padding(horizontal = 25.dp).offset(y = 15.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = ticket.source.substringBefore(" -").trim().uppercase(),
-                    color = Color.Black,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
+                    modifier = Modifier.weight(1f)
                 )
-
+                Text(
+                    text = "— ${ticket.distance} —",
+                    fontSize = 12.sp,
+                    color = Color.Gray,
+                    fontFamily = AvenirFamily,
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                )
                 Text(
                     text = ticket.destination.substringBefore(" -").trim().uppercase(),
-                    color = Color.Black,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Bold,
                     fontFamily = AvenirFamily,
-                    fontWeight = FontWeight.SemiBold,
-                    fontSize = 14.sp
+                    textAlign = androidx.compose.ui.text.style.TextAlign.End,
+                    modifier = Modifier.weight(1f)
                 )
             }
             
+            // Bottom Actions
             Row(
-                modifier = Modifier
-                    .align(Alignment.BottomEnd)
-                    .offset(x = (-40).dp, y = (-26).dp)
-                    .fillMaxWidth(0.65f),
-                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.fillMaxWidth().align(Alignment.BottomCenter).padding(bottom = 12.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Box(modifier = Modifier.weight(1f).height(38.dp), contentAlignment = Alignment.Center) {
-                    Text("Book Again", color = Color(0xFF1565C0), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
+                TextButton(onClick = {}) {
+                    Text("Book Again", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 15.sp, fontFamily = AvenirFamily)
                 }
-                Spacer(modifier = Modifier.width(8.dp))
-                Box(modifier = Modifier.weight(1f).height(38.dp), contentAlignment = Alignment.Center) {
-                    Text("View Details", color = Color(0xFF1565C0), fontSize = 14.sp, fontWeight = FontWeight.Bold, fontFamily = AvenirFamily)
+                Box(modifier = Modifier.width(1.dp).height(24.dp).background(Color(0xFFE0E0E0)))
+                TextButton(onClick = { onClick(ticket.ticketId) }) {
+                    Text("View Details", color = Color(0xFF005AC1), fontWeight = FontWeight.Bold, fontSize = 15.sp, fontFamily = AvenirFamily)
                 }
             }
         }
